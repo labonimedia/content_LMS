@@ -2,18 +2,19 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const classValidation = require('../../validations/class.validation');
 const classesController = require('../../controllers/classes.controller');
+const { createS3Middleware } = require('../../utils/s3middleware');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(validate(classValidation.createClass), classesController.createClasses)
+  .post(createS3Middleware('lmscontent'), validate(classValidation.createClass), classesController.createClasses)
   .get(validate(classValidation.getAllClass), classesController.getClasses);
 
 router
   .route('/:classId')
   .get(validate(classValidation.getClass), classesController.getSingleClass)
-  .patch(validate(classValidation.updateClassById), classesController.updateSingleClass)
+  .patch(createS3Middleware('lmscontent'), validate(classValidation.updateClassById), classesController.updateSingleClass)
   .delete(validate(classValidation.deleteClassById), classesController.deleteSingleClass);
 
 module.exports = router;

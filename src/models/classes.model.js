@@ -11,6 +11,9 @@ const classSchema = mongoose.Schema(
       type: Number,
       trim: true,
     },
+    thumbnail: {
+      type: String,
+    },
   },
   {
     timestamps: true,
