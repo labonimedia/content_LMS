@@ -20,6 +20,10 @@ router
   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
   .get(validate(quickRecapValidation.getQuickRecapByFilter), quickRecapController.getQuickRecapByFilter);
 
+router
+  .route('/get-by/chapter/:chapterId')
+  .get(validate(quickRecapValidation.getQuickRecapByChapterId), quickRecapController.getByQuickRecapChapterId);
+
 module.exports = router;
 
 /**
@@ -149,6 +153,36 @@ module.exports = router;
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /quickrecaps/get-by/chapter/{chapterId}:
+ *   get:
+ *     summary: Get a QuickRecap
+ *     tags: [QuickRecap]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: chapterId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: chapterId id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/QuickRecap'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  */
 
 /**
