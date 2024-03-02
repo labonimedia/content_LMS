@@ -14,11 +14,15 @@ router
   .route('/:ebookId')
   .get(validate(ebookValidation.getEbookById), ebookController.getEbookById)
   .patch(validate(ebookValidation.updateEbook), ebookController.updateEbook)
-  .delete(validate(ebookValidation), ebookController.deleteEbook);
+  .delete(validate(ebookValidation.deleteEbook), ebookController.deleteEbook);
 
 router
   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId')
   .get(validate(ebookValidation.getEbookByFilter), ebookController.getEbookByFilter);
+
+router
+  .route('/get-by/chapterId/:chapterId')
+  .get(validate(ebookValidation.getEbookByChapertId), ebookController.getEbookByChapterId);
 
 module.exports = router;
 
@@ -155,6 +159,34 @@ module.exports = router;
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
+ */
+/**
+ * @swagger
+ * /ebooks/get-by/chapterId/{chapterId}:
+ *   get:
+ *     summary: Get a ebook
+ *     tags: [Ebook]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: chapterId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Ebook'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  */
 /**
  * @swagger

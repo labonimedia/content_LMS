@@ -28,6 +28,11 @@ const getEbookById = {
     ebookId: Joi.string().custom(objectId),
   }),
 };
+const getEbookByChapertId = {
+  params: Joi.object().keys({
+    chapterId: Joi.string().custom(objectId),
+  }),
+};
 
 const getEbookByFilter = {
   params: Joi.object().keys({
@@ -69,6 +74,7 @@ module.exports = {
   getAllEbook,
   getEbookById,
   getEbookByFilter,
+  getEbookByChapertId,
   updateEbook,
   deleteEbook,
 };

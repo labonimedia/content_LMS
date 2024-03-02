@@ -24,6 +24,13 @@ const getEbookById = catchAsync(async (req, res) => {
   }
   res.send(ebook);
 });
+const getEbookByChapterId = catchAsync(async (req, res) => {
+  const ebook = await ebookService.getEbookByChapterId(req.params.chapterId);
+  if (!ebook) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Chapter not found');
+  }
+  res.send(ebook);
+});
 
 const getEbookByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId, subjectId, bookId } = req.params;
@@ -51,4 +58,5 @@ module.exports = {
   deleteEbook,
   getEbook,
   getEbookByFilter,
+  getEbookByChapterId,
 };
