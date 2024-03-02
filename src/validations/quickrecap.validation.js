@@ -29,6 +29,12 @@ const getQuickRecapById = {
   }),
 };
 
+const getQuickRecapByChapterId = {
+  params: Joi.object().keys({
+    chapterId: Joi.string().custom(objectId),
+  }),
+};
+
 const getQuickRecapByFilter = {
   params: Joi.object().keys({
     boardId: Joi.string().custom(objectId).required(),
@@ -71,4 +77,5 @@ module.exports = {
   getQuickRecapByFilter,
   updateQuickRecap,
   deleteQuickRecap,
+  getQuickRecapByChapterId,
 };

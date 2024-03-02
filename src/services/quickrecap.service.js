@@ -36,6 +36,15 @@ const getQuickRecapById = async (id) => {
 };
 
 /**
+ * Get quickRecap by id
+ * @param {ObjectId} chapterId
+ * @returns {Promise<Quickrecap>}
+ */
+const getQuickRecapByChapterId = async (chapterId) => {
+  return Quickrecap.findOne({ chapterId });
+};
+
+/**
  * Get QuickRecap by filter
  * @param {ObjectId} boardId
  * @param {ObjectId} mediumId
@@ -86,4 +95,5 @@ module.exports = {
   updateQuickRecapById,
   deleteQuickRecapById,
   getQuickRecapByFilter,
+  getQuickRecapByChapterId,
 };

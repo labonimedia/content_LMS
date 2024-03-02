@@ -24,6 +24,14 @@ const getByQuickRecapId = catchAsync(async (req, res) => {
   res.send(quickRecap);
 });
 
+const getByQuickRecapChapterId = catchAsync(async (req, res) => {
+  const quickRecap = await quickRecapService.getQuickRecapByChapterId(req.params.chapterId);
+  if (!quickRecap) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Quick Recap not found');
+  }
+  res.send(quickRecap);
+});
+
 const getQuickRecapByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId, subjectId, bookId, chapterId } = req.params;
   const quickRecap = await quickRecapService.getQuickRecapByFilter(boardId, mediumId, classId, subjectId, bookId, chapterId);
@@ -50,4 +58,5 @@ module.exports = {
   updateQuickRecap,
   deleteQuickRecap,
   getQuickRecapByFilter,
+  getByQuickRecapChapterId,
 };
