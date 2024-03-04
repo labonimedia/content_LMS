@@ -67,10 +67,16 @@ const getRecordedBroadcastByFilter = {
   }),
 };
 
+const getRecordedBroadcastByBookId = {
+  params: Joi.object().keys({
+    bookId: Joi.string().custom(objectId).required(),
+  }),
+};
 module.exports = {
   createRecordedBroadcast,
   getRecordedBroadcast,
   getAllRecordedBroadcasts,
+  getRecordedBroadcastByBookId,
   updateRecordedBroadcastById,
   deleteRecordedBroadcastById,
   getRecordedBroadcastByFilter,

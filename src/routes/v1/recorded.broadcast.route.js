@@ -1,30 +1,18 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const { v4: uuidv4 } = require('node-uuid');
+// const multer = require('multer');
+// const path = require('path');
+// const { v4: uuidv4 } = require('node-uuid');
 const validate = require('../../middlewares/validate');
 const recordedBroadcastValidation = require('../../validations/recorded.broadcast.validation');
 const recordedBroadcastController = require('../../controllers/recorded.broadcast.controller');
+const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
-
-const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: (req, file, callback) => {
-    const uniqueFileName = `${uuidv4()}${path.extname(file.originalname)}`;
-    callback(null, uniqueFileName);
-  },
-});
-
-const upload = multer({ storage });
 
 router
   .route('/')
   .post(
-    upload.fields([
-      { name: 'landscapeImage', maxCount: 1 },
-      { name: 'portraitImage', maxCount: 1 },
-    ]),
+    upload.array('files', 2),
     validate(recordedBroadcastValidation.createRecordedBroadcast),
     recordedBroadcastController.createRecordedBroadcast
   )
@@ -34,10 +22,10 @@ router
   .route('/:recordedBroadcastId')
   .get(validate(recordedBroadcastValidation.getRecordedBroadcast), recordedBroadcastController.getRecordedBroadcastById)
   .patch(
-    upload.fields([
-      { name: 'landscapeImage', maxCount: 1 },
-      { name: 'portraitImage', maxCount: 1 },
-    ]),
+    // upload.fields([
+    //   { name: 'landscapeImage', maxCount: 1 },
+    //   { name: 'portraitImage', maxCount: 1 },
+    // ]),
     validate(recordedBroadcastValidation.updateRecordedBroadcastById),
     recordedBroadcastController.updateRecordedBroadcastById
   )
@@ -51,6 +39,13 @@ router
   .get(
     validate(recordedBroadcastValidation.getRecordedBroadcastByFilter),
     recordedBroadcastController.getRecordedBroadcastByFilter
+  );
+
+router
+  .route('/get-by/:bookId')
+  .get(
+    validate(recordedBroadcastValidation.getRecordedBroadcastByBookId),
+    recordedBroadcastController.getRecordedBroadcastByBookId
   );
 
 module.exports = router;
@@ -189,6 +184,9 @@ module.exports = router;
  *         classId:
  *           type: string
  *           description: ID of the class.
+ *         bookId:
+ *           type: string
+ *           description: ID of the book.
  *         subjectId:
  *           type: string
  *           description: ID of the subject.
@@ -225,6 +223,7 @@ module.exports = router;
  *         boardId: "6516761d9cee04ae5df9fb6f"
  *         mediumId: "6516761d9cee04ae5df9fb6f"
  *         classId: "6516761d9cee04ae5df9fb6f"
+ *         bookId: "6516761d9cee04ae5df9fb6f"
  *         subjectId: "6516761d9cee04ae5df9fb6f"
  *         studio: "6516761d9cee04ae5df9fb6f"
  *         liveStreamingPath: "rtmp://example.com/live/stream"
