@@ -40,9 +40,8 @@ module.exports = router;
  *             type: object
  *             required:
  *               - Question
- *               - veryShortAnswer
- *               - shortAnswer
- *               - longAnswer
+ *               - answer
+ *               - answerType
  *               - boardId
  *               - mediumId
  *               - classId
@@ -51,8 +50,8 @@ module.exports = router;
  *               - chapterId
  *             example:
  *               Question: Run Node.js scripts from the command line
- *               veryShortAnswer: node app.js
- *               shortAnswer: new data
+ *               answer: node app.js
+ *               answerType: new data
  *               longAnswer: To execute a string as argument you can use -e, --eval "script". Evaluate the following argument as JavaScript. The modules which are predefined in the REPL can also be used in script.
  *               boardId: 64d9ceaef49e9f5dc06502c6
  *               mediumId: 64d327a41128844220f0cce4
