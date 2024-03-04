@@ -170,6 +170,35 @@ module.exports = router;
 
 /**
  * @swagger
+ * /recordedbroadcast/get-by/{bookId}:
+ *   get:
+ *     summary: Get a RecordedBroadcast data from Filter
+ *     tags: [RecordedBroadcast]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         description: The ID of the class
+ *         schema:
+ *           type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RecordedBroadcast'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+/**
+ * @swagger
  * components:
  *   schemas:
  *     RecordedBroadcast:

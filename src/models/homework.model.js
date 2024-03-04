@@ -7,13 +7,10 @@ const homeworkSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    veryShortAnswer: {
+    answer: {
       type: String,
     },
-    shortAnswer: {
-      type: String,
-    },
-    longAnswer: {
+    answerType: {
       type: String,
     },
     boardId: {
