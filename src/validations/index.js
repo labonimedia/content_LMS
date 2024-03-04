@@ -41,3 +41,4 @@ module.exports.StaffAttendancevalidation = require('./staff.attendance.validatio
 module.exports.recordedBroadcastValidation = require('./recorded.broadcast.validation');
 module.exports.studentPromoteValidation = require('./student.promote.validation');
 module.exports.leaveingCertValidation = require('./leavingcert.validation');
+module.exports.studentQuestionValidation = require('./student.question.validation');
