@@ -3,10 +3,15 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { recordedBroadcastService } = require('../services');
+const { filterPath } = require('../utils/s3middleware');
 
 const createRecordedBroadcast = catchAsync(async (req, res) => {
-  req.body.landscapeImage = await req.files.landscapeImage[0].path;
-  req.body.portraitImage = await req.files.portraitImage[0].path;
+  if (req.files[0] && req.files[0].location) {
+    req.body.landscapeImage = await filterPath(req.files[0].location);
+  }
+  if (req.files[1] && req.files[1].location) {
+    req.body.portraitImage = await filterPath(req.files[1].location);
+  }
   const newRecordedBroadcast = await recordedBroadcastService.createRecordedBroadcast(req.body);
   res.status(httpStatus.CREATED).send(newRecordedBroadcast);
 });
@@ -26,6 +31,13 @@ const getRecordedBroadcastById = catchAsync(async (req, res) => {
   res.send(singleRecordedBroadcast);
 });
 
+const getRecordedBroadcastByBookId = catchAsync(async (req, res) => {
+  const singleRecordedBroadcast = await recordedBroadcastService.getRecordedBroadcastByBookId(req.params.bookId);
+  if (!singleRecordedBroadcast) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'RecordedBroadcast not found');
+  }
+  res.send(singleRecordedBroadcast);
+});
 const updateRecordedBroadcastById = catchAsync(async (req, res) => {
   if (req.file) {
     req.body = req.file.landscapeImage;
@@ -58,6 +70,7 @@ module.exports = {
   createRecordedBroadcast,
   getAllRecordedBroadcast,
   getRecordedBroadcastById,
+  getRecordedBroadcastByBookId,
   updateRecordedBroadcastById,
   deleteRecordedBroadcastById,
   getRecordedBroadcastByFilter,

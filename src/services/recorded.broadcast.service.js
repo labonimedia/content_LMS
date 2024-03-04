@@ -45,6 +45,14 @@ const getRecordedBroadcastById = async (id) => {
 };
 
 /**
+ * Get RecordedBroadcast by id
+ * @param {ObjectId} bookId
+ * @returns {Promise<RecordedBroadcast>}
+ */
+const getRecordedBroadcastByBookId = async (bookId) => {
+  return RecordedBroadcast.find({ bookId });
+};
+/**
  * Update RecordedBroadcast by id
  * @param {ObjectId} recordedBroadcastId
  * @param {Object} updateBody
@@ -78,6 +86,7 @@ module.exports = {
   createRecordedBroadcast,
   getAllRecordedBroadcast,
   getRecordedBroadcastById,
+  getRecordedBroadcastByBookId,
   updateRecordedBroadcastById,
   deleteRecordedBroadcastById,
   getRecordedBroadcastByFilter,
