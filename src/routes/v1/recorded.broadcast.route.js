@@ -12,8 +12,12 @@ const router = express.Router();
 router
   .route('/')
   .post(
-    upload.array('files', 2),
-    // validate(recordedBroadcastValidation.createRecordedBroadcast),
+    upload.fields([
+      { name: 'landscapeImage', maxCount: 1 },
+      { name: 'portraitImage', maxCount: 1 },
+    ]),
+    // upload.array('files', 2),
+    validate(recordedBroadcastValidation.createRecordedBroadcast),
     recordedBroadcastController.createRecordedBroadcast
   )
   .get(validate(recordedBroadcastValidation.getAllRecordedBroadcasts), recordedBroadcastController.getAllRecordedBroadcast);
@@ -219,6 +223,9 @@ module.exports = router;
  *         subjectId:
  *           type: string
  *           description: ID of the subject.
+ *         chapterId:
+ *           type: string
+ *           description: ID of the chapter.
  *         studio:
  *           type: string
  *           description: ID of the studio.
@@ -240,17 +247,20 @@ module.exports = router;
  *         presenterName:
  *           type: string
  *           description: Presenter's name.
- *         files:
- *           type: array
- *           items:
- *             type: string
- *             format: binary
+ *         landscapeImage:
+ *           type: string
+ *           format: binary
+ *           description: URL of the landscape image.
+ *         portraitImage:
+ *           type: string
+ *           format: binary
+ *           description: URL of the portrait image.
  *       example:
  *         boardId: "6516761d9cee04ae5df9fb6f"
  *         mediumId: "6516761d9cee04ae5df9fb6f"
  *         classId: "6516761d9cee04ae5df9fb6f"
  *         bookId: "6516761d9cee04ae5df9fb6f"
-
+ *         chapterId: "6516761d9cee04ae5df9fb6f"
  *         subjectId: "6516761d9cee04ae5df9fb6f"
  *         studio: "6516761d9cee04ae5df9fb6f"
  *         liveStreamingPath: "rtmp://example.com/live/stream"
@@ -259,13 +269,8 @@ module.exports = router;
  *         title: "Broadcast Title"
  *         type: "Broadcast type"
  *         presenterName: "Presenter Name"
- *         files:
- *           - type: "file1.pdf"
- *             format: binary
- *           - type: "file2.docx"
- *             format: binary
- *           - type: "file3.jpg"
- *             format: binary
+ *         landscapeImage: "https://example.com/landscape.jpg"
+ *         portraitImage: "https://example.com/portrait.jpg"
  */
 
 /**
@@ -324,6 +329,7 @@ module.exports = router;
  *         mediumId: "6516761d9cee04ae5df9fb6f"
  *         classId: "6516761d9cee04ae5df9fb6f"
  *         subjectId: "6516761d9cee04ae5df9fb6f"
+ *         chapterId: "6516761d9cee04ae5df9fb6f"
  *         studio: "6516761d9cee04ae5df9fb6f"
  *         liveStreamingPath: "rtmp://example.com/live/stream"
  *         date: "2023-01-01"

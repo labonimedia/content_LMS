@@ -24,16 +24,16 @@ module.exports = router;
 /**
  * @swagger
  * tags:
- *   name: Role
+ *   name: StudentQuestion
  *   description: Role management
  */
 
 /**
  * @swagger
- * /roles:
+ * /student-question:
  *   post:
- *     summary: Create a role
- *     tags: [Role]
+ *     summary: Create a StudentQuestion
+ *     tags: [StudentQuestion]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -42,17 +42,32 @@ module.exports = router;
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - role
- *               - actions
  *             properties:
- *               role:
+ *               boardId:
  *                 type: string *
- *               actions:
- *                 type: array
+ *               mediumId:
+ *                 type: string
+ *               classId:
+ *                 type: string
+ *               subjectId:
+ *                 type: string
+ *               bookId:
+ *                 type: string
+ *               chapterId:
+ *                 type: string
+ *               numberOfStudent:
+ *                 type: number
+ *               perStudentQuestion:
+ *                 type: number
  *             example:
- *               role: admin
- *               actions: [CREATE, GET, UPDATE, DELETE]
+ *               boardId: 6516761d9cee04ae5df9fb6f
+ *               mediumId: 6516761d9cee04ae5df9fb6f
+ *               classId: 6516761d9cee04ae5df9fb6f
+ *               subjectId: 6516761d9cee04ae5df9fb6f
+ *               bookId: 6516761d9cee04ae5df9fb6f
+ *               chapterId: 6516761d9cee04ae5df9fb6f
+ *               numberOfStudent: 12
+ *               perStudentQuestion: 1
  *
  *     responses:
  *       "201":
@@ -60,15 +75,15 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Role'
+ *                $ref: '#/components/schemas/StudentQuestion'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all role
- *     tags: [Role]
+ *     summary: Get all StudentQuestion
+ *     tags: [StudentQuestion]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -77,7 +92,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Language'
+ *                $ref: '#/components/schemas/StudentQuestion'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -86,10 +101,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /roles/{roleId}:
+ * /student-question/{id}:
  *   get:
- *     summary: Get a role
- *     tags: [Role]
+ *     summary: Get a StudentQuestion
+ *     tags: [StudentQuestion]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -105,7 +120,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Role'
+ *                $ref: '#/components/schemas/StudentQuestion'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -114,17 +129,17 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a role
- *     tags: [Role]
+ *     summary: Update a StudentQuestion
+ *     tags: [StudentQuestion]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: roleId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: roleId
+ *         description: id
  *     requestBody:
  *       required: true
  *       content:
@@ -132,13 +147,31 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               role:
+ *               boardId:
+ *                 type: string *
+ *               mediumId:
  *                 type: string
- *               actions:
- *                 type: array
+ *               classId:
+ *                 type: string
+ *               subjectId:
+ *                 type: string
+ *               bookId:
+ *                 type: string
+ *               chapterId:
+ *                 type: string
+ *               numberOfStudent:
+ *                 type: number
+ *               perStudentQuestion:
+ *                 type: number
  *             example:
- *               role: admin
- *               actions: [CREATE, GET, UPDATE, DELETE]
+ *               boardId: 6516761d9cee04ae5df9fb6f
+ *               mediumId: 6516761d9cee04ae5df9fb6f
+ *               classId: 6516761d9cee04ae5df9fb6f
+ *               subjectId: 6516761d9cee04ae5df9fb6f
+ *               bookId: 6516761d9cee04ae5df9fb6f
+ *               chapterId: 6516761d9cee04ae5df9fb6f
+ *               numberOfStudent: 12
+ *               perStudentQuestion: 1
  *     responses:
  *       "200":
  *         description: OK
@@ -154,17 +187,17 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a role
- *     tags: [Role]
+ *     summary: Delete a StudentQuestion
+ *     tags: [StudentQuestion]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: roleId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: roleId
+ *         description: id
  *     responses:
  *       "200":
  *         description: No content

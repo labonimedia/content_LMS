@@ -31,4 +31,24 @@ const upload = multer({
   }),
 });
 
-module.exports = { s3Client, upload };
+const uploadImages = (req, res, next) => {
+  upload.fields([
+    { name: 'image1', maxCount: 1 },
+    { name: 'image2', maxCount: 1 },
+  ])(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading
+      return res.status(400).json({ message: 'Error uploading images', error: err });
+    }
+    if (err) {
+      // An unknown error occurred
+      return res.status(500).json({ message: 'Internal server error', error: err });
+    }
+    // Everything went fine
+    next();
+  });
+};
+
+// module.exports = uploadImages;
+
+module.exports = { s3Client, upload, uploadImages };

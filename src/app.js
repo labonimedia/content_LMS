@@ -1,5 +1,5 @@
 const express = require('express');
-// const helmet = require('helmet');
+const helmet = require('helmet');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
@@ -22,7 +22,7 @@ if (config.env !== 'test') {
 }
 
 // set security HTTP headers
-// app.use(helmet());
+app.use(helmet());
 
 // parse json request body
 app.use(express.json());
@@ -50,7 +50,7 @@ if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
 
-// Apply the basic authentication middleware to the /v1/docs path
+// v1 api routes
 app.use('/v1', routes);
 
 // send back a 404 error for any unknown api request

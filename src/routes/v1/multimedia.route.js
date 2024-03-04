@@ -7,13 +7,26 @@ const { upload } = require('../../utils/cdn');
 const router = express.Router();
 router
   .route('/')
-  .post(upload.array('files', 2), multimediaController.createMultimedia)
+  .post(
+    upload.fields([
+      { name: 'icon1', maxCount: 1 },
+      { name: 'icon2', maxCount: 1 },
+    ]),
+    multimediaController.createMultimedia
+  )
   .get(validate(multimediaValidation.getAllMultimedia), multimediaController.getMultimedia);
 
 router
   .route('/:multimediaId')
   .get(validate(multimediaValidation.getMultimediaById), multimediaController.getMultimediaById)
-  .patch(upload.array('files', 2), validate(multimediaValidation.updateMultimedia), multimediaController.updateMultimedia)
+  .patch(
+    upload.fields([
+      { name: 'icon1', maxCount: 1 },
+      { name: 'icon2', maxCount: 1 },
+    ]),
+    validate(multimediaValidation.updateMultimedia),
+    multimediaController.updateMultimedia
+  )
   .delete(validate(multimediaValidation.deleteMultimedia), multimediaController.deleteMultimedia);
 
 router
@@ -65,11 +78,14 @@ module.exports = router;
  *               - bookId
  *               - chapterId
  *             properties:
- *               files:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
+ *               icon1:
+ *                 type: string
+ *                 format: binary
+ *                 description: URL of the  image.
+ *               icon2:
+ *                 type: string
+ *                 format: binary
+ *                 description: URL of the  image.
  *               lessionName:
  *                 type: string
  *               path:
@@ -232,11 +248,14 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               files:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
+ *               icon1:
+ *                 type: string
+ *                 format: binary
+ *                 description: URL of the  image.
+ *               icon2:
+ *                 type: string
+ *                 format: binary
+ *                 description: URL of the  image.
  *               lessionName:
  *                 type: string
  *               path:
