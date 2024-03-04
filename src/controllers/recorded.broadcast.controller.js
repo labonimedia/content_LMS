@@ -6,12 +6,11 @@ const { recordedBroadcastService } = require('../services');
 const { filterPath } = require('../utils/s3middleware');
 
 const createRecordedBroadcast = catchAsync(async (req, res) => {
-  console.log(req.body);
-  if (req.files[0] && req.files[0].location) {
-    req.body.file = await filterPath(req.files[0].location);
+  if (req.files.portraitImage) {
+    req.body.landscapeImage = await filterPath(req.files.portraitImage[0].location);
   }
-  if (req.files[1] && req.files[1].location) {
-    req.body.file = await filterPath(req.files[1].location);
+  if (req.files.landscapeImage) {
+    req.body.portraitImage = await filterPath(req.files.landscapeImage[0].location);
   }
   const newRecordedBroadcast = await recordedBroadcastService.createRecordedBroadcast(req.body);
   res.status(httpStatus.CREATED).send(newRecordedBroadcast);
@@ -40,9 +39,11 @@ const getRecordedBroadcastByBookId = catchAsync(async (req, res) => {
   res.send(singleRecordedBroadcast);
 });
 const updateRecordedBroadcastById = catchAsync(async (req, res) => {
-  if (req.file) {
-    req.body = req.file.landscapeImage;
-    req.body = req.file.portraitImage;
+  if (req.files) {
+    req.body.landscapeImage = await filterPath(req.files.portraitImage[0].location);
+  }
+  if (req.files) {
+    req.body.portraitImage = await filterPath(req.files.landscapeImage[0].location);
   }
   const updatedRecordedBroadcast = await recordedBroadcastService.updateRecordedBroadcastById(
     req.params.recordedBroadcastId,

@@ -8,7 +8,7 @@ const createMultimeda = {
     path: Joi.string().required(),
     multimediaType: Joi.string().valid('Multimedia', 'Lecture'),
     order: Joi.number().required(),
-    order: Joi.number().required(),
+    // order: Joi.number().required(),
     videoType: Joi.string().required(),
     boardId: Joi.string().custom(objectId).required(),
     mediumId: Joi.string().custom(objectId).required(),

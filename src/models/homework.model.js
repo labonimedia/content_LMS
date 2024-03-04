@@ -12,6 +12,7 @@ const homeworkSchema = mongoose.Schema(
     },
     answerType: {
       type: String,
+      enum: ['Very Short Answer', 'Long Answer', 'Short Answer'],
     },
     boardId: {
       type: mongoose.SchemaTypes.ObjectId,

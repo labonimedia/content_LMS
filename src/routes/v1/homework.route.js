@@ -17,6 +17,7 @@ router
   .delete(validate(homeworkValidation.deleteHomework), homeworkController.deleteHomework);
 
 router.route('/get-by/filter').get(validate(homeworkValidation.getHomeworkFilter), homeworkController.getHomeworkByFilterId);
+router.route('/get-by/:chapterId').get(validate(homeworkValidation.answerTypeWiseByChapterId), homeworkController.answerTypeWiseByChapterId);
 module.exports = router;
 
 /**
@@ -51,11 +52,10 @@ module.exports = router;
  *             example:
  *               Question: Run Node.js scripts from the command line
  *               answer: node app.js
- *               answerType: new data
- *               longAnswer: To execute a string as argument you can use -e, --eval "script". Evaluate the following argument as JavaScript. The modules which are predefined in the REPL can also be used in script.
- *               boardId: 64d9ceaef49e9f5dc06502c6
+ *               answerType: Very Short Answer
  *               mediumId: 64d327a41128844220f0cce4
  *               classId: 64d327811128844220f0cce0
+ *               boardId: 64d327811128844220f0cce0
  *               bookId: 64d9d7143ac675796cdcd433
  *               subjectId: 64d9d4666205c371563fcadb
  *               chapterId: 64d327811128844220f0cce0
@@ -131,6 +131,35 @@ module.exports = router;
 
 /**
  * @swagger
+ * /homework/get-by/{chapterId}:
+ *   get:
+ *     summary: Get a homework
+ *     tags: [homework]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: chapterId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: homework
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
  * /homework/{id}:
  *   get:
  *     summary: Get a homework
@@ -188,9 +217,8 @@ module.exports = router;
  *               - chapterId
  *             example:
  *               Question: Run Node.js scripts from the command line
- *               veryShortAnswer: node app.js
- *               shortAnswer: new data
- *               longAnswer: To execute a string as argument you can use -e, --eval "script". Evaluate the following argument as JavaScript. The modules which are predefined in the REPL can also be used in script.
+ *               answer: node app.js
+ *               answerType: hasvg
  *               boardId: 64d9ceaef49e9f5dc06502c6
  *               mediumId: 64d327a41128844220f0cce4
  *               classId: 64d327811128844220f0cce0

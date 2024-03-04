@@ -44,6 +44,7 @@ const staffAttendance = require('./staff.attendance.route');
 const recordedBroadcastRoute = require('./recorded.broadcast.route');
 const studentPromoteRoute = require('./student.promote.route');
 const leavingCertRoute = require('./leavingcert.route');
+const studentQuestion = require('./student.question.route');
 
 const router = express.Router();
 
@@ -221,6 +222,10 @@ const defaultRoutes = [
   {
     path: '/leaving-cert',
     route: leavingCertRoute,
+  },
+  {
+    path: '/student-question',
+    route: studentQuestion,
   },
 ];
 

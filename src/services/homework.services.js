@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const mongoose = require('mongoose');
 const { Homework } = require('../models');
 const ApiError = require('../utils/ApiError');
 
@@ -48,6 +49,27 @@ const getHomeworkByFilterId = async (boardId, mediumId, classId, bookId, subject
   return Homework.find({ boardId, mediumId, classId, bookId, subjectId, chapterId });
 };
 
+const answerTypeWiseByChapterId = async (chapterId) => {
+  // Use the $group operator to group the documents by answerType and create an array of objects
+  const data = await Homework.aggregate([
+    {
+      $match: { chapterId: mongoose.Types.ObjectId(chapterId) },
+    },
+    {
+      $group: {
+        _id: '$answerType',
+        data: { $push: '$$ROOT' },
+      },
+    },
+  ]);
+  // Organize the result into an object with answerType as keys
+  const result = {};
+  data.forEach((item) => {
+    result[item._id] = item.data;
+  });
+  return result;
+};
+
 /**
  * Update homework by id
  * @param {ObjectId} homeworkId
@@ -83,6 +105,7 @@ module.exports = {
   queryHomework,
   getHomeworkByFilterId,
   getHomeworkById,
+  answerTypeWiseByChapterId,
   updateHomeworkById,
   deleteHomeworkById,
 };

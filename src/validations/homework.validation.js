@@ -54,6 +54,11 @@ const deleteHomework = {
     homeworkId: Joi.string().custom(objectId),
   }),
 };
+const answerTypeWiseByChapterId = {
+  params: Joi.object().keys({
+    chapterId: Joi.string().custom(objectId),
+  }),
+};
 
 const getHomeworkFilter = {
   query: Joi.object().keys({
@@ -70,6 +75,7 @@ module.exports = {
   createHomework,
   getAllHomework,
   getHomework,
+  answerTypeWiseByChapterId,
   updateHomework,
   deleteHomework,
   getHomeworkFilter,

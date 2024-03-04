@@ -33,6 +33,14 @@ const getHomeworkByFilterId = catchAsync(async (req, res) => {
   res.send(homework);
 });
 
+const answerTypeWiseByChapterId = catchAsync(async (req, res) => {
+  const homework = await HomeworkSerices.answerTypeWiseByChapterId(req.params.chapterId);
+  if (!homework) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Homework not found');
+  }
+  res.send(homework);
+});
+
 const updateHomework = catchAsync(async (req, res) => {
   const updateHomeworks = await HomeworkSerices.updateHomeworkById(req.params.homeworkId, req.body);
   res.send(updateHomeworks);
@@ -48,6 +56,7 @@ module.exports = {
   getAllHomework,
   getHomeworkByFilterId,
   getHomeworkById,
+  answerTypeWiseByChapterId,
   updateHomework,
   deleteHomework,
 };
