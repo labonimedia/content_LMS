@@ -23,6 +23,10 @@ const recordedBroadcast = mongoose.Schema(
       ref: 'Book',
       required: true,
     },
+    chapterId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Chapter',
+    },
     subjectId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Subject',

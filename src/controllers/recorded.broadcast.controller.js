@@ -6,11 +6,12 @@ const { recordedBroadcastService } = require('../services');
 const { filterPath } = require('../utils/s3middleware');
 
 const createRecordedBroadcast = catchAsync(async (req, res) => {
+  console.log(req.body);
   if (req.files[0] && req.files[0].location) {
-    req.body.landscapeImage = await filterPath(req.files[0].location);
+    req.body.file = await filterPath(req.files[0].location);
   }
   if (req.files[1] && req.files[1].location) {
-    req.body.portraitImage = await filterPath(req.files[1].location);
+    req.body.file = await filterPath(req.files[1].location);
   }
   const newRecordedBroadcast = await recordedBroadcastService.createRecordedBroadcast(req.body);
   res.status(httpStatus.CREATED).send(newRecordedBroadcast);

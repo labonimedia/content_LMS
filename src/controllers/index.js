@@ -40,3 +40,4 @@ module.exports.staffAttendanceController = require('./staff.attendance.controlle
 module.exports.recordedBroadcastController = require('./recorded.broadcast.controller');
 module.exports.studentPromoteController = require('./student.promote.controller');
 module.exports.leavingCertController = require('./leavingcert.controller');
+module.exports.studentQuestionController = require('./student.question.controller');
