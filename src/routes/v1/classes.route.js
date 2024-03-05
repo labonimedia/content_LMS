@@ -36,7 +36,7 @@ module.exports = router;
  *       description: Class object to be created
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/ClassInput'
  *     responses:
@@ -137,7 +137,7 @@ module.exports = router;
  *         description: ID of the class
  *     requestBody:
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/ClassUpdateInput'
  *     responses:
@@ -179,6 +179,9 @@ module.exports = router;
  *         order:
  *           type: number
  *           description: order number
+ *         file:
+ *           type: string
+ *           format: binary
  *       example:
  *         className: Math 101
  *         order: 1
@@ -197,6 +200,9 @@ module.exports = router;
  *         order:
  *           type: number
  *           description: order number
+ *         file:
+ *           type: string
+ *           format: binary
  *       example:
  *         className: Math 101
  *         order: 1

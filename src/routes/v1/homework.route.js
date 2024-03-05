@@ -17,7 +17,9 @@ router
   .delete(validate(homeworkValidation.deleteHomework), homeworkController.deleteHomework);
 
 router.route('/get-by/filter').get(validate(homeworkValidation.getHomeworkFilter), homeworkController.getHomeworkByFilterId);
-router.route('/get-by/:chapterId').get(validate(homeworkValidation.answerTypeWiseByChapterId), homeworkController.answerTypeWiseByChapterId);
+router
+  .route('/get-by/:chapterId')
+  .get(validate(homeworkValidation.answerTypeWiseByChapterId), homeworkController.answerTypeWiseByChapterId);
 module.exports = router;
 
 /**
