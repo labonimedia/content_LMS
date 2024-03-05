@@ -32,11 +32,11 @@ const getRecordedBroadcastById = catchAsync(async (req, res) => {
 });
 
 const getRecordedBroadcastByBookId = catchAsync(async (req, res) => {
-  const singleRecordedBroadcast = await recordedBroadcastService.getRecordedBroadcastByBookId(req.params.bookId);
-  if (!singleRecordedBroadcast) {
+  const chaptersData = await recordedBroadcastService.getRecordedBroadcastByBookId(req.params.bookId);
+  if (!chaptersData) {
     throw new ApiError(httpStatus.NOT_FOUND, 'RecordedBroadcast not found');
   }
-  res.send(singleRecordedBroadcast);
+  res.send({ chaptersData });
 });
 const updateRecordedBroadcastById = catchAsync(async (req, res) => {
   if (req.files) {
