@@ -3,3 +3,5 @@ node_modules
 .env.production
 .env.development
 /src/config/config.js
+/src/docs/swaggerDef.js
+/src/app.js

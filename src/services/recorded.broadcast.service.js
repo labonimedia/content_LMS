@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const mongoose = require('mongoose');
 const { RecordedBroadcast } = require('../models');
 const ApiError = require('../utils/ApiError');
 
@@ -50,7 +51,52 @@ const getRecordedBroadcastById = async (id) => {
  * @returns {Promise<RecordedBroadcast>}
  */
 const getRecordedBroadcastByBookId = async (bookId) => {
-  return RecordedBroadcast.find({ bookId });
+  const chaptersData = await RecordedBroadcast.aggregate([
+    { $match: { bookId: mongoose.Types.ObjectId(bookId) } },
+    {
+      $group: {
+        _id: '$chapterId',
+        broadcasts: {
+          $push: {
+            _id: '$_id',
+            title: '$title',
+            date: '$date',
+            time: '$time',
+            boardId: '$boardId',
+            mediumId: '$mediumId',
+            classId: '$classId',
+            subjectId: '$subjectId',
+            bookId: '$bookId',
+            chapterId: '$chapterId',
+            presenterName: '$presenterName',
+            studio: '$studio',
+            liveStreamingPath: '$liveStreamingPath',
+            type: '$type',
+            landscapeImage: '$landscapeImage',
+            portraitImage: '$portraitImage',
+          },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: 'chapters', // Assuming your Chapter collection is named 'chapters'
+        localField: '_id',
+        foreignField: '_id',
+        as: 'chapterData',
+      },
+    },
+    {
+      $unwind: '$chapterData',
+    },
+    {
+      $addFields: {
+        'broadcasts.chapterName': '$chapterData.chapterName',
+      },
+    },
+  ]);
+
+  return chaptersData;
 };
 /**
  * Update RecordedBroadcast by id
