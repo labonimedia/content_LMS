@@ -4,8 +4,10 @@ const { objectId } = require('./custom.validation');
 const createMultimeda = {
   body: Joi.object().keys({
     lessionName: Joi.string().required(),
-    files: Joi.array().items(Joi.string()),
+    //files: Joi.array().items(Joi.string()),
     path: Joi.string().required(),
+    icon1: Joi.string(),
+    icon2: Joi.string(),
     multimediaType: Joi.string().valid('Multimedia', 'Lecture'),
     order: Joi.number().required(),
     // order: Joi.number().required(),
@@ -64,8 +66,10 @@ const updateMultimedia = {
   body: Joi.object()
     .keys({
       lessionName: Joi.string(),
-      files: Joi.array().items(Joi.string()),
+      //files: Joi.array().items(Joi.string()),
       path: Joi.string(),
+      icon1: Joi.string(),
+      icon2: Joi.string(),
       multimediaType: Joi.string().valid('Multimedia', 'Lecture'),
       order: Joi.number(),
       videoType: Joi.string(),

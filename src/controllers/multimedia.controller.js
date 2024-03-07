@@ -3,15 +3,16 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { multimediaService } = require('../services');
-const { filterPath } = require('../utils/s3middleware');
+//const { filterPath } = require('../utils/s3middleware');
 
 const createMultimedia = catchAsync(async (req, res) => {
-  if (req.files.icon1) {
-    req.body.icon1 = await filterPath(req.files.icon1[0].location);
-  }
-  if (req.files.icon2) {
-    req.body.icon2 = await filterPath(req.files.icon2[0].location);
-  }
+  // if (req.files.icon1) {
+    console.log(req.body);
+  //   req.body.icon1 = await filterPath(req.files.icon1[0].location);
+  // }
+  // if (req.files.icon2) {
+  //   req.body.icon2 = await filterPath(req.files.icon2[0].location);
+  // }
   const multimedia = await multimediaService.createMultimedia(req.body);
   res.status(httpStatus.CREATED).send(multimedia);
 });
@@ -58,12 +59,12 @@ const getMultimediaByFilter = catchAsync(async (req, res) => {
 });
 
 const updateMultimedia = catchAsync(async (req, res) => {
-  if (req.files.icon1) {
-    req.body.icon1 = await filterPath(req.files.icon1[0].location);
-  }
-  if (req.files.icon2) {
-    req.body.icon2 = await filterPath(req.files.icon2[0].location);
-  }
+  // if (req.files.icon1) {
+  //   req.body.icon1 = await filterPath(req.files.icon1[0].location);
+  // }
+  // if (req.files.icon2) {
+  //   req.body.icon2 = await filterPath(req.files.icon2[0].location);
+  // }
   const multimedia = await multimediaService.updateMultimediaById(req.params.multimediaId, req.body);
   res.send(multimedia);
 });
