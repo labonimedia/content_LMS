@@ -70,6 +70,8 @@ module.exports = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     },
+    username: 'root',
+    password: 'repo',
   },
   jwt: {
     secret: envVars.JWT_SECRET,
