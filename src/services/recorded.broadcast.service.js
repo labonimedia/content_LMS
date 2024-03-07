@@ -80,7 +80,7 @@ const getRecordedBroadcastByBookId = async (bookId) => {
     },
     {
       $lookup: {
-        from: 'chapters', // Assuming your Chapter collection is named 'chapters'
+        from: 'chapters',
         localField: '_id',
         foreignField: '_id',
         as: 'chapterData',

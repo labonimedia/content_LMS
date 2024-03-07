@@ -26,10 +26,10 @@ router
   .route('/:recordedBroadcastId')
   .get(validate(recordedBroadcastValidation.getRecordedBroadcast), recordedBroadcastController.getRecordedBroadcastById)
   .patch(
-    // upload.fields([
-    //   { name: 'landscapeImage', maxCount: 1 },
-    //   { name: 'portraitImage', maxCount: 1 },
-    // ]),
+    upload.fields([
+      { name: 'landscapeImage', maxCount: 1 },
+      { name: 'portraitImage', maxCount: 1 },
+    ]),
     validate(recordedBroadcastValidation.updateRecordedBroadcastById),
     recordedBroadcastController.updateRecordedBroadcastById
   )

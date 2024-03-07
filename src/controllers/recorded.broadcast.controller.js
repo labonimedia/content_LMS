@@ -38,12 +38,13 @@ const getRecordedBroadcastByBookId = catchAsync(async (req, res) => {
   }
   res.send({ chaptersData });
 });
+
 const updateRecordedBroadcastById = catchAsync(async (req, res) => {
   if (req.files) {
-    req.body.landscapeImage = await filterPath(req.files.portraitImage[0].location);
+    req.body.landscapeImage = await filterPath(req.files.landscapeImage[0].location);
   }
   if (req.files) {
-    req.body.portraitImage = await filterPath(req.files.landscapeImage[0].location);
+    req.body.portraitImage = await filterPath(req.files.portraitImage[0].location);
   }
   const updatedRecordedBroadcast = await recordedBroadcastService.updateRecordedBroadcastById(
     req.params.recordedBroadcastId,
