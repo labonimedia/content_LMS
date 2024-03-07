@@ -8,10 +8,10 @@ const router = express.Router();
 router
   .route('/')
   .post(
-    upload.fields([
-      { name: 'icon1', maxCount: 1 },
-      { name: 'icon2', maxCount: 1 },
-    ]),
+    // upload.fields([
+    //   { name: 'icon1', maxCount: 1 },
+    //   { name: 'icon2', maxCount: 1 },
+    // ]),
     multimediaController.createMultimedia
   )
   .get(validate(multimediaValidation.getAllMultimedia), multimediaController.getMultimedia);
@@ -20,10 +20,10 @@ router
   .route('/:multimediaId')
   .get(validate(multimediaValidation.getMultimediaById), multimediaController.getMultimediaById)
   .patch(
-    upload.fields([
-      { name: 'icon1', maxCount: 1 },
-      { name: 'icon2', maxCount: 1 },
-    ]),
+    // upload.fields([
+    //   { name: 'icon1', maxCount: 1 },
+    //   { name: 'icon2', maxCount: 1 },
+    // ]),
     validate(multimediaValidation.updateMultimedia),
     multimediaController.updateMultimedia
   )
@@ -62,7 +62,7 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             required:
@@ -80,12 +80,8 @@ module.exports = router;
  *             properties:
  *               icon1:
  *                 type: string
- *                 format: binary
- *                 description: URL of the  image.
  *               icon2:
  *                 type: string
- *                 format: binary
- *                 description: URL of the  image.
  *               lessionName:
  *                 type: string
  *               path:
@@ -244,18 +240,14 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
  *               icon1:
  *                 type: string
- *                 format: binary
- *                 description: URL of the  image.
  *               icon2:
  *                 type: string
- *                 format: binary
- *                 description: URL of the  image.
  *               lessionName:
  *                 type: string
  *               path:
@@ -281,6 +273,8 @@ module.exports = router;
  *             example:
  *               lessionName: English
  *               path: multimedia/path
+ *               icon1: imagelink/icon1
+ *               icon2: imagelink/icon2
  *               multimediaType: Multimedia or Lecture
  *               order: 1
  *               videoType: yujvghgkk
