@@ -2,12 +2,12 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const bookController = require('../../controllers/book.controller');
 const bookValidation = require('../../validations/book.validation');
-const { createS3Middleware } = require('../../utils/s3middleware');
+//const { createS3Middleware } = require('../../utils/s3middleware');
 
 const router = express.Router();
 router
   .route('/upload')
-  .post(createS3Middleware('lmscontent'), validate(bookValidation.createBook), bookController.createBook)
+  .post(validate(bookValidation.createBook), bookController.createBook)
   .get(validate(bookValidation.getBooks), bookController.queryBook);
 
 router
@@ -43,7 +43,7 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
@@ -57,16 +57,15 @@ module.exports = router;
  *                 type: string
  *               subjectId:
  *                 type: string
- *               file:
- *                 type: file
- *                 format: binary
+ *               thumbnail:
+ *                 type: string
  *             required:
  *               - name
  *               - boardId
  *               - mediumId
  *               - classId
  *               - subjectId
- *               - file
+ *               - thumbnail
  *     responses:
  *       '201':
  *         description: Book created successfully
