@@ -8,7 +8,7 @@ const createBook = {
     subjectId: Joi.string().custom(objectId).required(),
     mediumId: Joi.string().custom(objectId).required(),
     boardId: Joi.string().custom(objectId).required(),
-    file: Joi.string(),
+    thumbnail: Joi.string(),
   }),
 };
 
