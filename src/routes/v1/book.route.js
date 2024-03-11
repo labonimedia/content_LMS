@@ -13,7 +13,7 @@ router
 router
   .route('/:bookId')
   .get(validate(bookValidation.getBook), bookController.getBookById)
-  .patch(createS3Middleware('lmscontent'), validate(bookValidation.updateBook), bookController.updateBook)
+  .patch(validate(bookValidation.updateBook), bookController.updateBook)
   .delete(validate(bookValidation.deleteBook), bookController.deleteBook);
 
 router
@@ -287,7 +287,7 @@ module.exports = router;
  *         description: bookId
  *     requestBody:
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
@@ -301,16 +301,15 @@ module.exports = router;
  *                 type: string
  *               subjectId:
  *                 type: string
- *               file:
+ *               thumbnail:
  *                 type: file
- *                 format: binary
  *             required:
  *               - name
  *               - boardId
  *               - mediumId
  *               - classId
  *               - subjectId
- *               - file
+ *               - thumbnail
  *     responses:
  *       "200":
  *         description: OK
