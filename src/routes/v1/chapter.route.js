@@ -18,7 +18,7 @@ router
 router
   .route('/:chapterId')
   .get(validate(chapterValidation.getChapter), chaterController.getSingleChapter)
-  .patch(createS3Middleware('lmscontent'), validate(chapterValidation.updateChapterById), chaterController.updateSingleClass)
+  .patch(validate(chapterValidation.updateChapterById), chaterController.updateSingleClass)
   .delete(validate(chapterValidation.deleteChapterById), chaterController.deleteSingleChapter);
 
 router
@@ -47,15 +47,14 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *           application/json:
  *           schema:
  *             type: object
  *             properties:
  *               chapterName:
  *                 type: string
- *               file:
- *                 type: file
- *                 format: binary
+ *               thumbnail:
+ *                 type: string
  *               order:
  *                 type: number
  *               boardId:
@@ -76,7 +75,7 @@ module.exports = router;
  *               classId: 64d327811128844220f0cce0
  *               subjectId: 64d9d4666205c371563fcadb
  *               bookId: 64d9d7143ac675796cdcd433
- *               file: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *               thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  *     responses:
  *       "201":
  *         description: Created
@@ -199,15 +198,14 @@ module.exports = router;
  *     requestBody:
  *       required: false
  *       content:
- *         multipart/form-data:
+ *           application/json:
  *           schema:
  *             type: object
  *             properties:
  *               chapterName:
  *                 type: string
- *               file:
- *                 type: file
- *                 format: binary
+ *               thumbnail:
+ *                 type: string
  *               order:
  *                 type: number
  *               boardId:
@@ -228,7 +226,7 @@ module.exports = router;
  *               classId: 64d327811128844220f0cce0
  *               subjectId: 64d9d4666205c371563fcadb
  *               bookId: 64d9d7143ac675796cdcd433
- *               file: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *               thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  *     responses:
  *       "200":
  *         description: OK
