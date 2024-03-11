@@ -52,7 +52,7 @@ const updateBook = {
       subjectId: Joi.string(),
       mediumId: Joi.string(),
       boardId: Joi.string(),
-      file: Joi.string(),
+      thumbnail: Joi.string(),
     })
     .min(1),
 };

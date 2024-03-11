@@ -2,7 +2,7 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const multimediaController = require('../../controllers/multimedia.controller');
 const multimediaValidation = require('../../validations/multimedia.validation');
-const { upload } = require('../../utils/cdn');
+//const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
 router

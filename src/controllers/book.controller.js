@@ -45,10 +45,10 @@ const getBookByFilter = catchAsync(async (req, res) => {
 });
 
 const updateBook = catchAsync(async (req, res) => {
-  const { file } = req;
-  if (file) {
-    req.body.thumbnail = await filterPath(file.location);
-  }
+  // const { file } = req;
+  // if (file) {
+  //   req.body.thumbnail = await filterPath(file.location);
+  // }
   const book = await bookService.updatBookById(req.params.bookId, req.body);
   res.send(book);
 });
