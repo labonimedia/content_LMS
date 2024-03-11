@@ -12,7 +12,9 @@ const createLession = {
     name: Joi.string().required(),
     type: Joi.string().required(),
     order: Joi.number().required(),
-    files: Joi.array().items(Joi.string()),
+    thumbnail: Joi.string().required(),
+    poster: Joi.string().required(),
+    // files: Joi.array().items(Joi.string()),
   }),
 };
 
@@ -61,7 +63,9 @@ const updateLession = {
       name: Joi.string().required(),
       type: Joi.string().required(),
       order: Joi.number().required(),
-      files: Joi.array().items(Joi.string()),
+      //files: Joi.array().items(Joi.string()),
+      thumbnail: Joi.string().required(),
+      poster: Joi.string().required(),
     })
     .min(1),
 };
