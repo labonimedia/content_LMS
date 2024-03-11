@@ -2,19 +2,19 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const lessionController = require('../../controllers/lession.controller');
 const lessionValidation = require('../../validations/lession.validation');
-const { upload } = require('../../utils/cdn');
+// const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(upload.array('files', 2), validate(lessionValidation.createLession), lessionController.createLession)
+  .post(validate(lessionValidation.createLession), lessionController.createLession)
   .get(validate(lessionValidation.getLessions), lessionController.queryLessions);
 
 router
   .route('/:lessionId')
   .get(validate(lessionValidation.getLession), lessionController.getLession)
-  .patch(upload.array('files', 2), validate(lessionValidation.updateLession), lessionController.updateLession)
+  .patch(validate(lessionValidation.updateLession), lessionController.updateLession)
   .delete(validate(lessionValidation.deleteLession), lessionController.deleteLession);
 
 router
@@ -38,17 +38,16 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             required:
  *               - name
  *             properties:
- *               files:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
+ *               thumbnail:
+ *                 type: string
+ *               poster:
+ *                 type: string
  *               boardId:
  *                 type: string
  *               mediumId:
@@ -197,7 +196,7 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
@@ -214,17 +213,15 @@ module.exports = router;
  *               chapterId:
  *                 type: string
  *               name:
- *                 type: string *
+ *                 type: string
  *               type:
  *                 type: string
  *               order:
  *                 type: number
  *               thumbnail:
  *                 type: string
- *                 format: binary
  *               poster:
  *                 type: string
- *                 format: binary
  *             example:
  *               name: English
  *               type: "https://www.youtube.com/watch?v=D52_BL9sVMU"
