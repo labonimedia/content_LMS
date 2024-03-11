@@ -2,18 +2,18 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const subjectController = require('../../controllers/subject.controller');
 const subjectValidation = require('../../validations/subject.validation');
-const { createS3Middleware } = require('../../utils/s3middleware');
+//const { createS3Middleware } = require('../../utils/s3middleware');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(createS3Middleware('lmscontent'), validate(subjectValidation.createSubject), subjectController.createSubject)
+  .post(validate(subjectValidation.createSubject), subjectController.createSubject)
   .get(validate(subjectValidation.getAllSubject), subjectController.getAllSubject);
 
 router
   .route('/:subjectId')
-  .patch(createS3Middleware('lmscontent'), validate(subjectValidation.updateSubject), subjectController.updateSubject)
+  .patch(validate(subjectValidation.updateSubject), subjectController.updateSubject)
   .delete(validate(subjectValidation.deleteSubject), subjectController.deleteSubject)
   .get(validate(subjectValidation.getSubject), subjectController.getSubjectById);
 
@@ -46,7 +46,7 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
@@ -58,9 +58,8 @@ module.exports = router;
  *                 type: string
  *               classId:
  *                 type: string
- *               file:
- *                 type: file
- *                 format: binary
+ *               thumbnail:
+ *                 type: string
  *               code:
  *                 type: string
  *             required:
@@ -191,7 +190,7 @@ module.exports = router;
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
@@ -203,9 +202,8 @@ module.exports = router;
  *                 type: string
  *               classId:
  *                 type: string
- *               file:
- *                 type: file
- *                 format: binary
+ *               thumbnail:
+ *                 type: string
  *               code:
  *                 type: string
  *     responses:
