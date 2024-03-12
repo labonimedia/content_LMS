@@ -5,6 +5,8 @@ const createClass = {
   body: Joi.object().keys({
     className: Joi.string().required(),
     order: Joi.number().required(),
+    thumbnail: Joi.string(),
+    poster: Joi.string(),
   }),
 };
 
@@ -38,6 +40,8 @@ const updateClassById = {
       mediumId: Joi.string(),
       className: Joi.string(),
       order: Joi.number().required(),
+      thumbnail: Joi.string(),
+      poster: Joi.string(),
     })
     .min(1),
 };

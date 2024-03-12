@@ -2,19 +2,19 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const classValidation = require('../../validations/class.validation');
 const classesController = require('../../controllers/classes.controller');
-const { createS3Middleware } = require('../../utils/s3middleware');
+// const { createS3Middleware } = require('../../utils/s3middleware');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(createS3Middleware('lmscontent'), validate(classValidation.createClass), classesController.createClasses)
+  .post(validate(classValidation.createClass), classesController.createClasses)
   .get(validate(classValidation.getAllClass), classesController.getClasses);
 
 router
   .route('/:classId')
   .get(validate(classValidation.getClass), classesController.getSingleClass)
-  .patch(createS3Middleware('lmscontent'), validate(classValidation.updateClassById), classesController.updateSingleClass)
+  .patch(validate(classValidation.updateClassById), classesController.updateSingleClass)
   .delete(validate(classValidation.deleteClassById), classesController.deleteSingleClass);
 
 module.exports = router;
@@ -36,7 +36,7 @@ module.exports = router;
  *       description: Class object to be created
  *       required: true
  *       content:
- *         multipart/form-data:
+ *           application/json:
  *           schema:
  *             $ref: '#/components/schemas/ClassInput'
  *     responses:
@@ -137,7 +137,7 @@ module.exports = router;
  *         description: ID of the class
  *     requestBody:
  *       content:
- *         multipart/form-data:
+ *           application/json:
  *           schema:
  *             $ref: '#/components/schemas/ClassUpdateInput'
  *     responses:
@@ -179,12 +179,17 @@ module.exports = router;
  *         order:
  *           type: number
  *           description: order number
- *         file:
+ *         thumbnail:
  *           type: string
- *           format: binary
+ *           description: thumbnail
+ *         poster:
+ *           type: string
+ *           description: poster
  *       example:
  *         className: Math 101
  *         order: 1
+ *         thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *         poster: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  */
 
 /**
@@ -200,10 +205,15 @@ module.exports = router;
  *         order:
  *           type: number
  *           description: order number
- *         file:
+ *         thumbnail:
  *           type: string
- *           format: binary
+ *           description: thumbnail
+ *         poster:
+ *           type: string
+ *           description: poster
  *       example:
  *         className: Math 101
  *         order: 1
+ *         thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *         poster: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  */
