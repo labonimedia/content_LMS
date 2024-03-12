@@ -18,6 +18,8 @@ const createNewPlan = {
     studioName: Joi.string().required(),
     liveStreamingPath: Joi.string().allow('', null),
     presenterName: Joi.string(),
+    thumbnail: Joi.string(),
+    poster: Joi.string(),
   }),
 };
 
@@ -67,6 +69,8 @@ const updatePlanById = {
       studioName: Joi.string(),
       liveStreamingPath: Joi.string().allow('', null),
       presenterName: Joi.string(),
+      thumbnail: Joi.string(),
+      poster: Joi.string(),
     })
     .min(1),
 };

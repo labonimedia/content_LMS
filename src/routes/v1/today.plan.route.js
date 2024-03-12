@@ -52,6 +52,8 @@ module.exports = router;
  *               - lesson
  *               - order
  *               - studioName
+ *               - thumbnail
+ *               - poster
  *             properties:
  *               name:
  *                 type: string
@@ -83,6 +85,10 @@ module.exports = router;
  *                 type: string
  *               presenterName:
  *                 type: string
+ *               thumbnail:
+ *                 type: string
+ *               poster:
+ *                 type: string
  *             example:
  *               name: Today Plan title
  *               date: 21/11/2023
@@ -99,6 +105,8 @@ module.exports = router;
  *               studioName: Studio 1
  *               liveStreamingPath: Live Stream
  *               presenterName: onkar
+ *               thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *               poster: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  *     responses:
  *       201:
  *         description: Plan video successfully created
@@ -271,6 +279,10 @@ module.exports = router;
  *                 type: string
  *               presenterName:
  *                 type: string
+ *               thumbnail:
+ *                 type: string
+ *               poster:
+ *                 type: string
  *             example:
  *               name: Today Plan title
  *               date: 21/11/2023
@@ -287,6 +299,8 @@ module.exports = router;
  *               studioName: Studio 1
  *               liveStreamingPath: Live Stream
  *               presenterName: onkar
+ *               thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *               poster: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  *     responses:
  *       200:
  *         description: Plan video successfully updated

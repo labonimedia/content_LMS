@@ -59,6 +59,8 @@ module.exports = router;
  *                 type: string
  *               thumbnail:
  *                 type: string
+ *               poster:
+ *                 type: string
  *             required:
  *               - name
  *               - boardId
@@ -66,6 +68,7 @@ module.exports = router;
  *               - classId
  *               - subjectId
  *               - thumbnail
+ *               - poster
  *     responses:
  *       '201':
  *         description: Book created successfully
@@ -301,7 +304,9 @@ module.exports = router;
  *               subjectId:
  *                 type: string
  *               thumbnail:
- *                 type: file
+ *                 type: string
+ *               poster:
+ *                 type: string
  *             required:
  *               - name
  *               - boardId
@@ -309,6 +314,7 @@ module.exports = router;
  *               - classId
  *               - subjectId
  *               - thumbnail
+ *               - poster
  *     responses:
  *       "200":
  *         description: OK
