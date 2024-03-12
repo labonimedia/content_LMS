@@ -60,6 +60,8 @@ module.exports = router;
  *                 type: string
  *               thumbnail:
  *                 type: string
+ *               poster:
+ *                 type: string
  *               code:
  *                 type: string
  *             required:
@@ -69,6 +71,7 @@ module.exports = router;
  *              - classId
  *              - code
  *              - thumbnail
+ *              - poster
  *     responses:
  *       "201":
  *         description: Created
@@ -205,6 +208,8 @@ module.exports = router;
  *               thumbnail:
  *                 type: string
  *               code:
+ *                 type: string
+ *               poster:
  *                 type: string
  *     responses:
  *       "200":

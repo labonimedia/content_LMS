@@ -67,6 +67,12 @@ const todayPlanSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    thumbnail: {
+      type: String,
+    },
+    poster: {
+      type: String,
+    },
   },
   {
     timestamps: true,

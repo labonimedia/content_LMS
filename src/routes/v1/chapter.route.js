@@ -2,13 +2,13 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const chapterValidation = require('../../validations/chapter.validation');
 const chaterController = require('../../controllers/chapter.controller');
-const { createS3Middleware } = require('../../utils/s3middleware');
+// const { createS3Middleware } = require('../../utils/s3middleware');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(createS3Middleware('lmscontent'), validate(chapterValidation.createChapter), chaterController.createChapter)
+  .post(validate(chapterValidation.createChapter), chaterController.createChapter)
   .get(validate(chapterValidation.getAllChapter), chaterController.getChapter);
 
 router
@@ -55,6 +55,8 @@ module.exports = router;
  *                 type: string
  *               thumbnail:
  *                 type: string
+ *               poster:
+ *                 type: string
  *               order:
  *                 type: number
  *               boardId:
@@ -76,6 +78,7 @@ module.exports = router;
  *               subjectId: 64d9d4666205c371563fcadb
  *               bookId: 64d9d7143ac675796cdcd433
  *               thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *               poster: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  *     responses:
  *       "201":
  *         description: Created
@@ -206,6 +209,8 @@ module.exports = router;
  *                 type: string
  *               thumbnail:
  *                 type: string
+ *               poster:
+ *                 type: string
  *               order:
  *                 type: number
  *               boardId:
@@ -227,6 +232,7 @@ module.exports = router;
  *               subjectId: 64d9d4666205c371563fcadb
  *               bookId: 64d9d7143ac675796cdcd433
  *               thumbnail: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
+ *               poster: e892f517-c5a4-4b04-b62c-1054ca09e61c32580.jpg
  *     responses:
  *       "200":
  *         description: OK

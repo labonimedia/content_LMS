@@ -9,6 +9,7 @@ const createSubject = {
     boardId: Joi.string().custom(objectId).required(),
     code: Joi.string().required(),
     thumbnail: Joi.string(),
+    poster: Joi.string(),
   }),
 };
 
@@ -51,6 +52,7 @@ const updateSubject = {
       boardId: Joi.string().custom(objectId),
       code: Joi.string(),
       thumbnail: Joi.string(),
+      poster: Joi.string(),
     })
     .min(1),
 };

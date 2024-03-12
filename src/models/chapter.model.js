@@ -44,6 +44,9 @@ const chapterSchema = mongoose.Schema(
     thumbnail: {
       type: String,
     },
+    poster: {
+      type: String,
+    },
   },
   {
     timestamps: true,
