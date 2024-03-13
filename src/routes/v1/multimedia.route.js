@@ -33,6 +33,12 @@ router
   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
   .get(validate(multimediaValidation.getMultimediaByFilter), multimediaController.getMultimediaByFilter);
 
+
+router
+.route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId/:multimediaType')
+.get(validate(multimediaValidation.getMultimediaByTypeFilter), multimediaController.getMultimediaByTypeFilter);
+
+
 router
   .route('/getByType/:multimediaType')
   .get(validate(multimediaValidation.getMultimediaByType), multimediaController.getMultimediaByType);
@@ -350,6 +356,7 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  */
+
 /**
  * @swagger
  * /multimedia/filter/{boardId}/{mediumId}/{classId}/{subjectId}/{bookId}/{chapterId}:
@@ -401,6 +408,64 @@ module.exports = router;
  *       "404":
  *         $ref: '#/components/responses/NotFound'
  */
+
+/**
+ * @swagger
+ * /multimedia/filter/{boardId}/{mediumId}/{classId}/{subjectId}/{bookId}/{chapterId}/{multimediaType}:
+ *   get:
+ *     summary: Get a multimedia
+ *     tags: [Multimedia]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: boardId
+ *         required: true
+ *         description: The ID of the board
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: mediumId
+ *         required: true
+ *         description: The ID of the medium
+ *       - in: path
+ *         name: classId
+ *         required: true
+ *         description: The ID of the class
+ *       - in: path
+ *         name: subjectId
+ *         required: true
+ *         description: The ID of the subject
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         description: The ID of the book
+ *       - in: path
+ *         name: chapterId
+ *         required: true
+ *         description: The ID of the chapter
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: multimediaType
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Multimedia'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 /**
  * @swagger
  * /multimedia/getMultimedia/{chapterId}:

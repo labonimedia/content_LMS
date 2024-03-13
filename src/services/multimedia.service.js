@@ -67,6 +67,20 @@ const getMultimediaByType = async (multimediaType) => {
 const getMultimediaByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId) => {
   return Multimedia.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
 };
+/**
+ * Get mutimedia by Filter
+ * @param {ObjectId} boardId
+ *  @param {ObjectId} mediumId
+ *  @param {ObjectId} classId
+ *  @param {ObjectId} subjectId
+ *  @param {ObjectId} bookId
+ *  @param {ObjectId} chapterId
+ *  @param {String} multimediaType
+ * @returns {Promise<Multimedia>}
+ */
+const getMultimediaByTypeFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType) => {
+  return Multimedia.find({ boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType}).sort('order');
+};
 
 /**
  * Update Multimedia by id
@@ -160,4 +174,5 @@ module.exports = {
   getMultimediaByType,
   getMultimediaByChaperId,
   getMultimediaByBookId,
+  getMultimediaByTypeFilter,
 };
