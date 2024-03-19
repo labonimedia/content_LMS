@@ -144,7 +144,7 @@ const getMultimediaByBookId = async (bookId, multimediaType) => {
         },
       },
     },
-    { $sort: { 'multimediaData.order': 1 } }, // Sort multimediaData array by order
+    { $sort: { 'multimediaData.order': -1 } }, // Sort multimediaData array by order
     {
       $lookup: {
         from: 'chapters', // Assuming your Chapter collection is named 'chapters'
