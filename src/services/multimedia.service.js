@@ -157,7 +157,7 @@ const getMultimediaByBookId = async (bookId, multimediaType) => {
     {
       $unwind: '$chapterData',
     },
-    { $sort: { 'chapterData.order': -1 } },
+    { $sort: { 'chapterData.order': 1 } },
     {
       $addFields: {
         'broadcasts.chapterName': '$chapterData.chapterName',
