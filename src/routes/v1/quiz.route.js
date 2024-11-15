@@ -1,13 +1,35 @@
+// const express = require('express');
+// const multer = require('multer');
+// const path = require('path');
+// const { v4: uuidv4 } = require('node-uuid');
+ const validate = require('../../middlewares/validate');
+// const quizeController = require('../../controllers/quiz.controller');
+const quizeValidation = require('../../validations/quiz.validation');
+
+// const router = express.Router();
+
+// const storage = multer.diskStorage({
+//   destination: 'uploads/',
+//   filename: (req, file, callback) => {
+//     const uniqueFileName = `${uuidv4()}${path.extname(file.originalname)}`;
+//     callback(null, uniqueFileName);
+//   },
+// });
+
+// const upload = multer({ storage });
+
+// router.post('/bulk-upload', upload.single('file'), quizeController.bulkUpload);
+
+
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('node-uuid');
-const validate = require('../../middlewares/validate');
 const quizeController = require('../../controllers/quiz.controller');
-const quizeValidation = require('../../validations/quiz.validation');
 
 const router = express.Router();
 
+// Configure storage for multer
 const storage = multer.diskStorage({
   destination: 'uploads/',
   filename: (req, file, callback) => {
@@ -17,6 +39,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+router.post('/bulk-upload', upload.single('file'), quizeController.bulkUpload);
 
 router
   .route('/')

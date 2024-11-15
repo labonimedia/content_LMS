@@ -1,5 +1,7 @@
 const httpStatus = require('http-status');
 const pick = require('../utils/pick');
+const fs = require('fs');
+const csv = require('csv-parser');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { quizeService } = require('../services');
@@ -7,6 +9,128 @@ const { quizeService } = require('../services');
 const createQuize = catchAsync(async (req, res) => {
   const quize = await quizeService.createQuize(req.body);
   res.status(httpStatus.CREATED).send(quize);
+});
+
+// const bulkUpload = catchAsync(async (req, res) => {
+//   const filePath = req.file.path;
+//   console.log(filePath);
+//   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
+//   console.log(boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId);
+//   const quizzes = [];
+  
+//   fs.createReadStream(filePath)
+//     .pipe(csv())
+//     .on('data', (row) => {
+//       const quiz = {
+//         quizName: row.quizName,
+//         files: row.files,
+//         options: JSON.parse(row.options),
+//         correctOptions: JSON.parse(row.correctOptions),
+//         explain: row.explain,
+//         hint: row.hint,
+//         types: row.types,
+//         isVerified: row.isVerified === 'true',
+//         marks: parseInt(row.marks),
+//         boardId,
+//         mediumId,
+//         classId,
+//         bookId,
+//         subjectId,
+//         chapterId,
+//         lessonId,
+//       };
+//       quizzes.push(quiz);
+//     })
+//     .on('end', async () => {
+//       const savedQuizzes = await quizeService.uploadBulkQuizzes(quizzes);
+//       res.status(201).json({ message: 'Quizzes uploaded successfully', data: savedQuizzes });
+//     });
+// });
+
+// const bulkUpload = catchAsync(async (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ message: 'CSV file is required' });
+//   }
+  
+//   const filePath = req.file.path;
+//   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
+//   const quizzes = [];
+  
+//   // Read CSV and process data
+//   fs.createReadStream(filePath)
+//     .pipe(csv())
+//     .on('data', (row) => {
+//       const quiz = {
+//         quizName: row.quizName,
+//         files: row.files,
+//         // options: JSON.parse(row.options),
+//         options:row.options,
+//         correctOptions: JSON.parse(row.correctOptions),
+//         explain: row.explain,
+//         hint: row.hint,
+//         types: row.types,
+//         isVerified: row.isVerified === 'true',
+//         marks: parseInt(row.marks),
+//         boardId,
+//         mediumId,
+//         classId,
+//         bookId,
+//         subjectId,
+//         chapterId,
+//         lessonId,
+//       };
+//       quizzes.push(quiz);
+//     })
+//     .on('end', async () => {
+//       const savedQuizzes = await quizeService.uploadBulkQuizzes(quizzes);
+//       res.status(201).json({ message: 'Quizzes uploaded successfully', data: savedQuizzes });
+//     });
+// });
+
+const bulkUpload = catchAsync(async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'CSV file is required' });
+  }
+
+  const filePath = req.file.path;
+  const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
+  const quizzes = [];
+
+  // Read CSV and process data
+  fs.createReadStream(filePath)
+    .pipe(csv())
+    .on('data', (row) => {
+      const options = [
+        row.option1,
+        row.option2,
+        row.option3,
+        row.option4
+      ];
+
+      const quiz = {
+        quizName: row.quizName,
+        files: row.files,
+        options,  // Use combined options array
+        correctOptions: JSON.parse(row.correctOptions),
+        explain: row.explain,
+        hint: row.hint,
+        types: row.types,
+        isVerified: row.isVerified === 'true',
+        marks: parseInt(row.marks),
+        boardId,
+        mediumId,
+        classId,
+        bookId,
+        subjectId,
+        chapterId,
+        lessonId,
+      };
+      quizzes.push(quiz);
+    })
+    .on('end', async () => {
+      const savedQuizzes = await quizeService.uploadBulkQuizzes(quizzes);
+      res.status(201).json({ message: 'Quizzes uploaded successfully', data: savedQuizzes });
+    });
 });
 
 const uploadFiles = catchAsync(async (req, res) => {
@@ -105,4 +229,5 @@ module.exports = {
   getQuizByClassIdAndDayWise,
   getQuizeByQuizName,
   getQuizeByChapterId,
+  bulkUpload
 };

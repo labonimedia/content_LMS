@@ -3,6 +3,16 @@ const { Quize, Subject } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
+ * Bulk Upload Quizzes
+ * @param {Array} quizzes - Array of quiz objects
+ * @returns {Promise<Array>}
+ */
+const uploadBulkQuizzes = async (quizzes) => {
+  const savedQuizzes = await Quize.insertMany(quizzes);
+  return savedQuizzes;
+};
+
+/**
  * Create a quize
  * @param {Object} quizeBody
  * @returns {Promise<Quize>}
@@ -199,6 +209,7 @@ const deleteQuizeById = async (quizeId) => {
 
 module.exports = {
   createQuize,
+  uploadBulkQuizzes,
   queryQuize,
   getQuizeById,
   getQuizeByFilter,
