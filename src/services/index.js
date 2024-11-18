@@ -47,3 +47,4 @@ module.exports.staffAttendanceService = require('./staff.attendance.service');
 module.exports.recordedBroadcastService = require('./recorded.broadcast.service');
 module.exports.studentPromoteServices = require('./student.promote.service');
 module.exports.studentQuestionService = require('./student.question.service');
+module.exports.lectureVideoService = require('./lecture.service');
