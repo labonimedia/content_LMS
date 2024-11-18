@@ -40,8 +40,8 @@ const getLectureVideoById = async (id) => {
  * @param {ObjectId} lectureVideoId
  * @returns {Promise<LectureVideo>}
  */
-const getLectureVideobychapterId = async (lectureVideoId) => {
-  return LectureVideo.find({ lectureVideoId });
+const getLectureVideobychapterId = async (chapterId) => {
+  return LectureVideo.find({ chapterId });
 };
 
 /**
