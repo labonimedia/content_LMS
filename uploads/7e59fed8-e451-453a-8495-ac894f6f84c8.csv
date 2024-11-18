@@ -1,0 +1,4 @@
+quizName,files,option1,option2,option3,option4,correctOptions,explain,hint,types,isVerified,marks
+Sample Quiz 1,quiz1.png,Option A,Option B,Option C,Option D,"[0,1]",Explanation for quiz 1,Hint 1,easy,true,4
+Sample Quiz 2,quiz2.png,Option A,Option B,Option C,Option D,"[2,3]",Explanation for quiz 1,Hint 1,easy,,10
+Sample Quiz 3,quiz3.png,Option A,Option B,Option C,Option D,"[1,2]",Explanation for quiz 1,Hint 1,easy,true,5

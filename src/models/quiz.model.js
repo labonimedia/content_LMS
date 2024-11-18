@@ -1,3 +1,5 @@
+
+
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
@@ -7,17 +9,28 @@ const quizeSchema = mongoose.Schema(
       type: String,
       index: true,
     },
+    displayFormat: {
+      type: Number,
+      enum: [1, 2, 3]
+    },
+    questionLevel: {
+      type: Number,
+      enum: [1, 2, 3]
+    },
+    questionType: {
+      type: Number,
+      enum: [1, 2, 3]
+    },
     files: {
       type: String,
     },
-    options: {
-      type: [String],
-      required: true,
-    },
-    correctOptions: {
-      type: [Number], // An array of indices (0 to 3) of correct options
-      required: true,
-    },
+    options: [{
+        A: String,
+        B: String,
+        C: String,
+        D: String
+      }],
+    correctOptions: [String],
     explain: {
       type: String,
     },
@@ -26,15 +39,15 @@ const quizeSchema = mongoose.Schema(
     },
     types: {
       type: String,
-      enum: ['easy', 'medium', 'hard'],
+      enum: [1, 2, 3],
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    marks: {
-      type: Number,
-    },
+    // isVerified: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // marks: {
+    //   type: Number,
+    // },
     boardId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'board',
@@ -65,9 +78,9 @@ const quizeSchema = mongoose.Schema(
       ref: 'chapter',
       required: true,
     },
-    lessonId: {
+    lectureVideoId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'lession',
+      ref: 'lecturevideo',
       required: true,
     },
   },
