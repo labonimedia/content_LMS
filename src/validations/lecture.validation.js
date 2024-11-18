@@ -49,9 +49,9 @@ const getLessionByFilter = {
   }),
 };
 
-const updateLession = {
+const updateLecture = {
   params: Joi.object().keys({
-    lessionId: Joi.required().custom(objectId),
+    lectureId: Joi.required().custom(objectId),
   }),
   body: Joi.object()
     .keys({
@@ -76,7 +76,7 @@ const updateLession = {
 
 const deleteLession = {
   params: Joi.object().keys({
-    lessionId: Joi.string().custom(objectId),
+    lectureId: Joi.string().custom(objectId),
   }),
 };
 
@@ -84,7 +84,7 @@ module.exports = {
   createLecture,
   getLectures,
   getLecture,
-  updateLession,
+  updateLecture,
   deleteLession,
   getLectureVideobychapterId,
   getLessionByFilter,
