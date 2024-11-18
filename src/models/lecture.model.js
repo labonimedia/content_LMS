@@ -25,32 +25,32 @@ const lectureSchema = mongoose.Schema(
     },
     boardId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Board',
+      ref: 'board',
       required: true,
     },
     mediumId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Medium',
+      ref: 'medium',
       required: true,
     },
     classId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Classes',
-      required: true,
-    },
-    subjectId: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Subject',
+      ref: 'class',
       required: true,
     },
     bookId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Book',
+      ref: 'book',
+      required: true,
+    },
+    subjectId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'subject',
       required: true,
     },
     chapterId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Chapter',
+      ref: 'chapter',
       required: true,
     },
   },
