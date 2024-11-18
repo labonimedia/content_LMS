@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(lectureVideoValidation.createLecture), lectureVideoController.createLectureVideo)
+  .post(lectureVideoController.createLectureVideo)
   .get(validate(lectureVideoValidation.getLectures), lectureVideoController.queryLectureVideos);
 
 router
