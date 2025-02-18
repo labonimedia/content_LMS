@@ -8,9 +8,20 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Array>}
  */
 const uploadBulkQuizzes = async (quizzes) => {
+  const quizNames = quizzes.map((quiz) => quiz.quizName);
+
+  // Find existing quizzes with the same quizNames
+  const existingQuizzes = await Quize.find({ quizName: { $in: quizNames } });
+
+  if (existingQuizzes.length > 0) {
+    return { duplicates: existingQuizzes };
+  }
+
+  // Insert only if no duplicates are found
   const savedQuizzes = await Quize.insertMany(quizzes);
-  return savedQuizzes;
+  return { savedQuizzes };
 };
+
 
 /**
  * Create a quize
@@ -98,6 +109,7 @@ const getQuizeByFilter = async (boardId, mediumId, classId, bookId, subjectId, c
   if (bookId) filters.bookId = bookId;
   if (subjectId) filters.subjectId = subjectId;
   if (chapterId) filters.chapterId = chapterId;
+  if (lectureVideoId) filters.lectureVideoId = lectureVideoId;
 
   // Call the paginate method on Quize schema
   const quizzes = await Quize.paginate(filters, options);

@@ -228,14 +228,19 @@ const bulkUpload = catchAsync(async (req, res) => {
     };
   });
 
-  // Save quizzes in bulk
   try {
-    const savedQuizzes = await quizeService.uploadBulkQuizzes(quizzes);
-    res.status(201).json({ message: 'Quizzes uploaded successfully', data: savedQuizzes });
+    const result = await quizeService.uploadBulkQuizzes(quizzes);
+
+    if (result.duplicates) {
+      return res.status(409).json({ message: 'Duplicate quizzes found', duplicates: result.duplicates });
+    }
+
+    res.status(201).json({ message: 'Quizzes uploaded successfully', data: result.savedQuizzes });
   } catch (error) {
     res.status(500).json({ message: 'Error uploading quizzes', error });
   }
 });
+
 
 const uploadFiles = catchAsync(async (req, res) => {
   const quizData = await quizeService.uploadQuiz(req.body);
@@ -265,11 +270,11 @@ const getQuizeById = catchAsync(async (req, res) => {
 });
 
 const getQuizeByFilter = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, bookId, subjectId, chapterId } = req.query;
+  const { boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.query;
   // const filter = { boardId, mediumId, classId, bookId, subjectId, chapterId };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
 
-  const quizes = await quizeService.getQuizeByFilter(boardId, mediumId, classId, bookId, subjectId, chapterId, options);
+  const quizes = await quizeService.getQuizeByFilter(boardId, mediumId, classId, bookId, subjectId, chapterId, options, lectureVideoId);
 
   if (!quizes) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Quizes not found');
