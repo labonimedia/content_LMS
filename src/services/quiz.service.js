@@ -8,19 +8,29 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Array>}
  */
 const uploadBulkQuizzes = async (quizzes) => {
-  const quizNames = quizzes.map((quiz) => quiz.quizName);
-
-  // Find existing quizzes with the same quizNames
-  const existingQuizzes = await Quize.find({ quizName: { $in: quizNames } });
-
-  if (existingQuizzes.length > 0) {
-    return { duplicates: existingQuizzes };
+  if (!quizzes || quizzes.length === 0) {
+    return { savedQuizzes: [], duplicates: [] }; // Ensure a valid return object
   }
 
-  // Insert only if no duplicates are found
-  const savedQuizzes = await Quize.insertMany(quizzes);
-  return { savedQuizzes };
+  const quizNames = quizzes.map((quiz) => quiz.quizName);
+
+  // Find existing quizzes with the same quizName
+  const existingQuizzes = await Quize.find({ quizName: { $in: quizNames } });
+  const existingQuizNames = new Set(existingQuizzes.map((quiz) => quiz.quizName));
+
+  // Separate duplicates and new quizzes
+  const newQuizzes = quizzes.filter(quiz => !existingQuizNames.has(quiz.quizName));
+  const duplicates = existingQuizzes;
+
+  // Insert only non-duplicate quizzes
+  let savedQuizzes = [];
+  if (newQuizzes.length > 0) {
+    savedQuizzes = await Quize.insertMany(newQuizzes);
+  }
+
+  return { savedQuizzes, duplicates };
 };
+
 
 
 /**

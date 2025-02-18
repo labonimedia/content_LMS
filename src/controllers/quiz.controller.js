@@ -189,57 +189,67 @@ const bulkUpload = catchAsync(async (req, res) => {
   const filePath = req.file.path;
   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body;
 
-  // Read Excel file
-  const workbook = XLSX.readFile(filePath);
-  const sheetName = workbook.SheetNames[0];
-  const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-  // Transform data to match the model
-  const quizzes = data.map((row) => {
-    const options = {
-      A: row['Option A'],
-      B: row['Option B'],
-      C: row['Option C'],
-      D: row['Option D'],
-    };
-
-    const correctOptions = row['Correct Answer']
-      ? row['Correct Answer'].split(',').map((answer) => answer.trim())
-      : [];
-
-    return {
-      quizName: row.Question,
-      displayFormat: parseInt(row['Display Format'], 10),
-      questionLevel: parseInt(row['Question Level'], 10),
-      questionType: parseInt(row['Question type'], 10),
-      files: row.files || '',
-      options: [options],
-      correctOptions,
-      explain: row.Explaination || '',
-      hint: row.Hint || '',
-      types: row.types || 1,
-      boardId,
-      mediumId,
-      classId,
-      bookId,
-      subjectId,
-      chapterId,
-      lectureVideoId,
-    };
-  });
-
   try {
-    const result = await quizeService.uploadBulkQuizzes(quizzes);
+    // Read Excel file
+    const workbook = XLSX.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-    if (result.duplicates) {
-      return res.status(409).json({ message: 'Duplicate quizzes found', duplicates: result.duplicates });
+    if (!data || data.length === 0) {
+      return res.status(400).json({ message: 'Uploaded file is empty' });
     }
 
-    res.status(201).json({ message: 'Quizzes uploaded successfully', data: result.savedQuizzes });
+    // Transform data to match the model
+    const quizzes = data.map((row) => {
+      const options = {
+        A: row['Option A'],
+        B: row['Option B'],
+        C: row['Option C'],
+        D: row['Option D'],
+      };
+
+      const correctOptions = row['Correct Answer']
+        ? row['Correct Answer'].split(',').map((answer) => answer.trim())
+        : [];
+
+      return {
+        quizName: row.Question,
+        displayFormat: parseInt(row['Display Format'], 10) || 1,
+        questionLevel: parseInt(row['Question Level'], 10) || 1,
+        questionType: parseInt(row['Question type'], 10) || 1,
+        files: row.files || '',
+        options: [options],
+        correctOptions,
+        explain: row.Explaination || '',
+        hint: row.Hint || '',
+        types: row.types || 1,
+        boardId,
+        mediumId,
+        classId,
+        bookId,
+        subjectId,
+        chapterId,
+        lectureVideoId,
+      };
+    });
+
+    // Ensure `uploadBulkQuizzes` returns a valid response
+    const result = await quizeService.uploadBulkQuizzes(quizzes) || { savedQuizzes: [], duplicates: [] };
+
+    return res.status(201).json({
+      message: 'Bulk upload processed successfully',
+      uploadedCount: result.savedQuizzes.length || 0,
+      duplicatesCount: result.duplicates.length || 0,
+      uploadedQuizzes: result.savedQuizzes.map(q => q.quizName) || [],
+      duplicateQuizzes: result.duplicates.map(q => q.quizName) || [],
+    });
+
   } catch (error) {
-    res.status(500).json({ message: 'Error uploading quizzes', error });
+    console.error('Bulk Upload Error:', error);
+    res.status(500).json({ message: 'Error uploading quizzes', error: error.message });
   }
 });
+
 
 
 const uploadFiles = catchAsync(async (req, res) => {
