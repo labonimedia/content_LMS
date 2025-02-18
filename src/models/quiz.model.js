@@ -1,5 +1,4 @@
 
-
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
@@ -25,11 +24,11 @@ const quizeSchema = mongoose.Schema(
       type: String,
     },
     options: [{
-        A: String,
-        B: String,
-        C: String,
-        D: String
-      }],
+      A: String,
+      B: String,
+      C: String,
+      D: String
+    }],
     correctOptions: [String],
     explain: {
       type: String,

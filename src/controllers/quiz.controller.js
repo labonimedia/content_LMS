@@ -210,7 +210,7 @@ const bulkUpload = catchAsync(async (req, res) => {
     return {
       quizName: row.Question,
       displayFormat: parseInt(row['Display Format'], 10),
-      questionLevel: parseInt(row['Questio Level'], 10),
+      questionLevel: parseInt(row['Question Level'], 10),
       questionType: parseInt(row['Question type'], 10),
       files: row.files || '',
       options: [options],
