@@ -78,6 +78,9 @@ const getQuizFilter = {
     bookId: Joi.string(),
     subjectId: Joi.string(),
     chapterId: Joi.string(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
   }),
 };
 
