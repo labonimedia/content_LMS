@@ -110,7 +110,7 @@ const QuizeNotSelected = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<Quize>}
  */
-const getQuizeByFilter = async (boardId, mediumId, classId, bookId, subjectId, chapterId, options) => {
+const getQuizeByFilter = async (boardId, mediumId, classId, bookId, subjectId, chapterId, options, lectureVideoId) => {
   const filters = {};
 
   if (boardId) filters.boardId = boardId;
