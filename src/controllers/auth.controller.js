@@ -7,7 +7,6 @@ const {
   tokenService,
   emailService,
   otpService,
-  sansthanService,
   departmentUserService,
 } = require('../services');
 
@@ -17,11 +16,6 @@ const register = catchAsync(async (req, res) => {
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.CREATED).send({ user, tokens });
 });
-// Sansthan register
-const sansthanRegister = catchAsync(async (req, res) => {
-  const sansthan = await sansthanService.createSansthan(req.body);
-  res.status(httpStatus.CREATED).send({ sansthan });
-});
 
 // Department register
 const createDepUser = catchAsync(async (req, res) => {
@@ -29,11 +23,6 @@ const createDepUser = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(depUser);
 });
 
-// TO check userId exist in sansthan
-const checkUserIdExist = catchAsync(async (req, res) => {
-  await sansthanService.checkUserIdExist(req.body.userID);
-  res.send('UserID not exist');
-});
 // Verify  phone number
 const verifyNumber = catchAsync(async (req, res) => {
   const otp = await otpService.generateOTP();
@@ -47,14 +36,6 @@ const login = catchAsync(async (req, res) => {
   const user = await authService.loginUserWithEmailAndPassword(userName, password);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
-});
-
-// Login for Sansthans
-const loginSansthan = catchAsync(async (req, res) => {
-  const { userID, password } = req.body;
-  const sansthan = await authService.loginSansthanWithUserIDAndPassword(userID, password);
-  const tokens = await tokenService.generateAuthTokens(sansthan, userTypes.SANSTHAN);
-  res.send({ sansthan, tokens });
 });
 
 // Login for Department
@@ -155,11 +136,8 @@ const verifyEmail = catchAsync(async (req, res) => {
 
 module.exports = {
   register,
-  sansthanRegister,
-  checkUserIdExist,
   verifyNumber,
   login,
-  loginSansthan,
   logout,
   refreshTokens,
   forgotPassword,

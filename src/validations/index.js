@@ -26,7 +26,7 @@ module.exports.Session = require('./sessions.validation');
 module.exports.StudentSessionValidation = require('./student.session.validation');
 module.exports.SectionValidation = require('./section.validation');
 module.exports.StudentAttendanceValidation = require('./studentattendance.validation');
-module.exports.sansthanValidation = require('./sansthan.validation');
+
 module.exports.classTeacherValidation = require('./classteacherassign.validation');
 module.exports.depUserValidation = require('./department.user.validation');
 module.exports.quizSubmitValidation = require('./quizSubmit.validation');
