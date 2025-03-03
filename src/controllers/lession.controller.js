@@ -21,7 +21,7 @@ const createLession = catchAsync(async (req, res) => {
 });
 
 const queryLessions = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['board']);
+  const filter = pick(req.query, ['name']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   options.sortBy = 'order';
   const result = await lessionService.queryLessions(filter, options);

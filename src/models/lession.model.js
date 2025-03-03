@@ -8,6 +8,9 @@ const lessionSchema = mongoose.Schema(
       ref: 'Board',
       required: true,
     },
+    description: {
+      type: String,
+    },
     mediumId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Medium',

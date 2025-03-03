@@ -14,12 +14,14 @@ const createLession = {
     order: Joi.number().required(),
     thumbnail: Joi.string().required(),
     poster: Joi.string().required(),
+    description:Joi.string(),
     // files: Joi.array().items(Joi.string()),
   }),
 };
 
 const getLessions = {
   query: Joi.object().keys({
+    name: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -66,6 +68,7 @@ const updateLession = {
       //files: Joi.array().items(Joi.string()),
       thumbnail: Joi.string().required(),
       poster: Joi.string().required(),
+      description:Joi.string(),
     })
     .min(1),
 };
