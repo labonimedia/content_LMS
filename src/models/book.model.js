@@ -7,6 +7,9 @@ const bookSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    description: {
+      type: String,
+    },
     boardId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Board',

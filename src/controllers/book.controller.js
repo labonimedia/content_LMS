@@ -13,7 +13,7 @@ const createBook = catchAsync(async (req, res) => {
 });
 
 const queryBook = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['board']);
+  const filter = pick(req.query, ['name']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await bookService.queryBook(filter, options);
   res.send(result);

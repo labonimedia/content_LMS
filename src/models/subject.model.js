@@ -11,6 +11,9 @@ const subjectSchema = mongoose.Schema(
     code: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     boardId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Board',
