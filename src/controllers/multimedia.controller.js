@@ -7,7 +7,7 @@ const { multimediaService } = require('../services');
 
 const createMultimedia = catchAsync(async (req, res) => {
   // if (req.files.icon1) {
-    console.log(req.body);
+    // console.log(req.body);
   //   req.body.icon1 = await filterPath(req.files.icon1[0].location);
   // }
   // if (req.files.icon2) {
@@ -33,14 +33,25 @@ const getMultimediaById = catchAsync(async (req, res) => {
   res.send(multimedia);
 });
 
+// const getMultimediaByType = catchAsync(async (req, res) => {
+//   const multimedia = await multimediaService.getMultimediaByType(req.params.multimediaType);
+//   if (!multimedia) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Mltimedia not found');
+//   }
+//   res.send(multimedia);
+// });
 const getMultimediaByType = catchAsync(async (req, res) => {
-  const multimedia = await multimediaService.getMultimediaByType(req.params.multimediaType);
-  if (!multimedia) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Mltimedia not found');
-  }
-  res.send(multimedia);
-});
+  const { multimediaType } = req.params;
+  const { page = 1, limit = 10 } = req.query;
 
+  const multimediaData = await multimediaService.getMultimediaByType(multimediaType, page, limit);
+
+  if (!multimediaData.results.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
+  }
+
+  res.send(multimediaData);
+});
 const getMultimediaByChaper = catchAsync(async (req, res) => {
   const multimedia = await multimediaService.getMultimediaByChaperId(req.params.chapterId);
   if (!multimedia) {

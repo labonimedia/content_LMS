@@ -50,8 +50,24 @@ const getMultimediaByChaperId = async (chapterId) => {
  * @param {ObjectId} imultimediaTyped
  * @returns {Promise<Multimedia>}
  */
-const getMultimediaByType = async (multimediaType) => {
-  return Multimedia.find({ multimediaType });
+// const getMultimediaByType = async (multimediaType) => {
+//   return Multimedia.find({ multimediaType });
+// };
+const getMultimediaByType = async (multimediaType, page, limit) => {
+  const skip = (page - 1) * limit;
+
+  const [results, totalResults] = await Promise.all([
+    Multimedia.find({ multimediaType }).skip(skip).limit(limit),
+    Multimedia.countDocuments({ multimediaType }),
+  ]);
+
+  return {
+    totalResults,
+    page,
+    limit,
+    totalPages: Math.ceil(totalResults / limit),
+    results,
+  };
 };
 
 /**

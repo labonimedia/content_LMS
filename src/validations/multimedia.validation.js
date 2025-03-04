@@ -42,12 +42,20 @@ const getMultimediaByChaperId = {
   }),
 };
 
+// const getMultimediaByType = {
+//   params: Joi.object().keys({
+//     multimediaType: Joi.string(),
+//   }),
+// };
 const getMultimediaByType = {
   params: Joi.object().keys({
-    multimediaType: Joi.string(),
+    multimediaType: Joi.string().required(),
+  }),
+  query: Joi.object().keys({
+    page: Joi.number().integer().min(1).default(1),
+    limit: Joi.number().integer().min(1).default(10),
   }),
 };
-
 const getMultimediaByFilter = {
   params: Joi.object().keys({
     boardId: Joi.string().custom(objectId).required(),
