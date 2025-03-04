@@ -40,6 +40,7 @@ const getMultimediaById = catchAsync(async (req, res) => {
 //   }
 //   res.send(multimedia);
 // });
+
 const getMultimediaByType = catchAsync(async (req, res) => {
   // Get multimediaType from params
   const { multimediaType } = req.params;
