@@ -25,6 +25,7 @@ const getAllMultimedia = {
   query: Joi.object().keys({
     sortBy: Joi.string(),
     lessionName: Joi.string(),
+    multimediaType: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
