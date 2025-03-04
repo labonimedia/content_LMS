@@ -49,35 +49,17 @@ const getMultimediaByChaperId = {
 //     multimediaType: Joi.string(),
 //   }),
 // };
+// Updated validation code to include pagination parameters
 const getMultimediaByType = {
   params: Joi.object().keys({
     multimediaType: Joi.string().required(),
   }),
   query: Joi.object().keys({
-    page: Joi.number().integer().min(1).optional(),
-    limit: Joi.number().integer().min(1).optional(),
+    limit: Joi.number().integer().min(1).default(10),  // Default limit = 10
+    page: Joi.number().integer().min(1).default(1),    // Default page = 1
   }),
 };
-// const getMultimediaByType = {
-//   params: Joi.object().keys({
-//     multimediaType: Joi.string(),
-//   }),
-//   query: Joi.object().keys({
-//     //multimediaType: Joi.string(),
-//     page: Joi.number().integer(),
-//     limit: Joi.number().integer(),
-//   }),
-// };
-// const getMultimediaByType = {
-//   params: Joi.object().keys({
-//     multimediaType: Joi.string().required(),
-//   }),
-//   query: Joi.object().keys({
-//     //multimediaType: Joi.string().required(),
-//     page: Joi.number().integer().min(1).default(1),
-//     limit: Joi.number().integer().min(1).default(10),
-//   }),
-// };
+
 
 const getMultimediaByFilter = {
   params: Joi.object().keys({
