@@ -17,11 +17,17 @@ const multimediaSchema = mongoose.Schema(
     path: {
       type: String,
     },
+    mobileVideoPath: {
+      type: String,
+    },
     multimediaType: {
       type: String,
       enum: ['Multimedia', 'Lecture'],
     },
     videoType: {
+      type: String,
+    },
+    mobileVideoType: {
       type: String,
     },
     order: {
