@@ -4,6 +4,7 @@ const { objectId } = require('./custom.validation');
 const createMultimeda = {
   body: Joi.object().keys({
     lessionName: Joi.string().required(),
+    description: Joi.string().required(),
     //files: Joi.array().items(Joi.string()),
     path: Joi.string().required(),
     icon1: Joi.string(),
@@ -49,11 +50,11 @@ const getMultimediaByChaperId = {
 //   }),
 // };
 const getMultimediaByType = {
-  // params: Joi.object().keys({
-  //   multimediaType: Joi.string().required(),
-  // }),
-  query: Joi.object().keys({
+  params: Joi.object().keys({
     multimediaType: Joi.string().required(),
+  }),
+  query: Joi.object().keys({
+    //multimediaType: Joi.string().required(),
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).default(10),
   }),
@@ -89,6 +90,7 @@ const updateMultimedia = {
   body: Joi.object()
     .keys({
       lessionName: Joi.string(),
+      description: Joi.string().required(),
       //files: Joi.array().items(Joi.string()),
       path: Joi.string(),
       icon1: Joi.string(),

@@ -27,6 +27,9 @@ const multimediaSchema = mongoose.Schema(
     videoType: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     mobileVideoType: {
       type: String,
     },
