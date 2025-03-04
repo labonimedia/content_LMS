@@ -13,6 +13,7 @@ const createLecture = {
     icon1: Joi.string(),
     icon2: Joi.string(),
     path: Joi.string(),
+    mobileVideoPath: Joi.string(),
     videoType: Joi.string(),
     // type: Joi.string().required(),
     order: Joi.number(),
@@ -66,6 +67,7 @@ const updateLecture = {
         icon2: Joi.string(),
         path: Joi.string(),
         videoType: Joi.string(),
+        mobileVideoPath: Joi.string(),
         // type: Joi.string().required(),
         order: Joi.number(),
     })
