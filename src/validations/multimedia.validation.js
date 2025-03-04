@@ -57,6 +57,7 @@ const getMultimediaByType = {
     limit: Joi.number().integer().min(1).default(10),
   }),
 };
+
 const getMultimediaByFilter = {
   params: Joi.object().keys({
     boardId: Joi.string().custom(objectId).required(),
