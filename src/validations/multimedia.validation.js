@@ -51,14 +51,23 @@ const getMultimediaByChaperId = {
 // };
 const getMultimediaByType = {
   params: Joi.object().keys({
-    multimediaType: Joi.string().required(),
+    multimediaType: Joi.string(),
   }),
   query: Joi.object().keys({
-    //multimediaType: Joi.string().required(),
-    page: Joi.number().integer().min(1).default(1),
-    limit: Joi.number().integer().min(1).default(10),
+    page: Joi.number().integer(),
+    limit: Joi.number().integer(),
   }),
 };
+// const getMultimediaByType = {
+//   params: Joi.object().keys({
+//     multimediaType: Joi.string().required(),
+//   }),
+//   query: Joi.object().keys({
+//     //multimediaType: Joi.string().required(),
+//     page: Joi.number().integer().min(1).default(1),
+//     limit: Joi.number().integer().min(1).default(10),
+//   }),
+// };
 
 const getMultimediaByFilter = {
   params: Joi.object().keys({
