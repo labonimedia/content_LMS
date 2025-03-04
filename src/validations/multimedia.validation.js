@@ -49,10 +49,11 @@ const getMultimediaByChaperId = {
 //   }),
 // };
 const getMultimediaByType = {
-  params: Joi.object().keys({
-    multimediaType: Joi.string().required(),
-  }),
+  // params: Joi.object().keys({
+  //   multimediaType: Joi.string().required(),
+  // }),
   query: Joi.object().keys({
+    multimediaType: Joi.string().required(),
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).default(10),
   }),
