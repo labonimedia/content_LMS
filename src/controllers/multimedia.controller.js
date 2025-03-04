@@ -41,43 +41,27 @@ const getMultimediaById = catchAsync(async (req, res) => {
 //   res.send(multimedia);
 // });
 const getMultimediaByType = catchAsync(async (req, res) => {
+  // Get multimediaType from params
   const { multimediaType } = req.params;
-  const { page = 1, limit = 10 } = req.query;
 
-  const multimedia = await multimediaService.getMultimediaByType(multimediaType, page, limit);
+  // Get pagination options from query params (default values if not provided)
+  const options = {
+    limit: parseInt(req.query.limit, 10) || 10,  // Default limit = 10
+    page: parseInt(req.query.page, 10) || 1,     // Default page = 1
+    sortBy: 'order',                             // You can change the sorting field if needed
+  };
 
-  if (!multimedia || multimedia.docs.length === 0) {
+  // Get multimedia by type with pagination
+  const multimedia = await multimediaService.getMultimediaByType(multimediaType, options);
+
+  // Check if multimedia data is found
+  if (!multimedia) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
   }
 
-  res.send({
-    totalResults: multimedia.totalDocs,
-    totalPages: multimedia.totalPages,
-    currentPage: multimedia.page,
-    data: multimedia.docs,
-  });
+  // Send the response with pagination data
+  res.send(multimedia);
 });
-// const getMultimediaByType = catchAsync(async (req, res) => {
-//   const { multimediaType } = req.query;
-//   const { page = 1, limit = 10 } = req.query;
-
-//   const options = {
-//     page: parseInt(page, 10),
-//     limit: parseInt(limit, 10),
-//     sort: { order: 1 }, // Sorting by 'order' field
-//   };
-
-//   const filter = { multimediaType };
-
-//   const multimedia = await multimediaService.getMultimediaByType(filter, options);
-//   if (!multimedia || multimedia.docs.length === 0) {
-//     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
-//   }
-
-//   res.send(multimedia);
-// });
-
-
 
 const getMultimediaByChaper = catchAsync(async (req, res) => {
   const multimedia = await multimediaService.getMultimediaByChaperId(req.params.chapterId);

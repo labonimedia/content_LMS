@@ -53,17 +53,14 @@ const getMultimediaByChaperId = async (chapterId) => {
 // const getMultimediaByType = async (multimediaType) => {
 //   return Multimedia.find({ multimediaType });
 // };
-const getMultimediaByType = async (multimediaType, page = 1, limit = 10) => {
+const getMultimediaByType = async (multimediaType, options) => {
+  // Define the filter object
   const filter = { multimediaType };
 
-  const options = {
-    page: parseInt(page, 10),
-    limit: parseInt(limit, 10),
-    sort: { createdAt: -1 }, // Sorting by newest first
-    lean: true, // Converts Mongoose documents to plain objects
-  };
+  // Call the paginate method with the filter and options
+  const multimedia = await Multimedia.paginate(filter, options);
 
-  return await Multimedia.paginate(filter, options);
+  return multimedia;
 };
 // const getMultimediaByType = async (filter, options) => {
 //   return Multimedia.paginate(filter, options);
