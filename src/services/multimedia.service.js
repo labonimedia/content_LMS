@@ -70,6 +70,7 @@ const getMultimediaByType = async (multimediaType, page, limit) => {
   };
 };
 
+
 /**
  * Get mutimedia by Filter
  * @param {ObjectId} boardId

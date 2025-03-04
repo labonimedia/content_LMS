@@ -42,7 +42,8 @@ const getMultimediaById = catchAsync(async (req, res) => {
 // });
 const getMultimediaByType = catchAsync(async (req, res) => {
   const { multimediaType } = req.params;
-  const { page = 1, limit = 10 } = req.query;
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
 
   const multimediaData = await multimediaService.getMultimediaByType(multimediaType, page, limit);
 
@@ -52,6 +53,7 @@ const getMultimediaByType = catchAsync(async (req, res) => {
 
   res.send(multimediaData);
 });
+
 const getMultimediaByChaper = catchAsync(async (req, res) => {
   const multimedia = await multimediaService.getMultimediaByChaperId(req.params.chapterId);
   if (!multimedia) {
