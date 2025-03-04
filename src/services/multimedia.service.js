@@ -53,9 +53,21 @@ const getMultimediaByChaperId = async (chapterId) => {
 // const getMultimediaByType = async (multimediaType) => {
 //   return Multimedia.find({ multimediaType });
 // };
-const getMultimediaByType = async (filter, options) => {
-  return Multimedia.paginate(filter, options);
+const getMultimediaByType = async (multimediaType, page = 1, limit = 10) => {
+  const filter = { multimediaType };
+
+  const options = {
+    page: parseInt(page, 10),
+    limit: parseInt(limit, 10),
+    sort: { createdAt: -1 }, // Sorting by newest first
+    lean: true, // Converts Mongoose documents to plain objects
+  };
+
+  return await Multimedia.paginate(filter, options);
 };
+// const getMultimediaByType = async (filter, options) => {
+//   return Multimedia.paginate(filter, options);
+// };
 
 
 

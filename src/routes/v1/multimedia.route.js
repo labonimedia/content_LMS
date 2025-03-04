@@ -43,7 +43,7 @@ router
 //   .route('/getByType/:multimediaType')
 //   .get(validate(multimediaValidation.getMultimediaByType), multimediaController.getMultimediaByType);
 router
-  .route('/getByType')
+  .route('/getByType/:multimediaType')
   .get(validate(multimediaValidation.getMultimediaByType), multimediaController.getMultimediaByType);
 
 router

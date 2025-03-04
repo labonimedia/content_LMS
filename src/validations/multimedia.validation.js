@@ -50,15 +50,24 @@ const getMultimediaByChaperId = {
 //   }),
 // };
 const getMultimediaByType = {
-  // params: Joi.object().keys({
-  //   multimediaType: Joi.string(),
-  // }),
+  params: Joi.object().keys({
+    multimediaType: Joi.string().required(),
+  }),
   query: Joi.object().keys({
-    multimediaType: Joi.string(),
-    page: Joi.number().integer(),
-    limit: Joi.number().integer(),
+    page: Joi.number().integer().min(1).optional(),
+    limit: Joi.number().integer().min(1).optional(),
   }),
 };
+// const getMultimediaByType = {
+//   params: Joi.object().keys({
+//     multimediaType: Joi.string(),
+//   }),
+//   query: Joi.object().keys({
+//     //multimediaType: Joi.string(),
+//     page: Joi.number().integer(),
+//     limit: Joi.number().integer(),
+//   }),
+// };
 // const getMultimediaByType = {
 //   params: Joi.object().keys({
 //     multimediaType: Joi.string().required(),
