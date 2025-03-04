@@ -35,8 +35,8 @@ const getSingleChapter = catchAsync(async (req, res) => {
 
 const getChapterByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId, subjectId, bookId } = req.params;
-  const { page, limit } = req.query;
-  const chapter = await chapterService.getChaptersByFilter(boardId, mediumId, classId, subjectId, bookId, page, limit);
+  // const { page, limit } = req.query;
+  const chapter = await chapterService.getChaptersByFilter(boardId, mediumId, classId, subjectId, bookId);
   if (!chapter) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Chapter not found');
   }

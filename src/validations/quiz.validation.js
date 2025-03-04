@@ -19,8 +19,6 @@ const createQuize = {
     bookId: Joi.string(),
     subjectId: Joi.string(),
     chapterId: Joi.string(),
-    // questionId: Joi.string(),
-    // lessonId: Joi.string(),
   }),
 };
 

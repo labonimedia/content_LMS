@@ -103,22 +103,26 @@ const getChaptersByBookId = async (bookId) => {
  * @param {ObjectId} bookId
  * @returns {Promise<Chapter>}
  */
-const getChaptersByFilter = async (boardId, mediumId, classId, subjectId, bookId, page = 1, limit = 10) => {
-  const skip = (page - 1) * limit;
-  
-  const results = await Chapter.find({ boardId, mediumId, classId, subjectId, bookId })
-    .skip(skip)
-    .limit(limit).sort('order');
-
-  const totalCount = await Chapter.countDocuments({ boardId, mediumId, classId, subjectId, bookId });
-
-  return {
-    results,
-    totalPages: Math.ceil(totalCount / limit),
-    currentPage: page,
-    totalCount
-  };
+const getChaptersByFilter = async (boardId, mediumId, classId, subjectId, bookId) => {
+  return Chapter.find({ boardId, mediumId, classId, subjectId, bookId });
 };
+
+// const getBookByFilter = async (boardId, mediumId, classId, subjectId, bookId, page = 1, limit = 10) => {
+//   const skip = (page - 1) * limit;
+  
+//   const results = await Chapter.find({ boardId, mediumId, classId, subjectId, bookId })
+//     .skip(skip)
+//     .limit(limit).sort('order');
+
+//   const totalCount = await Chapter.countDocuments({ boardId, mediumId, classId, subjectId, bookId });
+
+//   return {
+//     results,
+//     totalPages: Math.ceil(totalCount / limit),
+//     currentPage: page,
+//     totalCount
+//   };
+// };
 /**
  * Update Chapter by id
  * @param {ObjectId} chapterId

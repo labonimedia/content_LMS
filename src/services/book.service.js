@@ -34,22 +34,26 @@ const queryBook = async (filter, options) => {
  * @returns {Promise<Book>}
  */
 
-const getBookByFilter = async (boardId, mediumId, classId, subjectId, page = 1, limit = 10) => {
-  const skip = (page - 1) * limit;
-  
-  const results = await Book.find({ boardId, mediumId, classId, subjectId })
-    .skip(skip)
-    .limit(limit);
-
-  const totalCount = await Book.countDocuments({ boardId, mediumId, classId, subjectId });
-
-  return {
-    results,
-    totalPages: Math.ceil(totalCount / limit),
-    currentPage: page,
-    totalCount
-  };
+const getBookByFilter = async (boardId, mediumId, classId, subjectId) => {
+  return Book.find({ boardId, mediumId, classId, subjectId });
 };
+
+// const getBookByFilter = async (boardId, mediumId, classId, subjectId, page = 1, limit = 10) => {
+//   const skip = (page - 1) * limit;
+  
+//   const results = await Book.find({ boardId, mediumId, classId, subjectId })
+//     .skip(skip)
+//     .limit(limit);
+
+//   const totalCount = await Book.countDocuments({ boardId, mediumId, classId, subjectId });
+
+//   return {
+//     results,
+//     totalPages: Math.ceil(totalCount / limit),
+//     currentPage: page,
+//     totalCount
+//   };
+// };
 
 
 const getBookById = async (id) => {
