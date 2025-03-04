@@ -41,24 +41,41 @@ const getMultimediaById = catchAsync(async (req, res) => {
 //   res.send(multimedia);
 // });
 const getMultimediaByType = catchAsync(async (req, res) => {
-  const { multimediaType } = req.query;
+  const { multimediaType } = req.params;
   const { page = 1, limit = 10 } = req.query;
 
-  const options = {
-    page: parseInt(page, 10),
-    limit: parseInt(limit, 10),
-    sort: { order: 1 }, // Sorting by 'order' field
-  };
+  const multimedia = await multimediaService.getMultimediaByType(multimediaType, page, limit);
 
-  const filter = { multimediaType };
-
-  const multimedia = await multimediaService.getMultimediaByType(filter, options);
   if (!multimedia || multimedia.docs.length === 0) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
   }
 
-  res.send(multimedia);
+  res.send({
+    totalResults: multimedia.totalDocs,
+    totalPages: multimedia.totalPages,
+    currentPage: multimedia.page,
+    data: multimedia.docs,
+  });
 });
+// const getMultimediaByType = catchAsync(async (req, res) => {
+//   const { multimediaType } = req.query;
+//   const { page = 1, limit = 10 } = req.query;
+
+//   const options = {
+//     page: parseInt(page, 10),
+//     limit: parseInt(limit, 10),
+//     sort: { order: 1 }, // Sorting by 'order' field
+//   };
+
+//   const filter = { multimediaType };
+
+//   const multimedia = await multimediaService.getMultimediaByType(filter, options);
+//   if (!multimedia || multimedia.docs.length === 0) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
+//   }
+
+//   res.send(multimedia);
+// });
 
 
 

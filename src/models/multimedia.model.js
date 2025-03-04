@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const multimediaSchema = mongoose.Schema(
   {
@@ -74,8 +75,8 @@ const multimediaSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 multimediaSchema.plugin(toJSON);
-multimediaSchema.plugin(paginate);
-
+//multimediaSchema.plugin(paginate);
+multimediaSchema.plugin(mongoosePaginate);
 const Multimedia = mongoose.model('Multimedia', multimediaSchema);
 
 module.exports = Multimedia;
