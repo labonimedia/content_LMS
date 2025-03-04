@@ -57,9 +57,23 @@ const getSubjectOfClass = async () => {
  * @returns {Promise<Book>}
  */
 
-const getSubjectByFilter = async (boardId, mediumId, classId) => {
-  return Subject.find({ boardId, mediumId, classId });
+const getSubjectByFilter = async (boardId, mediumId, classId, page = 1, limit = 10) => {
+  const skip = (page - 1) * limit;
+  
+  const results = await Subject.find({ boardId, mediumId, classId })
+    .skip(skip)
+    .limit(limit);
+
+  const totalCount = await Subject.countDocuments({ boardId, mediumId, classId });
+
+  return {
+    results,
+    totalPages: Math.ceil(totalCount / limit),
+    currentPage: page,
+    totalCount
+  };
 };
+
 
 /**
  * Update subject by id

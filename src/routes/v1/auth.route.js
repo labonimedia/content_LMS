@@ -6,10 +6,7 @@ const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
-router.post('/sansthan-register', validate(authValidation.sansthanRegister), authController.sansthanRegister);
 router.post('/verify-number', validate(authValidation.verifyMobNumber), authController.verifyNumber);
-router.post('/verify-userId', validate(authValidation.checkUserIdExist), authController.checkUserIdExist);
-router.post('/sansthan-login', validate(authValidation.sansthanLogin), authController.loginSansthan);
 
 // router.post('/staff-login', validate(authValidation.login), authController.loginStaff);
 

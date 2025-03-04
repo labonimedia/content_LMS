@@ -37,7 +37,8 @@ const getBookBySubjectId = catchAsync(async (req, res) => {
 
 const getBookByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId, subjectId } = req.params;
-  const book = await bookService.getBookByFilter(boardId, mediumId, classId, subjectId);
+  const { page, limit } = req.query;
+  const book = await bookService.getBookByFilter(boardId, mediumId, classId, subjectId, page, limit);
   if (!book) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Book not found');
   }

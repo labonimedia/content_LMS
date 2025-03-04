@@ -25,7 +25,6 @@ module.exports.SessionController = require('./sessions.controller');
 module.exports.studentSessionController = require('./student.session.controller');
 module.exports.sectionController = require('./section.controller');
 module.exports.StudentAttendanceController = require('./studentattendance.controller');
-module.exports.sansthanController = require('./sansthan.controller');
 module.exports.quizSubmitController = require('./quizSubmit.controller');
 module.exports.departmentUserController = require('./department.user.controller');
 module.exports.studentleftController = require('./student.left.reason.controller');

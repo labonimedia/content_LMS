@@ -33,7 +33,6 @@ module.exports.Sessions = require('./sessions.model');
 module.exports.StudentSession = require('./student.session.model');
 module.exports.Section = require('./section.model');
 module.exports.StudentAttendanceSchema = require('./studentattendance.model');
-module.exports.Sansthan = require('./sansthan.model');
 module.exports.Otp = require('./otp.model');
 module.exports.Parent = require('./parent.model');
 module.exports.QuizSubmit = require('./quizsubmit.model');

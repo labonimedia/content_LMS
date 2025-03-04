@@ -45,7 +45,8 @@ const getSubjectByClassId = catchAsync(async (req, res) => {
 
 const getUbjectByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId } = req.params;
-  const subject = await subjectService.getSubjectByFilter(boardId, mediumId, classId);
+  const { page, limit } = req.query;
+  const subject = await subjectService.getSubjectByFilter(boardId, mediumId, classId,  page, limit);
   if (!subject) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Subject not found');
   }

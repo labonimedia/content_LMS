@@ -29,7 +29,6 @@ module.exports.sessionService = require('./session.service');
 module.exports.student_Session_Service = require('./student.session.service');
 module.exports.sectionService = require('./section.service');
 module.exports.StudentAttendanceService = require('./studentattendance.service');
-module.exports.sansthanService = require('./sansthan.service');
 module.exports.otpService = require('./otp.service');
 module.exports.quizSubmitService = require('./quizSubmit.service');
 module.exports.classTeacherServices = require('./classteacherassign.service');
