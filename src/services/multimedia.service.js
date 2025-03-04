@@ -56,6 +56,11 @@ const getMultimediaByChaperId = async (chapterId) => {
 const getMultimediaByType = async (multimediaType, page, limit) => {
   const skip = (page - 1) * limit;
 
+  // Ensure that `skip` and `limit` values are valid
+  if (skip < 0) {
+    throw new Error("Invalid page number");
+  }
+
   const [results, totalResults] = await Promise.all([
     Multimedia.find({ multimediaType }).skip(skip).limit(limit),
     Multimedia.countDocuments({ multimediaType }),
