@@ -45,6 +45,7 @@ router
 router
   .route('/getByType/:multimediaType')
   .get(validate(multimediaValidation.getMultimediaByType), multimediaController.getMultimediaByType);
+
 router
   .route('/getMultimedia/:chapterId')
   .get(validate(multimediaValidation.getMultimediaByChaperId), multimediaController.getMultimediaByChaper);

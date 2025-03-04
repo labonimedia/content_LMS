@@ -42,18 +42,25 @@ const getMultimediaById = catchAsync(async (req, res) => {
 // });
 const getMultimediaByType = catchAsync(async (req, res) => {
   const { multimediaType } = req.params;
-  // const multimediaType = req.query.multimediaType;
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
+  const { page = 1, limit = 10 } = req.query;
 
-  const multimediaData = await multimediaService.getMultimediaByType(multimediaType, page, limit);
+  const options = {
+    page: parseInt(page, 10),
+    limit: parseInt(limit, 10),
+    sort: { order: 1 }, // Sorting by 'order' field
+  };
 
-  if (!multimediaData.results.length) {
+  const filter = { multimediaType };
+
+  const multimedia = await multimediaService.getMultimediaByType(filter, options);
+  if (!multimedia || multimedia.docs.length === 0) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
   }
 
-  res.status(200).json(multimediaData);
+  res.send(multimedia);
 });
+
+
 
 const getMultimediaByChaper = catchAsync(async (req, res) => {
   const multimedia = await multimediaService.getMultimediaByChaperId(req.params.chapterId);
