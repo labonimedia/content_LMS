@@ -51,32 +51,32 @@ const getSubjectByClassId = catchAsync(async (req, res) => {
 //   }
 //   res.send(subject);
 // });
-const getUbjectByFilter = catchAsync(async (req, res) => {
+const getSubjectByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId } = req.params;
-  const { search } = req.query; // Get search term from query parameters
-  const page = parseInt(req.query.page, 10) || 1; // Default to page 1 if not provided
-  const limit = parseInt(req.query.limit, 10) || 10; // Default to 10 items per page if not provided
+  const { search } = req.query;
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
 
   const options = {
     page,
     limit,
-    sortBy: 'order', // Sort by the 'order' field
+    sort: { order: 1 }, // Ensure sorting works correctly
   };
 
   // Call the service function to get the filtered and paginated subjects
   const subjects = await subjectService.getSubjectByFilter(boardId, mediumId, classId, search, options);
 
-  if (!subjects || subjects.totalDocs === 0) {
+  if (!subjects || subjects.docs.length === 0) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Subjects not found');
   }
 
-  // Send the paginated response
+  // Send the paginated response with results
   res.send({
-    totalDocs: subjects.totalDocs,
-    totalPages: subjects.totalPages,
-    page: subjects.page,
-    limit: subjects.limit,
-    results: subjects.docs, // The array of subjects
+    totalDocs: subjects.totalDocs, // Total count of matched subjects
+    totalPages: subjects.totalPages, // Total number of pages
+    page: subjects.page, // Current page number
+    limit: subjects.limit, // Items per page
+    results: subjects.docs, // The actual subjects array
   });
 });
 
@@ -102,5 +102,5 @@ module.exports = {
   deleteSubject,
   getSubjectByClassId,
   getSubjectOfClass,
-  getUbjectByFilter,
+  getSubjectByFilter,
 };

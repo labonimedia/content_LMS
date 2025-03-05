@@ -69,10 +69,10 @@ const getSubjectByFilter = async (boardId, mediumId, classId, search, options) =
 
   // If search term is provided, apply case-insensitive search on `name` field
   if (search) {
-    filter.name = { $regex: search, $options: 'i' }; // Assuming 'name' is the field you want to search by
+    filter.name = { $regex: search, $options: 'i' };
   }
 
-  // Use the paginate method with the filter and options (for pagination)
+  // Use pagination function to get data
   const subjects = await Subject.paginate(filter, options);
 
   return subjects;
