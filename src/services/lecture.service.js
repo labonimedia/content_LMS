@@ -64,8 +64,8 @@ const getLectureVideoByFilter = async (boardId, mediumId, classId, subjectId, bo
  * @param {Object} updateBody
  * @returns {Promise<LectureVideo>}
  */
-const updateLectureVideoById = async (lectureVideoId, updateBody) => {
-  const lectureVideo = await getLectureVideoById(lectureVideoId);
+const updateLectureVideoById = async (lectureId, updateBody) => {
+  const lectureVideo = await getLectureVideoById(lectureId);
   if (!lectureVideo) {
     throw new ApiError(httpStatus.NOT_FOUND, 'lecture video not found');
   }
@@ -79,8 +79,8 @@ const updateLectureVideoById = async (lectureVideoId, updateBody) => {
  * @param {ObjectId} lectureVideoId
  * @returns {Promise<LectureVideo>}
  */
-const deleteLectureVideoById = async (lectureVideoId) => {
-  const lectureVideo = await getLectureVideoById(lectureVideoId);
+const deleteLectureVideoById = async (lectureId) => {
+  const lectureVideo = await getLectureVideoById(lectureId);
   if (!lectureVideo) {
     throw new ApiError(httpStatus.NOT_FOUND, 'lecture video not found');
   }

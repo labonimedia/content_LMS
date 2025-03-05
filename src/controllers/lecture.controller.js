@@ -18,7 +18,7 @@ const queryLectureVideos = catchAsync(async (req, res) => {
 });
 
 const getLectureVideo = catchAsync(async (req, res) => {
-  const lectureVideo = await lectureVideoService.getLectureVideoById(req.params.lectureVideoId);
+  const lectureVideo = await lectureVideoService.getLectureVideoById(req.params.lectureId);
   if (!lectureVideo) {
     throw new ApiError(httpStatus.NOT_FOUND, 'LectureVideo not found');
   }
@@ -50,12 +50,12 @@ const getLectureVideoByFilter = catchAsync(async (req, res) => {
 });
 
 const updateLectureVideo = catchAsync(async (req, res) => {
-  const lectureVideo = await lectureVideoService.updateLectureVideoById(req.params.lectureVideoId, req.body);
+  const lectureVideo = await lectureVideoService.updateLectureVideoById(req.params.lectureId, req.body);
   res.send(lectureVideo);
 });
 
 const deleteLectureVideo = catchAsync(async (req, res) => {
-  await lectureVideoService.deleteLectureVideoById(req.params.lectureVideoId);
+  await lectureVideoService.deleteLectureVideoById(req.params.lectureId);
   res.status(httpStatus.NO_CONTENT).send();
 });
 
