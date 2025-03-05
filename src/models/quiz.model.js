@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
@@ -10,25 +9,27 @@ const quizeSchema = mongoose.Schema(
     },
     displayFormat: {
       type: Number,
-      enum: [1, 2, 3]
+      enum: [1, 2, 3],
     },
     questionLevel: {
       type: Number,
-      enum: [1, 2, 3]
+      enum: [1, 2, 3],
     },
     questionType: {
       type: Number,
-      enum: [1, 2, 3]
+      enum: [1, 2, 3],
     },
     files: {
       type: String,
     },
-    options: [{
-      A: String,
-      B: String,
-      C: String,
-      D: String
-    }],
+    options: [
+      {
+        A: String,
+        B: String,
+        C: String,
+        D: String,
+      },
+    ],
     correctOptions: [String],
     explain: {
       type: String,

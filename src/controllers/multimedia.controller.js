@@ -3,11 +3,11 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { multimediaService } = require('../services');
-//const { filterPath } = require('../utils/s3middleware');
+// const { filterPath } = require('../utils/s3middleware');
 
 const createMultimedia = catchAsync(async (req, res) => {
   // if (req.files.icon1) {
-    // console.log(req.body);
+  // console.log(req.body);
   //   req.body.icon1 = await filterPath(req.files.icon1[0].location);
   // }
   // if (req.files.icon2) {
@@ -68,8 +68,8 @@ const getMultimediaById = catchAsync(async (req, res) => {
 //   // Extract parameters from request body
 //   const { multimediaType, search } = req.body;
 //   const options = {
-//     limit: parseInt(req.body.limit, 10) || 10, 
-//     page: parseInt(req.body.page, 10) || 1,     
+//     limit: parseInt(req.body.limit, 10) || 10,
+//     page: parseInt(req.body.page, 10) || 1,
 //     sortBy: 'order',
 //   };
 
@@ -109,7 +109,15 @@ const getMultimediaByChaper = catchAsync(async (req, res) => {
 
 const getMultimediaByTypeFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType } = req.params;
-  const multimedia = await multimediaService.getMultimediaByTypeFilter(boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType);
+  const multimedia = await multimediaService.getMultimediaByTypeFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    chapterId,
+    multimediaType
+  );
   if (!multimedia) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
   }

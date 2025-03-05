@@ -5,7 +5,7 @@ const createMultimeda = {
   body: Joi.object().keys({
     lessionName: Joi.string().required(),
     description: Joi.string().required(),
-    //files: Joi.array().items(Joi.string()),
+    // files: Joi.array().items(Joi.string()),
     path: Joi.string().required(),
     icon1: Joi.string(),
     icon2: Joi.string(),
@@ -65,7 +65,7 @@ const getMultimediaByType = {
     multimediaType: Joi.string(),
     search: Joi.string().allow(''), // Optional search parameter
     limit: Joi.number().integer().min(1).default(10), // Default limit = 10
-    page: Joi.number().integer().min(1).default(1),   // Default page = 1
+    page: Joi.number().integer().min(1).default(1), // Default page = 1
   }),
 };
 
@@ -100,7 +100,7 @@ const updateMultimedia = {
     .keys({
       lessionName: Joi.string(),
       description: Joi.string().required(),
-      //files: Joi.array().items(Joi.string()),
+      // files: Joi.array().items(Joi.string()),
       path: Joi.string(),
       icon1: Joi.string(),
       icon2: Joi.string(),

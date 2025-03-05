@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-
 const multimediaSchema = mongoose.Schema(
   {
     lessionName: {

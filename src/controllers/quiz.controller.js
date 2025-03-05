@@ -1,8 +1,6 @@
 const httpStatus = require('http-status');
-const pick = require('../utils/pick');
-const fs = require('fs');
-const csv = require('csv-parser');
 const XLSX = require('xlsx');
+const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { quizeService } = require('../services');
@@ -208,9 +206,7 @@ const bulkUpload = catchAsync(async (req, res) => {
         D: row['Option D'],
       };
 
-      const correctOptions = row['Correct Answer']
-        ? row['Correct Answer'].split(',').map((answer) => answer.trim())
-        : [];
+      const correctOptions = row['Correct Answer'] ? row['Correct Answer'].split(',').map((answer) => answer.trim()) : [];
 
       return {
         quizName: row.Question,
@@ -234,23 +230,19 @@ const bulkUpload = catchAsync(async (req, res) => {
     });
 
     // Ensure `uploadBulkQuizzes` returns a valid response
-    const result = await quizeService.uploadBulkQuizzes(quizzes) || { savedQuizzes: [], duplicates: [] };
+    const result = (await quizeService.uploadBulkQuizzes(quizzes)) || { savedQuizzes: [], duplicates: [] };
 
     return res.status(201).json({
       message: 'Bulk upload processed successfully',
       uploadedCount: result.savedQuizzes.length || 0,
       duplicatesCount: result.duplicates.length || 0,
-      uploadedQuizzes: result.savedQuizzes.map(q => q.quizName) || [],
-      duplicateQuizzes: result.duplicates.map(q => q.quizName) || [],
+      uploadedQuizzes: result.savedQuizzes.map((q) => q.quizName) || [],
+      duplicateQuizzes: result.duplicates.map((q) => q.quizName) || [],
     });
-
   } catch (error) {
-    console.error('Bulk Upload Error:', error);
     res.status(500).json({ message: 'Error uploading quizzes', error: error.message });
   }
 });
-
-
 
 const uploadFiles = catchAsync(async (req, res) => {
   const quizData = await quizeService.uploadQuiz(req.body);
@@ -284,7 +276,16 @@ const getQuizeByFilter = catchAsync(async (req, res) => {
   // const filter = { boardId, mediumId, classId, bookId, subjectId, chapterId };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
 
-  const quizes = await quizeService.getQuizeByFilter(boardId, mediumId, classId, bookId, subjectId, chapterId, options, lectureVideoId);
+  const quizes = await quizeService.getQuizeByFilter(
+    boardId,
+    mediumId,
+    classId,
+    bookId,
+    subjectId,
+    chapterId,
+    options,
+    lectureVideoId
+  );
 
   if (!quizes) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Quizes not found');

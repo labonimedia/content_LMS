@@ -2,7 +2,7 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const multimediaController = require('../../controllers/multimedia.controller');
 const multimediaValidation = require('../../validations/multimedia.validation');
-//const { upload } = require('../../utils/cdn');
+// const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
 router
@@ -33,11 +33,9 @@ router
   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
   .get(validate(multimediaValidation.getMultimediaByFilter), multimediaController.getMultimediaByFilter);
 
-
 router
-.route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId/:multimediaType')
-.get(validate(multimediaValidation.getMultimediaByTypeFilter), multimediaController.getMultimediaByTypeFilter);
-
+  .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId/:multimediaType')
+  .get(validate(multimediaValidation.getMultimediaByTypeFilter), multimediaController.getMultimediaByTypeFilter);
 
 // router
 //   .route('/getByType/:multimediaType')

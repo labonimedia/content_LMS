@@ -14,7 +14,7 @@ const createLession = {
     order: Joi.number().required(),
     thumbnail: Joi.string().required(),
     poster: Joi.string().required(),
-    description:Joi.string(),
+    description: Joi.string(),
     // files: Joi.array().items(Joi.string()),
   }),
 };
@@ -65,10 +65,10 @@ const updateLession = {
       name: Joi.string().required(),
       type: Joi.string().required(),
       order: Joi.number().required(),
-      //files: Joi.array().items(Joi.string()),
+      // files: Joi.array().items(Joi.string()),
       thumbnail: Joi.string().required(),
       poster: Joi.string().required(),
-      description:Joi.string(),
+      description: Joi.string(),
     })
     .min(1),
 };

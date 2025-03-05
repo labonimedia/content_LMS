@@ -71,4 +71,4 @@ lectureSchema.plugin(paginate);
 
 const LectureVideo = mongoose.model('LectureVideo', lectureSchema);
 
-module.exports = LectureVideo;  ///  lecture video = topic/lesson
+module.exports = LectureVideo; ///  lecture video = topic/lesson

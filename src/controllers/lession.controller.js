@@ -3,7 +3,6 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { lessionService } = require('../services');
-const { filterPath } = require('../utils/s3middleware');
 
 const createLession = catchAsync(async (req, res) => {
   // if (req.files[0] && req.files[0].location) {

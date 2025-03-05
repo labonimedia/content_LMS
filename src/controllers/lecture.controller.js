@@ -4,7 +4,6 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { lectureVideoService } = require('../services');
 
-
 const createLectureVideo = catchAsync(async (req, res) => {
   const lectureVideo = await lectureVideoService.createLectureVideo(req.body);
   res.status(httpStatus.CREATED).send(lectureVideo);
@@ -36,7 +35,14 @@ const getLectureVideobychapId = catchAsync(async (req, res) => {
 
 const getLectureVideoByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId, subjectId, bookId, chapterId } = req.params;
-  const lectureVideo = await lectureVideoService.getLectureVideoByFilter(boardId, mediumId, classId, subjectId, bookId, chapterId);
+  const lectureVideo = await lectureVideoService.getLectureVideoByFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    chapterId
+  );
   if (!lectureVideo) {
     throw new ApiError(httpStatus.NOT_FOUND, 'LectureVideo not found');
   }

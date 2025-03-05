@@ -40,7 +40,7 @@ const getBookByFilter = async (boardId, mediumId, classId, subjectId) => {
 
 // const getBookByFilter = async (boardId, mediumId, classId, subjectId, page = 1, limit = 10) => {
 //   const skip = (page - 1) * limit;
-  
+
 //   const results = await Book.find({ boardId, mediumId, classId, subjectId })
 //     .skip(skip)
 //     .limit(limit);
@@ -54,7 +54,6 @@ const getBookByFilter = async (boardId, mediumId, classId, subjectId) => {
 //     totalCount
 //   };
 // };
-
 
 const getBookById = async (id) => {
   return Book.findById(id);
