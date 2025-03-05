@@ -69,7 +69,7 @@ const getMultimediaByChaperId = async (chapterId) => {
 
 //   // If search is provided, apply a case-insensitive global search on `lessionName`
 //   if (search) {
-//     filter.lessionName = { $regex: search, $options: 'i' }; 
+//     filter.lessionName = { $regex: search, $options: 'i' };
 //   }
 
 //   // Fetch data with pagination
@@ -78,7 +78,7 @@ const getMultimediaByChaperId = async (chapterId) => {
 //   return multimedia;
 // };
 const getMultimediaByType = async (multimediaType, search, options) => {
-  let filter = {};
+  const filter = {};
 
   // If multimediaType is provided, filter by it
   if (multimediaType) {
@@ -98,8 +98,6 @@ const getMultimediaByType = async (multimediaType, search, options) => {
 // const getMultimediaByType = async (filter, options) => {
 //   return Multimedia.paginate(filter, options);
 // };
-
-
 
 /**
  * Get mutimedia by Filter
@@ -126,7 +124,7 @@ const getMultimediaByFilter = async (boardId, mediumId, classId, subjectId, book
  * @returns {Promise<Multimedia>}
  */
 const getMultimediaByTypeFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType) => {
-  return Multimedia.find({ boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType}).sort('order');
+  return Multimedia.find({ boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType }).sort('order');
 };
 
 /**
@@ -198,7 +196,6 @@ const getMultimediaByBookId = async (bookId, multimediaType) => {
         localField: '_id',
         foreignField: '_id',
         as: 'chapterData',
-
       },
     },
     {

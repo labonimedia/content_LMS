@@ -230,8 +230,8 @@ const defaultRoutes = [
   },
   {
     path: '/lecture-video',
-    route: lectureVideoRoute
-  }
+    route: lectureVideoRoute,
+  },
 ];
 
 const devRoutes = [

@@ -61,10 +61,9 @@ const getSubjectByFilter = async (boardId, mediumId, classId) => {
   return Subject.find({ boardId, mediumId, classId });
 };
 
-
 // const getSubjectByFilter = async (boardId, mediumId, classId, page = 1, limit = 10) => {
 //   const skip = (page - 1) * limit;
-  
+
 //   const results = await Subject.find({ boardId, mediumId, classId })
 //     .skip(skip)
 //     .limit(limit);

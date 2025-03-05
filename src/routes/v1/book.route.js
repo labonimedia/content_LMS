@@ -2,7 +2,7 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const bookController = require('../../controllers/book.controller');
 const bookValidation = require('../../validations/book.validation');
-//const { createS3Middleware } = require('../../utils/s3middleware');
+// const { createS3Middleware } = require('../../utils/s3middleware');
 
 const router = express.Router();
 router

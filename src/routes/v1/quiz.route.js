@@ -2,9 +2,7 @@
 // const multer = require('multer');
 // const path = require('path');
 // const { v4: uuidv4 } = require('node-uuid');
-const validate = require('../../middlewares/validate');
 // const quizeController = require('../../controllers/quiz.controller');
-const quizeValidation = require('../../validations/quiz.validation');
 
 // const router = express.Router();
 
@@ -20,11 +18,12 @@ const quizeValidation = require('../../validations/quiz.validation');
 
 // router.post('/bulk-upload', upload.single('file'), quizeController.bulkUpload);
 
-
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('node-uuid');
+const quizeValidation = require('../../validations/quiz.validation');
+const validate = require('../../middlewares/validate');
 const quizeController = require('../../controllers/quiz.controller');
 
 const router = express.Router();
@@ -45,7 +44,7 @@ router.post('/bulk-upload', upload.single('file'), quizeController.bulkUpload);
 router
   .route('/')
   .post(validate(quizeValidation.createQuize), quizeController.createQuize)
-  .get(validate(quizeValidation.getQuizes), quizeController.getAllQuize); // 
+  .get(validate(quizeValidation.getQuizes), quizeController.getAllQuize); //
 
 router.route('/checkexist').post(validate(quizeValidation.getQuizeByQuizName), quizeController.getQuizeByQuizName);
 router.route('/NotSelect').get(validate(quizeValidation.NotSelectQuize), quizeController.getAllNotSelected);

@@ -19,7 +19,7 @@ const uploadBulkQuizzes = async (quizzes) => {
   const existingQuizNames = new Set(existingQuizzes.map((quiz) => quiz.quizName));
 
   // Separate duplicates and new quizzes
-  const newQuizzes = quizzes.filter(quiz => !existingQuizNames.has(quiz.quizName));
+  const newQuizzes = quizzes.filter((quiz) => !existingQuizNames.has(quiz.quizName));
   const duplicates = existingQuizzes;
 
   // Insert only non-duplicate quizzes
@@ -30,8 +30,6 @@ const uploadBulkQuizzes = async (quizzes) => {
 
   return { savedQuizzes, duplicates };
 };
-
-
 
 /**
  * Create a quize

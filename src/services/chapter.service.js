@@ -109,7 +109,7 @@ const getChaptersByFilter = async (boardId, mediumId, classId, subjectId, bookId
 
 // const getBookByFilter = async (boardId, mediumId, classId, subjectId, bookId, page = 1, limit = 10) => {
 //   const skip = (page - 1) * limit;
-  
+
 //   const results = await Chapter.find({ boardId, mediumId, classId, subjectId, bookId })
 //     .skip(skip)
 //     .limit(limit).sort('order');
