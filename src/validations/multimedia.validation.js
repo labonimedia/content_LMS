@@ -49,17 +49,25 @@ const getMultimediaByChaperId = {
 //     multimediaType: Joi.string(),
 //   }),
 // };
+
 // Updated validation code to include pagination parameters
+// const getMultimediaByType = {
+//   params: Joi.object().keys({
+//     multimediaType: Joi.string().required(),
+//   }),
+//   query: Joi.object().keys({
+//     limit: Joi.number().integer().min(1).default(10),  // Default limit = 10
+//     page: Joi.number().integer().min(1).default(1),    // Default page = 1
+//   }),
+// };
 const getMultimediaByType = {
-  params: Joi.object().keys({
-    multimediaType: Joi.string().required(),
-  }),
-  query: Joi.object().keys({
-    limit: Joi.number().integer().min(1).default(10),  // Default limit = 10
-    page: Joi.number().integer().min(1).default(1),    // Default page = 1
+  body: Joi.object().keys({
+    multimediaType: Joi.string(),
+    search: Joi.string().allow(''), // Optional search parameter
+    limit: Joi.number().integer().min(1).default(10), // Default limit = 10
+    page: Joi.number().integer().min(1).default(1),   // Default page = 1
   }),
 };
-
 
 const getMultimediaByFilter = {
   params: Joi.object().keys({
