@@ -4,6 +4,7 @@ const { objectId } = require('./custom.validation');
 const createHomework = {
   body: Joi.object().keys({
     Question: Joi.string(),
+    description: Joi.string(),
     answer: Joi.string(),
     answerType: Joi.string(),
     boardId: Joi.string(),
@@ -37,6 +38,7 @@ const updateHomework = {
   body: Joi.object()
     .keys({
       Question: Joi.string(),
+      description: Joi.string(),
       answer: Joi.string(),
       answerType: Joi.string(),
       boardId: Joi.string(),

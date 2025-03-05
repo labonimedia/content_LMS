@@ -4,6 +4,7 @@ const { objectId } = require('./custom.validation');
 const createQuize = {
   body: Joi.object().keys({
     quizName: Joi.string(),
+    description: Joi.string(),
     question: Joi.string(),
     options: Joi.array().items(Joi.string()),
     correctOptions: Joi.array().items(Joi.number()),
@@ -99,6 +100,7 @@ const updateQuize = {
   body: Joi.object()
     .keys({
       quizName: Joi.string(),
+      description: Joi.string(),
       question: Joi.string(),
       options: Joi.array().items(Joi.string()),
       correctOptions: Joi.array().items(Joi.number()),

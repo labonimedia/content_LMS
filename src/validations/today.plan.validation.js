@@ -4,6 +4,7 @@ const { objectId } = require('./custom.validation');
 const createNewPlan = {
   body: Joi.object().keys({
     bord: Joi.string(),
+    description: Joi.string(),
     board: Joi.string(),
     medium: Joi.string(),
     class: Joi.string(),
@@ -53,6 +54,7 @@ const updatePlanById = {
   body: Joi.object()
     .keys({
       bord: Joi.string(),
+      description: Joi.string(),
       board: Joi.string(),
       medium: Joi.string(),
       class: Joi.string(),

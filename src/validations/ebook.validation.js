@@ -4,6 +4,7 @@ const { objectId } = require('./custom.validation');
 const createEbook = {
   body: Joi.object().keys({
     chapterId: Joi.string().custom(objectId),
+    description: Joi.string(),
     path: Joi.string(),
     chapterName: Joi.string(),
     order: Joi.number(),
@@ -51,6 +52,7 @@ const updateEbook = {
   body: Joi.object()
     .keys({
       chapterId: Joi.string().custom(objectId),
+      description: Joi.string(),
       path: Joi.string(),
       order: Joi.number(),
       chapterName: Joi.string(),

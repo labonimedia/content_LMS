@@ -4,6 +4,7 @@ const { objectId } = require('./custom.validation');
 const createLecture = {
   body: Joi.object().keys({
     boardId: Joi.string().custom(objectId),
+    description: Joi.string(),
     mediumId: Joi.string().custom(objectId),
     classId: Joi.string().custom(objectId),
     subjectId: Joi.string().custom(objectId),
@@ -57,6 +58,7 @@ const updateLecture = {
   body: Joi.object()
     .keys({
         boardId: Joi.string().custom(objectId),
+        description: Joi.string(),
         mediumId: Joi.string().custom(objectId),
         classId: Joi.string().custom(objectId),
         subjectId: Joi.string().custom(objectId),

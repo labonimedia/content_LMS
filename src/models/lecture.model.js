@@ -11,6 +11,9 @@ const lectureSchema = mongoose.Schema(
     icon1: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     icon2: {
       type: String,
     },
