@@ -42,14 +42,42 @@ const getSubjectByClassId = catchAsync(async (req, res) => {
   res.send(subject);
 });
 
+// const getUbjectByFilter = catchAsync(async (req, res) => {
+//   const { boardId, mediumId, classId } = req.params;
+//   // const { page, limit } = req.query;
+//   const subject = await subjectService.getSubjectByFilter(boardId, mediumId, classId);
+//   if (!subject) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Subject not found');
+//   }
+//   res.send(subject);
+// });
 const getUbjectByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId } = req.params;
-  // const { page, limit } = req.query;
-  const subject = await subjectService.getSubjectByFilter(boardId, mediumId, classId);
-  if (!subject) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Subject not found');
+  const { search } = req.query; // Get search term from query parameters
+  const page = parseInt(req.query.page, 10) || 1; // Default to page 1 if not provided
+  const limit = parseInt(req.query.limit, 10) || 10; // Default to 10 items per page if not provided
+
+  const options = {
+    page,
+    limit,
+    sortBy: 'order', // Sort by the 'order' field
+  };
+
+  // Call the service function to get the filtered and paginated subjects
+  const subjects = await subjectService.getSubjectByFilter(boardId, mediumId, classId, search, options);
+
+  if (!subjects || subjects.totalDocs === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Subjects not found');
   }
-  res.send(subject);
+
+  // Send the paginated response
+  res.send({
+    totalDocs: subjects.totalDocs,
+    totalPages: subjects.totalPages,
+    page: subjects.page,
+    limit: subjects.limit,
+    results: subjects.docs, // The array of subjects
+  });
 });
 
 const updateSubject = catchAsync(async (req, res) => {
