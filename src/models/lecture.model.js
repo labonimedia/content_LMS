@@ -23,6 +23,9 @@ const lectureSchema = mongoose.Schema(
     mobileVideoPath: {
       type: String,
     },
+    mobileVideoType: {
+      type: String,
+    },
     videoType: {
       type: String,
     },
