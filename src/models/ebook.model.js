@@ -45,6 +45,9 @@ const ebookSchema = mongoose.Schema(
       ref: 'Book',
       required: true,
     },
+    description: {
+      type: String,
+    },
   },
   {
     timestamps: true,

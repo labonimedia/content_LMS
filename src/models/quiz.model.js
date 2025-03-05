@@ -82,6 +82,9 @@ const quizeSchema = mongoose.Schema(
     //   ref: 'lecturevideo',
     //   required: true,
     // },
+    description: {
+      type: String,
+    },
   },
   {
     timestamps: true,

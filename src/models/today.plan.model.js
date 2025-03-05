@@ -69,7 +69,10 @@ const todayPlanSchema = mongoose.Schema(
       type: [String],
       default: [],
       trim: true,
-    }
+    },
+    description: {
+      type: String,
+    },
   },
   {
     timestamps: true,

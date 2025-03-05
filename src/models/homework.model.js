@@ -44,6 +44,9 @@ const homeworkSchema = mongoose.Schema(
       ref: 'chapter',
       required: true,
     },
+    description: {
+      type: String,
+    },
   },
   {
     timestamps: true,
