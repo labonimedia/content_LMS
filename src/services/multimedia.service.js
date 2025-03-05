@@ -53,11 +53,44 @@ const getMultimediaByChaperId = async (chapterId) => {
 // const getMultimediaByType = async (multimediaType) => {
 //   return Multimedia.find({ multimediaType });
 // };
-const getMultimediaByType = async (multimediaType, options) => {
-  // Define the filter object
-  const filter = { multimediaType };
+// const getMultimediaByType = async (multimediaType, options) => {
+//   // Define the filter object
+//   const filter = { multimediaType };
 
-  // Call the paginate method with the filter and options
+//   // Call the paginate method with the filter and options
+//   const multimedia = await Multimedia.paginate(filter, options);
+
+//   return multimedia;
+// };
+
+// const getMultimediaByType = async (multimediaType, search, options) => {
+//   // Create filter object
+//   let filter = { multimediaType };
+
+//   // If search is provided, apply a case-insensitive global search on `lessionName`
+//   if (search) {
+//     filter.lessionName = { $regex: search, $options: 'i' }; 
+//   }
+
+//   // Fetch data with pagination
+//   const multimedia = await Multimedia.paginate(filter, options);
+
+//   return multimedia;
+// };
+const getMultimediaByType = async (multimediaType, search, options) => {
+  let filter = {};
+
+  // If multimediaType is provided, filter by it
+  if (multimediaType) {
+    filter.multimediaType = multimediaType;
+  }
+
+  // If search is provided, apply case-insensitive global search on `lessionName`
+  if (search) {
+    filter.lessionName = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
   const multimedia = await Multimedia.paginate(filter, options);
 
   return multimedia;

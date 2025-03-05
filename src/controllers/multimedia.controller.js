@@ -41,29 +41,64 @@ const getMultimediaById = catchAsync(async (req, res) => {
 //   res.send(multimedia);
 // });
 
-const getMultimediaByType = catchAsync(async (req, res) => {
-  // Get multimediaType from params
-  const { multimediaType } = req.params;
+// const getMultimediaByType = catchAsync(async (req, res) => {
+//   // Get multimediaType from params
+//   const { multimediaType } = req.params;
 
-  // Get pagination options from query params (default values if not provided)
+//   // Get pagination options from query params (default values if not provided)
+//   const options = {
+//     limit: parseInt(req.query.limit, 10) || 10,  // Default limit = 10
+//     page: parseInt(req.query.page, 10) || 1,     // Default page = 1
+//     sortBy: 'order',                             // You can change the sorting field if needed
+//   };
+
+//   // Get multimedia by type with pagination
+//   const multimedia = await multimediaService.getMultimediaByType(multimediaType, options);
+
+//   // Check if multimedia data is found
+//   if (!multimedia) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
+//   }
+
+//   // Send the response with pagination data
+//   res.send(multimedia);
+// });
+
+// const getMultimediaByType = catchAsync(async (req, res) => {
+//   // Extract parameters from request body
+//   const { multimediaType, search } = req.body;
+//   const options = {
+//     limit: parseInt(req.body.limit, 10) || 10, 
+//     page: parseInt(req.body.page, 10) || 1,     
+//     sortBy: 'order',
+//   };
+
+//   // Call the service function with the search parameter
+//   const multimedia = await multimediaService.getMultimediaByType(multimediaType, search, options);
+
+//   if (!multimedia) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
+//   }
+
+//   res.send(multimedia);
+// });
+const getMultimediaByType = catchAsync(async (req, res) => {
+  const { multimediaType, search } = req.body;
   const options = {
-    limit: parseInt(req.query.limit, 10) || 10,  // Default limit = 10
-    page: parseInt(req.query.page, 10) || 1,     // Default page = 1
-    sortBy: 'order',                             // You can change the sorting field if needed
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'order',
   };
 
-  // Get multimedia by type with pagination
-  const multimedia = await multimediaService.getMultimediaByType(multimediaType, options);
+  // Call the service function
+  const multimedia = await multimediaService.getMultimediaByType(multimediaType, search, options);
 
-  // Check if multimedia data is found
-  if (!multimedia) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
+  if (!multimedia || multimedia.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No multimedia data found');
   }
 
-  // Send the response with pagination data
   res.send(multimedia);
 });
-
 const getMultimediaByChaper = catchAsync(async (req, res) => {
   const multimedia = await multimediaService.getMultimediaByChaperId(req.params.chapterId);
   if (!multimedia) {
