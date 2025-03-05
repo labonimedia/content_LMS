@@ -57,26 +57,21 @@ const getSubjectOfClass = async () => {
  * @returns {Promise<Book>}
  */
 
-// const getSubjectByFilter = async (boardId, mediumId, classId) => {
-//   return Subject.find({ boardId, mediumId, classId });
-// };
-const getSubjectByFilter = async (boardId, mediumId, classId, search, options) => {
-  const filter = {
-    boardId,
-    mediumId,
-    classId,
-  };
-
-  // If search term is provided, apply case-insensitive search on `name` field
-  if (search) {
-    filter.name = { $regex: search, $options: 'i' };
-  }
-
-  // Use pagination function to get data
-  const subjects = await Subject.paginate(filter, options);
-
-  return subjects;
+const getSubjectByFilter = async (boardId, mediumId, classId) => {
+  return Subject.find({ boardId, mediumId, classId });
 };
+// const getSubjectByFilter = async (boardId, mediumId, classId, options) => {
+//   const filter = {
+//     boardId,
+//     mediumId,
+//     classId,
+//   };
+
+//   // Use pagination function to get data
+//   const subjects = await Subject.paginate(filter, options);
+// console.log(subjects);
+//   return subjects;
+// };
 // const getSubjectByFilter = async (boardId, mediumId, classId, page = 1, limit = 10) => {
 //   const skip = (page - 1) * limit;
 

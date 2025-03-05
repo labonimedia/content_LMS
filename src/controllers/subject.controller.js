@@ -42,43 +42,44 @@ const getSubjectByClassId = catchAsync(async (req, res) => {
   res.send(subject);
 });
 
-// const getUbjectByFilter = catchAsync(async (req, res) => {
-//   const { boardId, mediumId, classId } = req.params;
-//   // const { page, limit } = req.query;
-//   const subject = await subjectService.getSubjectByFilter(boardId, mediumId, classId);
-//   if (!subject) {
-//     throw new ApiError(httpStatus.NOT_FOUND, 'Subject not found');
-//   }
-//   res.send(subject);
-// });
-const getSubjectByFilter = catchAsync(async (req, res) => {
+const getUbjectByFilter = catchAsync(async (req, res) => {
   const { boardId, mediumId, classId } = req.params;
-  const { search } = req.query;
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 10;
-
-  const options = {
-    page,
-    limit,
-    sort: { order: 1 }, // Ensure sorting works correctly
-  };
-
-  // Call the service function to get the filtered and paginated subjects
-  const subjects = await subjectService.getSubjectByFilter(boardId, mediumId, classId, search, options);
-
-  if (!subjects || subjects.docs.length === 0) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Subjects not found');
+  // const { page, limit } = req.query;
+  const subject = await subjectService.getSubjectByFilter(boardId, mediumId, classId);
+  if (!subject) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Subject not found');
   }
-
-  // Send the paginated response with results
-  res.send({
-    totalDocs: subjects.totalDocs, // Total count of matched subjects
-    totalPages: subjects.totalPages, // Total number of pages
-    page: subjects.page, // Current page number
-    limit: subjects.limit, // Items per page
-    results: subjects.docs, // The actual subjects array
-  });
+  res.send(subject);
 });
+
+// const getSubjectByFilter = catchAsync(async (req, res) => {
+  
+//   const { boardId, mediumId, classId } = req.params;
+//   const page = parseInt(req.query.page, 10) || 1;
+//   const limit = parseInt(req.query.limit, 10) || 10;
+
+//   const options = {
+//     page,
+//     limit,
+//     sort: { order: 1 }, // Ensure sorting works correctly
+//   };
+
+//   // Call the service function to get the filtered and paginated subjects
+//   const subjects = await subjectService.getSubjectByFilter(boardId, mediumId, classId, options);
+// console.log(subjects);
+//   if (!subjects || subjects.docs.length === 0) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Subjects not found');
+//   }
+
+//   // Send the paginated response with results
+//   res.send({
+//     totalDocs: subjects.totalDocs, // Total count of matched subjects
+//     totalPages: subjects.totalPages, // Total number of pages
+//     page: subjects.page, // Current page number
+//     limit: subjects.limit, // Items per page
+//     results: subjects.docs, // The actual subjects array
+//   });
+// });
 
 const updateSubject = catchAsync(async (req, res) => {
   // const { file } = req;
@@ -102,5 +103,5 @@ module.exports = {
   deleteSubject,
   getSubjectByClassId,
   getSubjectOfClass,
-  getSubjectByFilter,
+  getUbjectByFilter,
 };
