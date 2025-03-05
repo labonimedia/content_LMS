@@ -33,25 +33,25 @@ const getSubjectByClassId = {
     classId: Joi.string().custom(objectId).required(),
   }),
 };
-// const getSubjectByFiltersId = {
-//   params: Joi.object().keys({
-//     classId: Joi.string().custom(objectId).required(),
-//     mediumId: Joi.string().custom(objectId).required(),
-//     boardId: Joi.string().custom(objectId).required(),
-//   }),
-// };
 const getSubjectByFiltersId = {
   params: Joi.object().keys({
     classId: Joi.string().custom(objectId).required(),
     mediumId: Joi.string().custom(objectId).required(),
     boardId: Joi.string().custom(objectId).required(),
   }),
-  query: Joi.object().keys({
-    search: Joi.string().optional(), // Optional search query
-    page: Joi.number().integer().min(1).optional(), // Optional page number, default 1
-    limit: Joi.number().integer().min(10).optional(), // Optional limit, default 10
-  }),
 };
+// const getSubjectByFiltersId = {
+//   params: Joi.object().keys({
+//     classId: Joi.string().custom(objectId).required(),
+//     mediumId: Joi.string().custom(objectId).required(),
+//     boardId: Joi.string().custom(objectId).required(),
+//   }),
+//   query: Joi.object().keys({
+//     search: Joi.string().optional(), // Optional search query
+//     page: Joi.number().integer().min(1).optional(), // Optional page number, default 1
+//     limit: Joi.number().integer().min(10).optional(), // Optional limit, default 10
+//   }),
+// };
 const updateSubject = {
   params: Joi.object().keys({
     subjectId: Joi.string().custom(objectId).required(),

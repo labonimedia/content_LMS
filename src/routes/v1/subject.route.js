@@ -21,11 +21,11 @@ router.route('/class/:classId').get(validate(subjectValidation.getSubjectByClass
 
 router.route('/mobile/getsubjectofclass').get(subjectController.getSubjectOfClass);
 
-router.route('/getsubjects/filter/:boardId/:mediumId/:classId').get(subjectController.getSubjectByFilter);
+router.route('/getsubjects/filter/:boardId/:mediumId/:classId').get(subjectController.getUbjectByFilter);
 
 router
   .route('/filter/:boardId/:mediumId/:classId')
-  .get(validate(subjectValidation.getSubjectByFiltersId), subjectController.getSubjectByFilter);
+  .get(validate(subjectValidation.getSubjectByFiltersId), subjectController.getUbjectByFilter);
 
 module.exports = router;
 
