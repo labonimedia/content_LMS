@@ -21,7 +21,8 @@ router.route('/class/:classId').get(validate(subjectValidation.getSubjectByClass
 
 router.route('/mobile/getsubjectofclass').get(subjectController.getSubjectOfClass);
 
-router.route('/getsubjects/filter/:boardId/:mediumId/:classId').get(subjectController.getUbjectByFilter);
+// router.route('/getsubjects/filter/:boardId/:mediumId/:classId').get(subjectController.getUbjectByFilter);
+router.route('/getsubjects/filter').post(subjectController.getSubjectByFilter);
 
 router
   .route('/filter/:boardId/:mediumId/:classId')
