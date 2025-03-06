@@ -57,9 +57,9 @@ const getSubjectOfClass = async () => {
  * @returns {Promise<Book>}
  */
 
-// const getSubjectByFilter = async (boardId, mediumId, classId) => {
-//   return Subject.find({ boardId, mediumId, classId });
-// };
+const getSubjectByFilter = async (boardId, mediumId, classId) => {
+  return Subject.find({ boardId, mediumId, classId });
+};
 // const getSubjectByFilter = async (boardId, mediumId, classId, search, options) => {
 //   const filter = {};
 
@@ -76,28 +76,28 @@ const getSubjectOfClass = async () => {
 //   // Fetch data with pagination
 //   return Subject.paginate(filter, options);
 // };
-const getSubjectByFilter = async (boardId, mediumId, classId, search, options = {}) => {
-  const filter = {};
+// const getSubjectByFilter = async (boardId, mediumId, classId, search, options = {}) => {
+//   const filter = {};
 
-  // If boardId, mediumId, and classId are provided, filter by them
-  if (boardId) filter.boardId = boardId;
-  if (mediumId) filter.mediumId = mediumId;
-  if (classId) filter.classId = classId;
+//   // If boardId, mediumId, and classId are provided, filter by them
+//   if (boardId) filter.boardId = boardId;
+//   if (mediumId) filter.mediumId = mediumId;
+//   if (classId) filter.classId = classId;
 
-  // If search is provided, apply global search on `name`
-  if (search) {
-    filter.name = { $regex: search, $options: 'i' };
-  }
+//   // If search is provided, apply global search on `name`
+//   if (search) {
+//     filter.name = { $regex: search, $options: 'i' };
+//   }
 
-  // Default options if not provided
-  const paginationOptions = {
-    limit: options.limit || 10,
-    page: options.page || 1,
-    sortBy: options.sortBy || 'name', // Default sorting by name
-  };
+//   // Default options if not provided
+//   const paginationOptions = {
+//     limit: options.limit || 10,
+//     page: options.page || 1,
+//     sortBy: options.sortBy || 'name', // Default sorting by name
+//   };
 
-  return Subject.paginate(filter, paginationOptions);
-};
+//   return Subject.paginate(filter, paginationOptions);
+// };
 // const getSubjectByFilter = async (boardId, mediumId, classId, options) => {
 //   const filter = {
 //     boardId,
