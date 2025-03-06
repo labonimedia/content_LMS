@@ -4,9 +4,8 @@ const { toJSON, paginate } = require('./plugins');
 
 const todayPlanSchema = mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
-      required: true,
       trim: true,
     },
     date: {
@@ -24,25 +23,43 @@ const todayPlanSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    board: {
-      type: String,
+    boardId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Board',
+      required: true,
+      trim: true,
     },
-    medium: {
-      type: String,
+    mediumId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Medium',
+      required: true,
+      trim: true,
     },
-    class: {
-      type: String,
+    classId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Classes',
+      required: true,
+      trim: true,
     },
-    subject: {
-      type: String,
+    subjectId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Subject',
+      required: true,
+      trim: true,
     },
-    book: {
-      type: String,
+    bookId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'book',
+      required: true,
+      trim: true,
     },
-    chapter: {
-      type: String,
+    chapterId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Chapter',
+      required: true,
+      trim: true,
     },
-    order: {
+    orderId: {
       type: String,
       required: true,
       trim: true,
