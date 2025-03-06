@@ -20,6 +20,7 @@ const createQuize = {
     bookId: Joi.string(),
     subjectId: Joi.string(),
     chapterId: Joi.string(),
+    lectureVideoId: Joi.string(),
   }),
 };
 
