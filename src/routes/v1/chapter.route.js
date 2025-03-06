@@ -26,7 +26,7 @@ router
   .get(validate(chapterValidation.getChaptersByFilter), chaterController.getChapterByFilter);
 
 router.route('/mobile/getbybookId/:bookId').get(chaterController.getByBookIdChapter);
-
+router.route('/getchapters/filter').post(chaterController.getChapterListByFilter);
 module.exports = router;
 
 /**
