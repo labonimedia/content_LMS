@@ -104,7 +104,7 @@ const getSubjectByFilter = catchAsync(async (req, res) => {
   };
 
   // Call service function
-  const subjects = await subjectService.getSubjectByFilter(boardId, mediumId, classId, search, options);
+  const subjects = await subjectService.getUbjectByFilter(boardId, mediumId, classId, search, options);
 
   if (!subjects || subjects.totalResults === 0) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No subjects found');
