@@ -165,7 +165,7 @@ const getChapterListByFilter = async (boardId, mediumId, classId, subjectId, boo
 
   // If search is provided, apply global search on `name`
   if (search) {
-    filter.name = { $regex: search, $options: 'i' };
+    filter.chapterName = { $regex: search, $options: 'i' };
   }
 
   // Fetch data with pagination
