@@ -94,5 +94,5 @@ module.exports = {
   getBookByFilter,
   getBookBySubjectId,
   getBookChapters,
-  getBooksByFilter
+  getBooksByFilter,
 };
