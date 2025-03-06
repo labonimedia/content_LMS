@@ -53,7 +53,7 @@ const getUbjectByFilter = catchAsync(async (req, res) => {
 });
 
 // const getSubjectByFilter = catchAsync(async (req, res) => {
-  
+
 //   const { boardId, mediumId, classId } = req.params;
 //   const page = parseInt(req.query.page, 10) || 1;
 //   const limit = parseInt(req.query.limit, 10) || 10;
@@ -95,6 +95,23 @@ const deleteSubject = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getSubjectByFilter = catchAsync(async (req, res) => {
+  const { boardId, mediumId, classId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'name', // Sorting by subject name
+  };
+
+  // Call service function
+  const subjects = await subjectService.getUbjectByFilter(boardId, mediumId, classId, search, options);
+
+  if (!subjects || subjects.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No subjects found');
+  }
+
+  res.send(subjects);
+});
 module.exports = {
   createSubject,
   getAllSubject,
@@ -104,4 +121,5 @@ module.exports = {
   getSubjectByClassId,
   getSubjectOfClass,
   getUbjectByFilter,
+  getSubjectByFilter,
 };

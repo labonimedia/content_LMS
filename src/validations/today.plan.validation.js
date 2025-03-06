@@ -3,23 +3,22 @@ const { objectId } = require('./custom.validation');
 
 const createNewPlan = {
   body: Joi.object().keys({
-    bord: Joi.string(),
-    description: Joi.string(),
-    board: Joi.string(),
-    medium: Joi.string(),
-    class: Joi.string(),
-    subject: Joi.string(),
-    book: Joi.string(),
-    chapter: Joi.string(),
-    title: Joi.string().required(),
-    date: Joi.string().required(),
-    time: Joi.string().required(),
-    type: Joi.string().required(),
-    order: Joi.string().required(),
-    studioName: Joi.string().required().allow('', null),
-    liveStreamingPath: Joi.string().allow('', null),
-    presenterName: Joi.string().allow('', null),
+    name: Joi.string().trim(),
+    date: Joi.string().required().trim(),
+    time: Joi.string().required().trim(),
+    type: Joi.string().required().trim(),
+    boardId: Joi.string().required().trim(), // ObjectId
+    mediumId: Joi.string().required().trim(), // ObjectId
+    classId: Joi.string().required().trim(), // ObjectId
+    subjectId: Joi.string().required().trim(), // ObjectId
+    bookId: Joi.string().required().trim(), // ObjectId
+    chapterId: Joi.string().required().trim(), // ObjectId
+    orderId: Joi.string().required().trim(),
+    studioName: Joi.string().trim().allow('', null),
+    liveStreamingPath: Joi.string().trim().allow('', null),
+    presenterName: Joi.string().trim().allow('', null),
     questions: Joi.array().items(Joi.string()).allow('', null),
+    description: Joi.string().trim().allow('', null),
   }),
 };
 
@@ -53,23 +52,22 @@ const updatePlanById = {
   }),
   body: Joi.object()
     .keys({
-      bord: Joi.string(),
-      description: Joi.string(),
-      board: Joi.string(),
-      medium: Joi.string(),
-      class: Joi.string(),
-      subject: Joi.string(),
-      book: Joi.string(),
-      chapter: Joi.string(),
-      title: Joi.string(),
-      date: Joi.string(),
-      time: Joi.string(),
-      type: Joi.string(),
-      order: Joi.string(),
-      studioName: Joi.string().allow('', null),
-      liveStreamingPath: Joi.string().allow('', null),
-      presenterName: Joi.string().allow('', null),
+      name: Joi.string().trim(),
+      date: Joi.string().trim(),
+      time: Joi.string().trim(),
+      type: Joi.string().trim(),
+      boardId: Joi.string().trim(), // ObjectId
+      mediumId: Joi.string().trim(), // ObjectId
+      classId: Joi.string().trim(), // ObjectId
+      subjectId: Joi.string().trim(), // ObjectId
+      bookId: Joi.string().trim(), // ObjectId
+      chapterId: Joi.string().trim(), // ObjectId
+      orderId: Joi.string().trim(),
+      studioName: Joi.string().trim().allow('', null),
+      liveStreamingPath: Joi.string().trim().allow('', null),
+      presenterName: Joi.string().trim().allow('', null),
       questions: Joi.array().items(Joi.string()).allow('', null),
+      description: Joi.string().trim().allow('', null),
     })
     .min(1),
 };

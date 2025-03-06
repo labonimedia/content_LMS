@@ -67,6 +67,24 @@ const getBookChapters = catchAsync(async (req, res) => {
   res.send(book);
 });
 
+const getBooksByFilter = catchAsync(async (req, res) => {
+  const { boardId, mediumId, classId, subjectId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'name', // Sorting by subject name
+  };
+
+  // Call service function
+  const books = await bookService.getBooksByFilter(boardId, mediumId, classId, subjectId, search, options);
+
+  if (!books || books.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No books found');
+  }
+
+  res.send(books);
+});
+
 module.exports = {
   createBook,
   getBookById,
@@ -76,4 +94,5 @@ module.exports = {
   getBookByFilter,
   getBookBySubjectId,
   getBookChapters,
+  getBooksByFilter,
 };

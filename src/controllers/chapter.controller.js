@@ -65,6 +65,31 @@ const deleteSingleChapter = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send(deletedChapter);
 });
 
+const getChapterListByFilter = catchAsync(async (req, res) => {
+  const { boardId, mediumId, classId, subjectId, bookId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'chapterName', // Sorting by subject name
+  };
+
+  // Call service function
+  const chapters = await chapterService.getChapterListByFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    search,
+    options
+  );
+
+  if (!chapters || chapters.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No Chapters found');
+  }
+
+  res.send(chapters);
+});
 module.exports = {
   createChapter,
   getChapter,
@@ -74,4 +99,5 @@ module.exports = {
   getChaptersByBookId,
   getChapterByFilter,
   getByBookIdChapter,
+  getChapterListByFilter,
 };
