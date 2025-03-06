@@ -7,6 +7,18 @@ const homeworkSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    veryShortAnswer: {
+      type: String,
+      required: true,
+    },
+    shortAnswer: {
+      type: String,
+      required: true,
+    },
+    longAnswer: {
+      type: String,
+      required: true,
+    },
     answer: {
       type: String,
     },
