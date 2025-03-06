@@ -18,6 +18,7 @@ const createNewPlan = {
     liveStreamingPath: Joi.string().trim().allow('', null),
     presenterName: Joi.string().trim().allow('', null),
     questions: Joi.array().items(Joi.string()).allow('', null),
+    lessonId: Joi.string(),
     description: Joi.string().trim().allow('', null),
   }),
 };
@@ -63,6 +64,7 @@ const updatePlanById = {
       bookId: Joi.string().trim(), // ObjectId
       chapterId: Joi.string().trim(), // ObjectId
       orderId: Joi.string().trim(),
+      lessonId: Joi.string(),
       studioName: Joi.string().trim().allow('', null),
       liveStreamingPath: Joi.string().trim().allow('', null),
       presenterName: Joi.string().trim().allow('', null),
