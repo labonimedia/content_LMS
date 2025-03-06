@@ -59,6 +59,12 @@ const todayPlanSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    lessonId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'lession',
+      required: true,
+      trim: true,
+    },
     orderId: {
       type: String,
       required: true,

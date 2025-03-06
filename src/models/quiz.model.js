@@ -78,11 +78,11 @@ const quizeSchema = mongoose.Schema(
       ref: 'chapter',
       required: true,
     },
-    // lectureVideoId: {
-    //   type: mongoose.SchemaTypes.ObjectId,
-    //   ref: 'lecturevideo',
-    //   required: true,
-    // },
+    lectureVideoId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'lecturevideo',
+      required: true,
+    },
     description: {
       type: String,
     },
