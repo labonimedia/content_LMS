@@ -22,6 +22,7 @@ router
 
 router.route('/subject/:subjectId').get(validate(bookValidation.getBookBySubjectId), bookController.getBookBySubjectId);
 router.route('/book/chapter/:subjectId').get(bookController.getBookChapters);
+router.route('/getbooks/filter').post(bookController.getBooksByFilter);
 module.exports = router;
 
 /**

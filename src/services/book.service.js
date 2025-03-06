@@ -116,6 +116,24 @@ const deleteBookById = async (bookId) => {
   return book;
 };
 
+const getBooksByFilter = async (boardId, mediumId, classId, subjectId, search, options) => {
+  const filter = {};
+
+  // If boardId, mediumId, and classId are provided, filter by them
+  if (boardId) filter.boardId = boardId;
+  if (mediumId) filter.mediumId = mediumId;
+  if (classId) filter.classId = classId;
+  if (subjectId) filter.subjectId = subjectId;
+
+  // If search is provided, apply global search on `name`
+  if (search) {
+    filter.name = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
+  return Book.paginate(filter, options);
+};
+
 module.exports = {
   createBook,
   queryBook,
@@ -125,4 +143,5 @@ module.exports = {
   getBookByFilter,
   getBookBysubjectId,
   getBookChapters,
+  getBooksByFilter
 };
