@@ -171,6 +171,7 @@ const getChapterListByFilter = async (boardId, mediumId, classId, subjectId, boo
   // Fetch data with pagination
   return Chapter.paginate(filter, options);
 };
+
 module.exports = {
   createChapter,
   getChapterById,
