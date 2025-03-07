@@ -24,7 +24,7 @@ router
 router
   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
   .get(validate(lessionValidation.getLessionByFilter), lessionController.getLessionByFilter);
-
+  router.route('/getchapters/filter').post(lessionController.getLessonListByFilter);
 module.exports = router;
 
 /**
