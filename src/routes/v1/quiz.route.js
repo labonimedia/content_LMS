@@ -43,7 +43,7 @@ router.post('/bulk-upload', upload.single('file'), quizeController.bulkUpload);
 
 router
   .route('/')
-  .post(validate(quizeValidation.createQuize), quizeController.createQuize)
+  .post(quizeController.createQuize)
   .get(validate(quizeValidation.getQuizes), quizeController.getAllQuize); //
 
 router.route('/checkexist').post(validate(quizeValidation.getQuizeByQuizName), quizeController.getQuizeByQuizName);
