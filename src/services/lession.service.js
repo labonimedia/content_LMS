@@ -107,6 +107,7 @@ const getLessonListByFilter = async (boardId, mediumId, classId, subjectId, book
   // Fetch data with pagination
   return Lession.paginate(filter, options);
 };
+
 module.exports = {
   createLession,
   queryLessions,
@@ -115,5 +116,5 @@ module.exports = {
   deleteLessionById,
   getLessionbychapterId,
   getLessionByFilter,
-  getLessonListByFilter
+  getLessonListByFilter,
 };

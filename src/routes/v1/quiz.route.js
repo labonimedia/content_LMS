@@ -41,10 +41,7 @@ const upload = multer({ storage });
 
 router.post('/bulk-upload', upload.single('file'), quizeController.bulkUpload);
 
-router
-  .route('/')
-  .post(quizeController.createQuize)
-  .get(validate(quizeValidation.getQuizes), quizeController.getAllQuize); //
+router.route('/').post(quizeController.createQuize).get(validate(quizeValidation.getQuizes), quizeController.getAllQuize); //
 
 router.route('/checkexist').post(validate(quizeValidation.getQuizeByQuizName), quizeController.getQuizeByQuizName);
 router.route('/NotSelect').get(validate(quizeValidation.NotSelectQuize), quizeController.getAllNotSelected);

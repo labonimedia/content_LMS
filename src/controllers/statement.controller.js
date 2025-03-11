@@ -21,7 +21,6 @@ const getByIdStatement = catchAsync(async (req, res) => {
   res.send(statement);
 });
 
-
 const deleteStatementById = catchAsync(async (req, res) => {
   await statementService.deleteStatementById(req.params.statementId);
   res.status(httpStatus.NO_CONTENT).send();
