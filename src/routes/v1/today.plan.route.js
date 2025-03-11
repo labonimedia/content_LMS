@@ -17,7 +17,10 @@ router
   .get(validate(planValidation.getSinglePlan), planvideoController.getSinglePlan)
   .patch(validate(planValidation.updatePlanById), planvideoController.updatePlan)
   .delete(validate(planValidation.deletePlanById), planvideoController.deletePlan);
-
+  
+  router
+  .route('/getplanvideo/filter')
+  .post(planvideoController.getPlanVideoByFilter);
 module.exports = router;
 
 /**
