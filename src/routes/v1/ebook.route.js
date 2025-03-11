@@ -1,7 +1,7 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
 const ebookController = require('../../controllers/ebook.controller');
-const ebookValidation = require('../../validations');
+const { ebookValidation } = require('../../validations');
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router
 
 router
   .route('/getebooks/filter')
-  .post(ebookController.getEbookByFilter);
+  .post(validate(ebookValidation.getEbooksByFilter),ebookController.getEbookByFilter);
 
 router
   .route('/get-by/chapterId/:chapterId')
