@@ -17,8 +17,8 @@ router
   .delete(validate(quickRecapValidation.deleteQuickRecap), quickRecapController.deleteQuickRecap);
 
 router
-  .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
-  .get(validate(quickRecapValidation.getQuickRecapByFilter), quickRecapController.getQuickRecapByFilter);
+  .route('/filter')
+  .post(validate(quickRecapValidation.getQuickRecapByFilter), quickRecapController.getQuickRecapByFilter);
 
 router
   .route('/get-by/chapter/:chapterId')

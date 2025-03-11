@@ -33,11 +33,27 @@ const getByQuickRecapChapterId = catchAsync(async (req, res) => {
 });
 
 const getQuickRecapByFilter = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, subjectId, bookId, chapterId } = req.params;
-  const quickRecap = await quickRecapService.getQuickRecapByFilter(boardId, mediumId, classId, subjectId, bookId, chapterId);
-  if (!quickRecap) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Quick Recap not found');
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'chapterName', // Sorting by subject name
+  };
+
+  const quickRecap = await quickRecapService.getQuickRecapByFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    chapterId,
+    search,
+    options
+  );
+  if (!quickRecap || quickRecap.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No quickRecap found');
   }
+
   res.send(quickRecap);
 });
 
