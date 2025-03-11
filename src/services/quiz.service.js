@@ -110,7 +110,6 @@ const QuizeNotSelected = async (filter, options) => {
  */
 const getQuizeByFilter = async (boardId, mediumId, classId, bookId, subjectId, chapterId, options, lectureVideoId) => {
   const filters = {};
-
   if (boardId) filters.boardId = boardId;
   if (mediumId) filters.mediumId = mediumId;
   if (classId) filters.classId = classId;
@@ -118,7 +117,6 @@ const getQuizeByFilter = async (boardId, mediumId, classId, bookId, subjectId, c
   if (subjectId) filters.subjectId = subjectId;
   if (chapterId) filters.chapterId = chapterId;
   if (lectureVideoId) filters.lectureVideoId = lectureVideoId;
-
   // Call the paginate method on Quize schema
   const quizzes = await Quize.paginate(filters, options);
   return quizzes;
