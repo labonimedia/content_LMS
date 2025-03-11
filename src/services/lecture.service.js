@@ -54,8 +54,24 @@ const getLectureVideobychapterId = async (chapterId) => {
  * @returns {Promise<lesssion>}
  */
 
-const getLectureVideoByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId) => {
-  return LectureVideo.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
+const getLectureVideoByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, search, options) => {
+  const filter = {};
+
+  // If boardId, mediumId, and classId are provided, filter by them
+  if (boardId) filter.boardId = boardId;
+  if (mediumId) filter.mediumId = mediumId;
+  if (classId) filter.classId = classId;
+  if (subjectId) filter.subjectId = subjectId;
+  if (bookId) filter.bookId = bookId;
+  if (chapterId) filter.chapterId = chapterId;
+  // If search is provided, apply global search on `name`
+  if (search) {
+    filter.lessionName = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
+  return LectureVideo.paginate(filter, options);
+  //return LectureVideo.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
 };
 
 /**
