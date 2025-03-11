@@ -70,7 +70,18 @@ const deleteEbook = {
     ebookId: Joi.string().custom(objectId),
   }),
 };
-
+const getEbooksByFilter = {
+  body: Joi.object().keys({
+    boardId: Joi.string().custom(objectId),
+    mediumId: Joi.string().custom(objectId),
+    classId: Joi.string().custom(objectId),
+    subjectId: Joi.string().custom(objectId),
+    bookId: Joi.string().custom(objectId),
+    search: Joi.string(),
+    limit: Joi.number().integer().min(1).default(10),
+    page: Joi.number().integer().min(1).default(1),
+  }),
+};
 module.exports = {
   createEbook,
   getAllEbook,
@@ -79,4 +90,5 @@ module.exports = {
   getEbookByChapertId,
   updateEbook,
   deleteEbook,
+  getEbooksByFilter,
 };
