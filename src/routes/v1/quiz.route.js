@@ -64,7 +64,7 @@ router
   .route('/getquizByDayWise/:classId')
   .get(validate(quizeValidation.getQuizDayWise), quizeController.getQuizByClassIdAndDayWise);
 
-router.route('/get/quiz/filter/section').get(validate(quizeValidation.getQuizFilter), quizeController.getQuizeByFilter);
+router.route('/get/quiz/filter/section').post(validate(quizeValidation.getQuizFilter), quizeController.getQuizeByFilter);
 
 module.exports = router;
 

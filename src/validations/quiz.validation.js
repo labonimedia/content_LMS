@@ -79,7 +79,7 @@ const getQuizFilter = {
     subjectId: Joi.string(),
     chapterId: Joi.string(),
     lectureVideoId: Joi.string(),
-    sortBy: Joi.string(),
+    search: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
