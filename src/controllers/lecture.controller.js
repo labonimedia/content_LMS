@@ -51,8 +51,8 @@ const getLectureVideoByFilter = catchAsync(async (req, res) => {
     search,
     options
   );
-  if (!lectureVideo) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'LectureVideo not found');
+  if (!lectureVideo || lectureVideo.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No lectureVideo found');
   }
   res.send(lectureVideo);
 });
