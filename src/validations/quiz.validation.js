@@ -71,7 +71,7 @@ const getQuizDayWise = {
 };
 
 const getQuizFilter = {
-  query: Joi.object().keys({
+  body: Joi.object().keys({
     classId: Joi.string(),
     boardId: Joi.string(),
     mediumId: Joi.string(),
