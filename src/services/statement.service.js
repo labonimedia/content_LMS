@@ -34,7 +34,6 @@ const getStatementById = async (id) => {
   return Statement.findById(id);
 };
 
-
 /**
  * Delete session by id
  * @param {ObjectId} sessionId

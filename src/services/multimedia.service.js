@@ -109,8 +109,35 @@ const getMultimediaByType = async (multimediaType, search, options) => {
  *  @param {ObjectId} chapterId
  * @returns {Promise<Multimedia>}
  */
-const getMultimediaByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId) => {
-  return Multimedia.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
+const getMultimediaByFilter = async (
+  boardId,
+  mediumId,
+  classId,
+  subjectId,
+  bookId,
+  chapterId,
+  multimediaType,
+  search,
+  options
+) => {
+  const filter = {};
+
+  // If boardId, mediumId, and classId are provided, filter by them
+  if (boardId) filter.boardId = boardId;
+  if (mediumId) filter.mediumId = mediumId;
+  if (classId) filter.classId = classId;
+  if (subjectId) filter.subjectId = subjectId;
+  if (bookId) filter.bookId = bookId;
+  if (chapterId) filter.chapterId = chapterId;
+  if (multimediaType) filter.multimediaType = multimediaType;
+  // If search is provided, apply global search on `name`
+  if (search) {
+    filter.lessionName = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
+  return Multimedia.paginate(filter, options);
+  // return Multimedia.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
 };
 /**
  * Get mutimedia by Filter

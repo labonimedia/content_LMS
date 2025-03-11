@@ -11,5 +11,4 @@ router
   .get(statementController.getByIdStatement) // validate(lectureVideoValidation.getLecture),
   .delete(statementController.deleteStatementById); // validate(lectureVideoValidation.deleteLession),
 
-
 module.exports = router;

@@ -104,5 +104,5 @@ module.exports = {
   deleteLession,
   getLessionbychapId,
   getLessionByFilter,
-  getLessonListByFilter
+  getLessonListByFilter,
 };
