@@ -12,12 +12,12 @@ router
 
 router
   .route('/:ebookId')
-  .get(validate(ebookValidation.getEbookById), ebookController.getEbookById)
-  .patch(validate(ebookValidation.updateEbook), ebookController.updateEbook)
-  .delete(validate(ebookValidation.deleteEbook), ebookController.deleteEbook);
+  .get(ebookController.getEbookById)
+  .patch(ebookController.updateEbook)
+  .delete(ebookController.deleteEbook);
 
 router
-  .route('/filter')
+  .route('/getebooks/filter')
   .post(ebookController.getEbookByFilter);
 
 router
