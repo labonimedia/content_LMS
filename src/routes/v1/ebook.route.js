@@ -17,8 +17,8 @@ router
   .delete(validate(ebookValidation.deleteEbook), ebookController.deleteEbook);
 
 router
-  .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId')
-  .get(validate(ebookValidation.getEbookByFilter), ebookController.getEbookByFilter);
+  .route('/filter')
+  .post(ebookController.getEbookByFilter);
 
 router
   .route('/get-by/chapterId/:chapterId')
