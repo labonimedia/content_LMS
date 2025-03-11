@@ -52,8 +52,23 @@ const getEbookByChapterId = async (chapterId) => {
  *  @param {ObjectId} bookId
  * @returns {Promise<Multimedia>}
  */
-const getEbookByFilter = async (boardId, mediumId, classId, subjectId, bookId) => {
-  return Ebook.find({ boardId, mediumId, classId, subjectId, bookId }).sort('order');
+const getEbookByFilter = async (boardId, mediumId, classId, subjectId, bookId,  search, options) => {
+  //return Ebook.find({ boardId, mediumId, classId, subjectId, bookId }).sort('order');
+  const filter = {};
+
+  // If boardId, mediumId, and classId are provided, filter by them
+  if (boardId) filter.boardId = boardId;
+  if (mediumId) filter.mediumId = mediumId;
+  if (classId) filter.classId = classId;
+  if (subjectId) filter.subjectId = subjectId;
+  if (bookId) filter.bookId = bookId;
+  // If search is provided, apply global search on `name`
+  if (search) {
+    filter.chapterName = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
+  return Ebook.paginate(filter, options);
 };
 
 /**
