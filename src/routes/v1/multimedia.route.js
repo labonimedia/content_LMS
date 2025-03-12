@@ -24,7 +24,7 @@ router
     //   { name: 'icon1', maxCount: 1 },
     //   { name: 'icon2', maxCount: 1 },
     // ]),
-    validate(multimediaValidation.updateMultimedia),
+    // validate(multimediaValidation.updateMultimedia),
     multimediaController.updateMultimedia
   )
   .delete(validate(multimediaValidation.deleteMultimedia), multimediaController.deleteMultimedia);
