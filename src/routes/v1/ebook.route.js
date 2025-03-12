@@ -16,9 +16,7 @@ router
   .patch(ebookController.updateEbook)
   .delete(ebookController.deleteEbook);
 
-router
-  .route('/getebooks/filter')
-  .post(validate(ebookValidation.getEbooksByFilter),ebookController.getEbookByFilter);
+router.route('/getebooks/filter').post(validate(ebookValidation.getEbooksByFilter), ebookController.getEbookByFilter);
 
 router
   .route('/get-by/chapterId/:chapterId')

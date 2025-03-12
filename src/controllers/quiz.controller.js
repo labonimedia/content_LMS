@@ -293,7 +293,7 @@ const getQuizeByFilter = catchAsync(async (req, res) => {
     options
   );
 
- if (!quizes || quizes.totalResults === 0) {
+  if (!quizes || quizes.totalResults === 0) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No quizes found');
   }
   res.send(quizes);

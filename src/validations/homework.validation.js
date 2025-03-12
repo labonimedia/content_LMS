@@ -100,5 +100,5 @@ module.exports = {
   updateHomework,
   deleteHomework,
   getHomeworkFilter,
-  getHomeByFilter
+  getHomeByFilter,
 };

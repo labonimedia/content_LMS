@@ -71,7 +71,7 @@ const getQuickRecapByFilter = async (boardId, mediumId, classId, subjectId, book
 
   // Fetch data with pagination
   return Quickrecap.paginate(filter, options);
-  //return Quickrecap.find({ boardId, mediumId, classId, subjectId, bookId, chapterId });
+  // return Quickrecap.find({ boardId, mediumId, classId, subjectId, bookId, chapterId });
 };
 
 /**

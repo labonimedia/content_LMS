@@ -52,8 +52,8 @@ const getEbookByChapterId = async (chapterId) => {
  *  @param {ObjectId} bookId
  * @returns {Promise<Multimedia>}
  */
-const getEbookByFilter = async (boardId, mediumId, classId, subjectId, bookId,  search, options) => {
-  //return Ebook.find({ boardId, mediumId, classId, subjectId, bookId }).sort('order');
+const getEbookByFilter = async (boardId, mediumId, classId, subjectId, bookId, search, options) => {
+  // return Ebook.find({ boardId, mediumId, classId, subjectId, bookId }).sort('order');
   const filter = {};
 
   // If boardId, mediumId, and classId are provided, filter by them

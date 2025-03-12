@@ -5,7 +5,7 @@ const { statementService } = require('../services');
 
 const createStatement = catchAsync(async (req, res) => {
   const statement = await statementService.createStatement(req.body);
-  res.status(httpStatus.CREATED).send(parent);
+  res.status(httpStatus.CREATED).send(statement);
 });
 
 const getAllStatement = catchAsync(async (req, res) => {

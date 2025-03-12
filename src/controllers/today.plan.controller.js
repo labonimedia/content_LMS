@@ -73,5 +73,5 @@ module.exports = {
   getSinglePlan,
   updatePlan,
   deletePlan,
-  getPlanVideoByFilter
+  getPlanVideoByFilter,
 };

@@ -71,7 +71,7 @@ const getLectureVideoByFilter = async (boardId, mediumId, classId, subjectId, bo
 
   // Fetch data with pagination
   return LectureVideo.paginate(filter, options);
-  //return LectureVideo.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
+  // return LectureVideo.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
 };
 
 /**

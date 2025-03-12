@@ -49,7 +49,7 @@ router.route('/NotSelect').get(validate(quizeValidation.NotSelectQuize), quizeCo
 router
   .route('/:quizeId')
   .get(validate(quizeValidation.getQuize), quizeController.getQuizeById)
-  .patch(validate(quizeValidation.updateQuize), quizeController.updateQuizeById)
+  .patch(quizeController.updateQuizeById)
   .delete(validate(quizeValidation.deleteQuize), quizeController.deleteQuizeById);
 
 // router.route('/:quizeId/submit').post(validate(quizeValidation.submitQuize), quizeController.QuizeByIdSubmit);

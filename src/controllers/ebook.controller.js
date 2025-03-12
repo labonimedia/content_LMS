@@ -40,15 +40,7 @@ const getEbookByFilter = catchAsync(async (req, res) => {
     sortBy: 'chapterName', // Sorting by subject name
   };
 
-  const ebook = await ebookService.getEbookByFilter(
-    boardId,
-    mediumId,
-    classId,
-    subjectId,
-    bookId,
-    search,
-    options
-  );
+  const ebook = await ebookService.getEbookByFilter(boardId, mediumId, classId, subjectId, bookId, search, options);
   if (!ebook || ebook.totalResults === 0) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No ebook found');
   }
