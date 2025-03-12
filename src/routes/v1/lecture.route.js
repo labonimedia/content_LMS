@@ -21,6 +21,6 @@ router.route('/get/all-lecture/:chapterId').get(lectureVideoController.getLectur
 //   .get(lectureVideoController.getLectureVideoByFilter); // validate(lectureVideoValidation.getLessionByFilter),
 router
   .route('/filter')
-  .post(validate(lectureVideoValidation.getLecByFilter),lectureVideoController.getLectureVideoByFilter); // validate(lectureVideoValidation.getLessionByFilter),
+  .post(validate(lectureVideoValidation.getLecByFilter), lectureVideoController.getLectureVideoByFilter); // validate(lectureVideoValidation.getLessionByFilter),
 
 module.exports = router;

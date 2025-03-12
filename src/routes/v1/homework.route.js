@@ -16,7 +16,7 @@ router
   .patch(validate(homeworkValidation.updateHomework), homeworkController.updateHomework)
   .delete(validate(homeworkValidation.deleteHomework), homeworkController.deleteHomework);
 
-router.route('/get-by/filter').post(validate(homeworkValidation.getHomeByFilter),homeworkController.getHomeworkByFilterId);
+router.route('/get-by/filter').post(validate(homeworkValidation.getHomeByFilter), homeworkController.getHomeworkByFilterId);
 router
   .route('/get-by/:chapterId')
   .get(validate(homeworkValidation.answerTypeWiseByChapterId), homeworkController.answerTypeWiseByChapterId);

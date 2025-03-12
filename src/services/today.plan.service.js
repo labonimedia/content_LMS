@@ -132,17 +132,7 @@ const deletePlanById = async (planId) => {
  *  @param {ObjectId} chapterId
  * @returns {Promise<Multimedia>}
  */
-const getPlanVideoByFilter = async (
-  boardId,
-  mediumId,
-  classId,
-  subjectId,
-  bookId,
-  chapterId,
-  lessonId,
-  search,
-  options
-) => {
+const getPlanVideoByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId, search, options) => {
   const filter = {};
 
   // If boardId, mediumId, and classId are provided, filter by them

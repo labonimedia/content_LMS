@@ -62,7 +62,7 @@ const getHomeworkByFilterId = async (boardId, mediumId, classId, subjectId, book
 
   // Fetch data with pagination
   return Homework.paginate(filter, options);
-  //return Homework.find({ boardId, mediumId, classId, bookId, subjectId, chapterId });
+  // return Homework.find({ boardId, mediumId, classId, bookId, subjectId, chapterId });
 };
 
 const answerTypeWiseByChapterId = async (chapterId) => {
