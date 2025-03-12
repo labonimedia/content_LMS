@@ -122,7 +122,46 @@ const deletePlanById = async (planId) => {
   await deletedPlan.remove();
   return deletedPlan;
 };
+/**
+ * Get mutimedia by Filter
+ * @param {ObjectId} boardId
+ *  @param {ObjectId} mediumId
+ *  @param {ObjectId} classId
+ *  @param {ObjectId} subjectId
+ *  @param {ObjectId} bookId
+ *  @param {ObjectId} chapterId
+ * @returns {Promise<Multimedia>}
+ */
+const getPlanVideoByFilter = async (
+  boardId,
+  mediumId,
+  classId,
+  subjectId,
+  bookId,
+  chapterId,
+  lessonId,
+  search,
+  options
+) => {
+  const filter = {};
 
+  // If boardId, mediumId, and classId are provided, filter by them
+  if (boardId) filter.boardId = boardId;
+  if (mediumId) filter.mediumId = mediumId;
+  if (classId) filter.classId = classId;
+  if (subjectId) filter.subjectId = subjectId;
+  if (bookId) filter.bookId = bookId;
+  if (chapterId) filter.chapterId = chapterId;
+  if (lessonId) filter.lessonId = lessonId;
+  // If search is provided, apply global search on `name`
+  if (search) {
+    filter.name = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
+  return TodayPlan.paginate(filter, options);
+  // return Multimedia.find({ boardId, mediumId, classId, subjectId, bookId, chapterId }).sort('order');
+};
 module.exports = {
   createNewPlan,
   getAllPlans,
@@ -130,4 +169,5 @@ module.exports = {
   getPlanById,
   updatePlanById,
   deletePlanById,
+  getPlanVideoByFilter,
 };

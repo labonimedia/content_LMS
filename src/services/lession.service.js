@@ -88,6 +88,26 @@ const deleteLessionById = async (lessionId) => {
   return lession;
 };
 
+const getLessonListByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, search, options) => {
+  const filter = {};
+
+  // If boardId, mediumId, and classId are provided, filter by them
+  if (boardId) filter.boardId = boardId;
+  if (mediumId) filter.mediumId = mediumId;
+  if (classId) filter.classId = classId;
+  if (subjectId) filter.subjectId = subjectId;
+  if (bookId) filter.bookId = bookId;
+  if (chapterId) filter.chapterId = chapterId;
+
+  // If search is provided, apply global search on `name`
+  if (search) {
+    filter.name = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
+  return Lession.paginate(filter, options);
+};
+
 module.exports = {
   createLession,
   queryLessions,
@@ -96,4 +116,5 @@ module.exports = {
   deleteLessionById,
   getLessionbychapterId,
   getLessionByFilter,
+  getLessonListByFilter,
 };

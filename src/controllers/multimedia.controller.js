@@ -125,11 +125,28 @@ const getMultimediaByTypeFilter = catchAsync(async (req, res) => {
 });
 
 const getMultimediaByFilter = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, subjectId, bookId, chapterId } = req.params;
-  const multimedia = await multimediaService.getMultimediaByFilter(boardId, mediumId, classId, subjectId, bookId, chapterId);
-  if (!multimedia) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Multimedia not found');
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, multimediaType, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'order', // Sorting by subject name
+  };
+
+  const multimedia = await multimediaService.getMultimediaByFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    chapterId,
+    multimediaType,
+    search,
+    options
+  );
+  if (!multimedia || multimedia.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No multimedia found');
   }
+
   res.send(multimedia);
 });
 

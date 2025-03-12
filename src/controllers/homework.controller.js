@@ -25,11 +25,27 @@ const getHomeworkById = catchAsync(async (req, res) => {
 });
 
 const getHomeworkByFilterId = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, bookId, subjectId, chapterId } = req.query;
-  const homework = await HomeworkSerices.getHomeworkByFilterId(boardId, mediumId, classId, bookId, subjectId, chapterId);
-  if (!homework) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Homework not found');
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'Question', // Sorting by subject name
+  };
+
+  const homework = await HomeworkSerices.getHomeworkByFilterId(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    chapterId,
+    search,
+    options
+  );
+  if (!homework || homework.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No homework found');
   }
+
   res.send(homework);
 });
 

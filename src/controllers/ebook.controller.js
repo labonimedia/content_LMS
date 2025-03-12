@@ -33,12 +33,33 @@ const getEbookByChapterId = catchAsync(async (req, res) => {
 });
 
 const getEbookByFilter = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, subjectId, bookId } = req.params;
-  const ebook = await ebookService.getEbookByFilter(boardId, mediumId, classId, subjectId, bookId);
-  if (!ebook) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Ebook not found');
+  const { boardId, mediumId, classId, subjectId, bookId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'chapterName', // Sorting by subject name
+  };
+
+  const ebook = await ebookService.getEbookByFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    search,
+    options
+  );
+  if (!ebook || ebook.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No ebook found');
   }
+
   res.send(ebook);
+  // const { boardId, mediumId, classId, subjectId, bookId } = req.params;
+  // const ebook = await ebookService.getEbookByFilter(boardId, mediumId, classId, subjectId, bookId);
+  // if (!ebook) {
+  //   throw new ApiError(httpStatus.NOT_FOUND, 'Ebook not found');
+  // }
+  // res.send(ebook);
 });
 
 const updateEbook = catchAsync(async (req, res) => {

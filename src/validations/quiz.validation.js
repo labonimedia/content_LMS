@@ -71,7 +71,7 @@ const getQuizDayWise = {
 };
 
 const getQuizFilter = {
-  query: Joi.object().keys({
+  body: Joi.object().keys({
     classId: Joi.string(),
     boardId: Joi.string(),
     mediumId: Joi.string(),
@@ -79,7 +79,7 @@ const getQuizFilter = {
     subjectId: Joi.string(),
     chapterId: Joi.string(),
     lectureVideoId: Joi.string(),
-    sortBy: Joi.string(),
+    search: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),

@@ -70,6 +70,32 @@ const deleteLession = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getLessonListByFilter = catchAsync(async (req, res) => {
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'name', // Sorting by subject name
+  };
+
+  // Call service function
+  const chapters = await lessionService.getLessonListByFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    chapterId,
+    search,
+    options
+  );
+
+  if (!chapters || chapters.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No Lesson found');
+  }
+
+  res.send(chapters);
+});
 module.exports = {
   createLession,
   queryLessions,
@@ -78,4 +104,5 @@ module.exports = {
   deleteLession,
   getLessionbychapId,
   getLessionByFilter,
+  getLessonListByFilter,
 };

@@ -34,17 +34,25 @@ const getLectureVideobychapId = catchAsync(async (req, res) => {
 });
 
 const getLectureVideoByFilter = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, subjectId, bookId, chapterId } = req.params;
+  // const { boardId, mediumId, classId, subjectId, bookId, chapterId } = req.params;
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'order', // Sorting by subject name
+  };
   const lectureVideo = await lectureVideoService.getLectureVideoByFilter(
     boardId,
     mediumId,
     classId,
     subjectId,
     bookId,
-    chapterId
+    chapterId,
+    search,
+    options
   );
-  if (!lectureVideo) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'LectureVideo not found');
+  if (!lectureVideo || lectureVideo.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No lectureVideo found');
   }
   res.send(lectureVideo);
 });

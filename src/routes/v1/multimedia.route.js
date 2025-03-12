@@ -29,10 +29,12 @@ router
   )
   .delete(validate(multimediaValidation.deleteMultimedia), multimediaController.deleteMultimedia);
 
+// router
+//   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
+//   .post(validate(multimediaValidation.getMultimediaByFilter), multimediaController.getMultimediaByFilter);
 router
-  .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
-  .get(validate(multimediaValidation.getMultimediaByFilter), multimediaController.getMultimediaByFilter);
-
+  .route('/getmultimedia/filter')
+  .post(validate(multimediaValidation.getMultimediaByFilter), multimediaController.getMultimediaByFilter);
 router
   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId/:multimediaType')
   .get(validate(multimediaValidation.getMultimediaByTypeFilter), multimediaController.getMultimediaByTypeFilter);

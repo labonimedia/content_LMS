@@ -1,7 +1,7 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
 const ebookController = require('../../controllers/ebook.controller');
-const ebookValidation = require('../../validations');
+const { ebookValidation } = require('../../validations');
 
 const router = express.Router();
 
@@ -12,13 +12,13 @@ router
 
 router
   .route('/:ebookId')
-  .get(validate(ebookValidation.getEbookById), ebookController.getEbookById)
-  .patch(validate(ebookValidation.updateEbook), ebookController.updateEbook)
-  .delete(validate(ebookValidation.deleteEbook), ebookController.deleteEbook);
+  .get(ebookController.getEbookById)
+  .patch(ebookController.updateEbook)
+  .delete(ebookController.deleteEbook);
 
 router
-  .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId')
-  .get(validate(ebookValidation.getEbookByFilter), ebookController.getEbookByFilter);
+  .route('/getebooks/filter')
+  .post(validate(ebookValidation.getEbooksByFilter),ebookController.getEbookByFilter);
 
 router
   .route('/get-by/chapterId/:chapterId')

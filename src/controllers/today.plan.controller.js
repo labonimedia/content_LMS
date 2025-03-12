@@ -40,6 +40,32 @@ const deletePlan = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getPlanVideoByFilter = catchAsync(async (req, res) => {
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId, search } = req.body;
+  const options = {
+    limit: parseInt(req.body.limit, 10) || 10,
+    page: parseInt(req.body.page, 10) || 1,
+    sortBy: 'name', // Sorting by subject name
+  };
+
+  const planvideo = await planvideoService.getPlanVideoByFilter(
+    boardId,
+    mediumId,
+    classId,
+    subjectId,
+    bookId,
+    chapterId,
+    lessonId,
+    search,
+    options
+  );
+  if (!planvideo || planvideo.totalResults === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No planvideo found');
+  }
+
+  res.send(planvideo);
+});
+
 module.exports = {
   createNewPlan,
   getAllPlans,
@@ -47,4 +73,5 @@ module.exports = {
   getSinglePlan,
   updatePlan,
   deletePlan,
+  getPlanVideoByFilter
 };

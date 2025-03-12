@@ -45,8 +45,24 @@ const getHomeworkById = async (id) => {
  * @param {ObjectId} classId
  * @returns {Promise<Homework>}
  */
-const getHomeworkByFilterId = async (boardId, mediumId, classId, bookId, subjectId, chapterId) => {
-  return Homework.find({ boardId, mediumId, classId, bookId, subjectId, chapterId });
+const getHomeworkByFilterId = async (boardId, mediumId, classId, subjectId, bookId, chapterId, search, options) => {
+  const filter = {};
+
+  // If boardId, mediumId, and classId are provided, filter by them
+  if (boardId) filter.boardId = boardId;
+  if (mediumId) filter.mediumId = mediumId;
+  if (classId) filter.classId = classId;
+  if (subjectId) filter.subjectId = subjectId;
+  if (bookId) filter.bookId = bookId;
+  if (chapterId) filter.chapterId = chapterId;
+  // If search is provided, apply global search on `name`
+  if (search) {
+    filter.Question = { $regex: search, $options: 'i' };
+  }
+
+  // Fetch data with pagination
+  return Homework.paginate(filter, options);
+  //return Homework.find({ boardId, mediumId, classId, bookId, subjectId, chapterId });
 };
 
 const answerTypeWiseByChapterId = async (chapterId) => {

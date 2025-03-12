@@ -1,5 +1,7 @@
 const express = require('express');
+const validate = require('../../middlewares/validate');
 const { lectureVideoController } = require('../../controllers');
+const { lectureVideoValidation } = require('../../validations');
 // const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
@@ -14,8 +16,11 @@ router
 
 router.route('/get/all-lecture/:chapterId').get(lectureVideoController.getLectureVideobychapId); // validate(lectureVideoValidation.getLectureVideobychapterId),
 
+// router
+//   .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
+//   .get(lectureVideoController.getLectureVideoByFilter); // validate(lectureVideoValidation.getLessionByFilter),
 router
-  .route('/filter/:boardId/:mediumId/:classId/:subjectId/:bookId/:chapterId')
-  .get(lectureVideoController.getLectureVideoByFilter); // validate(lectureVideoValidation.getLessionByFilter),
+  .route('/filter')
+  .post(validate(lectureVideoValidation.getLecByFilter),lectureVideoController.getLectureVideoByFilter); // validate(lectureVideoValidation.getLessionByFilter),
 
 module.exports = router;
