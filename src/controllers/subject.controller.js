@@ -87,10 +87,13 @@ const getUbjectByFilter = catchAsync(async (req, res) => {
 // });
 
 const updateSubject = catchAsync(async (req, res) => {
-  // const { file } = req;
-  // if (file) {
-  //   req.body.thumbnail = await filterPath(file.location);
-  // }
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   const subject = await subjectService.updatSubjectById(req.params.subjectId, req.body);
   res.send(subject);
 });

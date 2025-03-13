@@ -19,7 +19,12 @@ router
 
 router
   .route('/:subjectId')
-  .patch(subjectController.updateSubject)
+  .patch(
+    upload.fields([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'poster', maxCount: 1 },
+    ]),
+    subjectController.updateSubject)
   .delete(validate(subjectValidation.deleteSubject), subjectController.deleteSubject)
   .get(validate(subjectValidation.getSubject), subjectController.getSubjectById);
 
