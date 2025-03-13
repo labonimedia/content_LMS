@@ -7,13 +7,13 @@ const bookValidation = require('../../validations/book.validation');
 const router = express.Router();
 router
   .route('/upload')
-  .post(validate(bookValidation.createBook), bookController.createBook)
+  .post(bookController.createBook)
   .get(validate(bookValidation.getBooks), bookController.queryBook);
 
 router
   .route('/:bookId')
   .get(validate(bookValidation.getBook), bookController.getBookById)
-  .patch(validate(bookValidation.updateBook), bookController.updateBook)
+  .patch(bookController.updateBook)
   .delete(validate(bookValidation.deleteBook), bookController.deleteBook);
 
 router

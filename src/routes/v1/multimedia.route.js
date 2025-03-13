@@ -2,7 +2,7 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const multimediaController = require('../../controllers/multimedia.controller');
 const multimediaValidation = require('../../validations/multimedia.validation');
-// const { upload } = require('../../utils/cdn');
+const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
 router
@@ -16,6 +16,15 @@ router
   )
   .get(validate(multimediaValidation.getAllMultimedia), multimediaController.getMultimedia);
 
+  router
+  .route('/')
+  .post(
+    upload.fields([
+      { name: 'icon1', maxCount: 1 },
+      { name: 'icon2', maxCount: 1 },
+    ]),
+    multimediaController.createMultimedia
+  )
 router
   .route('/:multimediaId')
   .get(validate(multimediaValidation.getMultimediaById), multimediaController.getMultimediaById)

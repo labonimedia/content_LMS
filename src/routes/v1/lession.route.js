@@ -8,13 +8,13 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(lessionValidation.createLession), lessionController.createLession)
+  .post(lessionController.createLession)
   .get(validate(lessionValidation.getLessions), lessionController.queryLessions);
 
 router
   .route('/:lessionId')
   .get(validate(lessionValidation.getLession), lessionController.getLession)
-  .patch(validate(lessionValidation.updateLession), lessionController.updateLession)
+  .patch(lessionController.updateLession)
   .delete(validate(lessionValidation.deleteLession), lessionController.deleteLession);
 
 router

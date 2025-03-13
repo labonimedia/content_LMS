@@ -5,9 +5,21 @@ const catchAsync = require('../utils/catchAsync');
 const { classesService } = require('../services');
 // const { filterPath } = require('../utils/s3middleware');
 
+// const createClasses = catchAsync(async (req, res) => {
+//   // const { file } = req;
+//   // req.body.thumbnail = await filterPath(file.location);
+//   const newClass = await classesService.createClasses(req.body);
+//   res.status(httpStatus.CREATED).send(newClass);
+// });
+
 const createClasses = catchAsync(async (req, res) => {
-  // const { file } = req;
-  // req.body.thumbnail = await filterPath(file.location);
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
+
   const newClass = await classesService.createClasses(req.body);
   res.status(httpStatus.CREATED).send(newClass);
 });

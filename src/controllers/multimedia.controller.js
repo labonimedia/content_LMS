@@ -17,6 +17,18 @@ const createMultimedia = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(multimedia);
 });
 
+// const createMultimedia = catchAsync(async (req, res) => {
+//   // if (req.files.icon1) {
+//   // console.log(req.body);
+//   //   req.body.icon1 = await filterPath(req.files.icon1[0].location);
+//   // }
+//   // if (req.files.icon2) {
+//   //   req.body.icon2 = await filterPath(req.files.icon2[0].location);
+//   // }
+//   const multimedia = await multimediaService.createMultimedia(req.body);
+//   res.status(httpStatus.CREATED).send(multimedia);
+// });
+
 const getMultimedia = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['lessionName', 'multimediaType']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);

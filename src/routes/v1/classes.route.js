@@ -3,13 +3,24 @@ const validate = require('../../middlewares/validate');
 const classValidation = require('../../validations/class.validation');
 const classesController = require('../../controllers/classes.controller');
 // const { createS3Middleware } = require('../../utils/s3middleware');
+const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
-
 router
   .route('/')
-  .post(validate(classValidation.createClass), classesController.createClasses)
-  .get(validate(classValidation.getAllClass), classesController.getClasses);
+  .post(
+    upload.fields([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'poster', maxCount: 1 },
+    ]),
+    validate(classValidation.createClass),
+    classesController.createClasses
+  ).get(validate(classValidation.getAllClass), classesController.getClasses);
+
+// router
+//   .route('/')
+//   // .post(validate(classValidation.createClass), classesController.createClasses)
+//   .get(validate(classValidation.getAllClass), classesController.getClasses);
 
 router
   .route('/:classId')
