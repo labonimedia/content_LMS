@@ -5,8 +5,13 @@ const catchAsync = require('../utils/catchAsync');
 const { subjectService } = require('../services');
 
 const createSubject = catchAsync(async (req, res) => {
-  // const { file } = req;
-  // req.body.thumbnail = await filterPath(file.location);
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   const subject = await subjectService.createSubject(req.body);
   res.status(httpStatus.CREATED).send(subject);
 });

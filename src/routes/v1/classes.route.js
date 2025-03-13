@@ -13,7 +13,6 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    validate(classValidation.createClass),
     classesController.createClasses
   )
   .get(validate(classValidation.getAllClass), classesController.getClasses);
@@ -31,7 +30,6 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    validate(classValidation.updateClassById),
     classesController.updateSingleClass
   )
   .delete(validate(classValidation.deleteClassById), classesController.deleteSingleClass);
