@@ -1,6 +1,8 @@
 const httpStatus = require('http-status');
 const { Classes } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
+const { s3Client } = require('../utils/cdn');
 
 /**
  * Create a Classes
@@ -64,15 +66,46 @@ const updateClassById = async (classId, updateBody) => {
  * @param {ObjectId} classId
  * @returns {Promise<Classes>}
  */
+// const deleteClassById = async (classId) => {
+//   const user = await getClassById(classId);
+//   if (!user) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Class not found');
+//   }
+//   await user.remove();
+//   return user;
+// };
 const deleteClassById = async (classId) => {
-  const user = await getClassById(classId);
-  if (!user) {
+  const classData = await Classes.findById(classId);
+  if (!classData) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Class not found');
   }
-  await user.remove();
-  return user;
-};
 
+  // Extract file names from URLs
+  const extractFileName = (url) => url ? url.split('/').pop() : null;
+  const thumbnailKey = extractFileName(classData.thumbnail);
+  const posterKey = extractFileName(classData.poster);
+
+  const deleteFileFromCDN = async (key) => {
+    if (!key) return;
+    try {
+      const params = {
+        Bucket: 'lmscontent', // Your bucket name
+        Key: key, // File key (filename in the bucket)
+      };
+      await s3Client.send(new DeleteObjectCommand(params));
+
+    } catch (error) {
+     // console.error(`Error deleting ${key}:`, error);
+    }
+  };
+
+  // Delete files from CDN
+  await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
+
+  // Delete class document from MongoDB
+  await classData.remove();
+  return classData;
+};
 module.exports = {
   createClasses,
   getAllClasses,
