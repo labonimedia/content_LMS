@@ -10,7 +10,6 @@ const createSubject = {
     code: Joi.string().required(),
     thumbnail: Joi.string(),
     poster: Joi.string(),
-    description: Joi.string(),
   }),
 };
 
@@ -65,7 +64,6 @@ const updateSubject = {
       code: Joi.string(),
       thumbnail: Joi.string(),
       poster: Joi.string(),
-      description: Joi.string(),
     })
     .min(1),
 };

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(chapterValidation.createChapter), chaterController.createChapter)
+  .post(chaterController.createChapter)
   .get(validate(chapterValidation.getAllChapter), chaterController.getChapter);
 
 router
@@ -18,7 +18,7 @@ router
 router
   .route('/:chapterId')
   .get(validate(chapterValidation.getChapter), chaterController.getSingleChapter)
-  .patch(validate(chapterValidation.updateChapterById), chaterController.updateSingleClass)
+  .patch(chaterController.updateSingleClass)
   .delete(validate(chapterValidation.deleteChapterById), chaterController.deleteSingleChapter);
 
 router

@@ -10,7 +10,6 @@ const createBook = {
     boardId: Joi.string().custom(objectId).required(),
     thumbnail: Joi.string(),
     poster: Joi.string(),
-    description: Joi.string(),
   }),
 };
 
