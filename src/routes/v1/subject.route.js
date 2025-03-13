@@ -3,12 +3,18 @@ const validate = require('../../middlewares/validate');
 const subjectController = require('../../controllers/subject.controller');
 const subjectValidation = require('../../validations/subject.validation');
 // const { createS3Middleware } = require('../../utils/s3middleware');
+const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(subjectController.createSubject)
+  .post(
+    upload.fields([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'poster', maxCount: 1 },
+    ]),
+    subjectController.createSubject)
   .get(validate(subjectValidation.getAllSubject), subjectController.getAllSubject);
 
 router
