@@ -91,9 +91,14 @@ module.exports = {
     },
     from: envVars.EMAIL_FROM,
   },
+  // cdn: {
+  //   accessKey: envVars.AWS_ACCESS_KEY_ID,
+  //   secreteKey: envVars.AWS_SECRETE_ACCESS_KEY,
+  //   region: envVars.REGION,
+  // },
   cdn: {
     accessKey: envVars.AWS_ACCESS_KEY_ID,
     secreteKey: envVars.AWS_SECRETE_ACCESS_KEY,
-    region: envVars.REGION,
+    region: envVars.REGION || 'blr1', // Ensure region is set (DigitalOcean Spaces uses 'blr1', 'nyc3', etc.)
   },
 };

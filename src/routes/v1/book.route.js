@@ -5,10 +5,7 @@ const bookValidation = require('../../validations/book.validation');
 // const { createS3Middleware } = require('../../utils/s3middleware');
 
 const router = express.Router();
-router
-  .route('/upload')
-  .post(bookController.createBook)
-  .get(validate(bookValidation.getBooks), bookController.queryBook);
+router.route('/upload').post(bookController.createBook).get(validate(bookValidation.getBooks), bookController.queryBook);
 
 router
   .route('/:bookId')

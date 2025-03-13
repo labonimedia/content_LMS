@@ -16,6 +16,7 @@ const createClasses = catchAsync(async (req, res) => {
   if (req.files?.thumbnail) {
     req.body.thumbnail = req.files.thumbnail[0].location;
   }
+
   if (req.files?.poster) {
     req.body.poster = req.files.poster[0].location;
   }
@@ -41,12 +42,14 @@ const getSingleClass = catchAsync(async (req, res) => {
 });
 
 const updateSingleClass = catchAsync(async (req, res) => {
-  // const { file } = req;
-  // if (file) {
-  //   req.body.thumbnail = await filterPath(file.location);
-  // }
-  const updateddClass = await classesService.updateClassById(req.params.classId, req.body);
-  res.send(updateddClass);
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
+  const updatedClass = await classesService.updateClassById(req.params.classId, req.body);
+  res.send(updatedClass);
 });
 
 const deleteSingleClass = catchAsync(async (req, res) => {
