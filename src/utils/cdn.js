@@ -7,13 +7,22 @@ const config = require('../config/config');
 const spacesEndpoint = 'https://lmscontent-cdn.blr1.digitaloceanspaces.com';
 
 // Create an S3 client
+// const s3Client = new S3Client({
+//   forcePathStyle: true,
+//   endpoint: spacesEndpoint,
+//   region: config.cdn.region,
+//   credentials: {
+//     accessKeyId: config.cdn.accessKey,
+//     secretAccessKey: config.cdn.secreteKey,
+//   },
+// });
 const s3Client = new S3Client({
   forcePathStyle: true,
   endpoint: spacesEndpoint,
-  region: config.cdn.region,
+  region: config.cdn.region || 'blr1', // Ensure REGION is set
   credentials: {
     accessKeyId: config.cdn.accessKey,
-    secretAccessKey: config.cdn.secreteKey,
+    secretAccessKey: config.cdn.secreteKey, // Fix the typo
   },
 });
 
