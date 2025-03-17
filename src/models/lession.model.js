@@ -44,7 +44,7 @@ const lessionSchema = mongoose.Schema(
     type: {
       type: String,
       trim: true,
-      required: true,
+      // required: true,
     },
     order: {
       type: Number,
