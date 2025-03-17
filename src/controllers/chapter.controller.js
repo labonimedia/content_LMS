@@ -6,8 +6,13 @@ const { chapterService } = require('../services');
 // const { filterPath } = require('../utils/s3middleware');
 
 const createChapter = catchAsync(async (req, res) => {
-  // const { file } = req;
-  // req.body.thumbnail = await filterPath(file.location);
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   const newChapter = await chapterService.createChapter(req.body);
   res.status(httpStatus.CREATED).send(newChapter);
 });
@@ -52,10 +57,13 @@ const getChaptersByBookId = catchAsync(async (req, res) => {
 });
 
 const updateSingleClass = catchAsync(async (req, res) => {
-  // const { file } = req;
-  // if (file) {
-  //   req.body.thumbnail = await filterPath(file.location);
-  // }
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   const updateddClass = await chapterService.updateChapterById(req.params.chapterId, req.body);
   res.send(updateddClass);
 });
