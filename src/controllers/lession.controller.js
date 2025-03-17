@@ -5,12 +5,13 @@ const catchAsync = require('../utils/catchAsync');
 const { lessionService } = require('../services');
 
 const createLession = catchAsync(async (req, res) => {
-  // if (req.files[0] && req.files[0].location) {
-  //   req.body.thumbnail = await filterPath(req.files[0].location);
-  // }
-  // if (req.files[1] && req.files[1].location) {
-  //   req.body.poster = await filterPath(req.files[1].location);
-  // }
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   // req.body.thumbnail = await filterPath(req.files[0].location);
   // req.body.poster = await filterPath(req.files[0].location);
 
@@ -53,14 +54,13 @@ const getLessionByFilter = catchAsync(async (req, res) => {
 });
 
 const updateLession = catchAsync(async (req, res) => {
-  // if (req.files) {
-  //   if (req.files[0] && req.files[0].location) {
-  //     req.body.thumbnail = await filterPath(req.files[0].location);
-  //   }
-  //   if (req.files[1] && req.files[1].location) {
-  //     req.body.poster = await filterPath(req.files[1].location);
-  //   }
-  // }
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   const lession = await lessionService.updateLessionById(req.params.lessionId, req.body);
   res.send(lession);
 });

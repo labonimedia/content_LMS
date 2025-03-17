@@ -2,19 +2,29 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const lessionController = require('../../controllers/lession.controller');
 const lessionValidation = require('../../validations/lession.validation');
-// const { upload } = require('../../utils/cdn');
+const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(lessionController.createLession)
+  .post(
+    upload.fields([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'poster', maxCount: 1 },
+    ]),
+    lessionController.createLession)
   .get(validate(lessionValidation.getLessions), lessionController.queryLessions);
 
 router
   .route('/:lessionId')
   .get(validate(lessionValidation.getLession), lessionController.getLession)
-  .patch(lessionController.updateLession)
+  .patch(
+    upload.fields([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'poster', maxCount: 1 },
+    ]),
+    lessionController.updateLession)
   .delete(validate(lessionValidation.deleteLession), lessionController.deleteLession);
 
 router

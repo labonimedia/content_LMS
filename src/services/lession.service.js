@@ -1,6 +1,8 @@
 const httpStatus = require('http-status');
 const { Lession } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { s3Client } = require('../utils/cdn');
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
 /**
  * Create a lession
@@ -84,6 +86,26 @@ const deleteLessionById = async (lessionId) => {
   if (!lession) {
     throw new ApiError(httpStatus.NOT_FOUND, 'lession not found');
   }
+   // Extract file names from URLs
+   const extractFileName = (url) => (url ? url.split('/').pop() : null);
+   const thumbnailKey = extractFileName(lession.thumbnail);
+   const posterKey = extractFileName(lession.poster);
+ 
+   const deleteFileFromCDN = async (key) => {
+     if (!key) return;
+     try {
+       const params = {
+         Bucket: 'lmscontent', // Your bucket name
+         Key: key, // File key (filename in the bucket)
+       };
+       await s3Client.send(new DeleteObjectCommand(params));
+     } catch (error) {
+       // console.error(`Error deleting ${key}:`, error);
+     }
+   };
+ 
+   // Delete files from CDN
+   await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
   await lession.remove();
   return lession;
 };
