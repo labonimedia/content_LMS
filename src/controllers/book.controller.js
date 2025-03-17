@@ -8,6 +8,13 @@ const { bookService } = require('../services');
 const createBook = catchAsync(async (req, res) => {
   // const { file } = req;
   // req.body.thumbnail = await filterPath(file.location);
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   const book = await bookService.createBook(req.body);
   res.status(httpStatus.CREATED).send(book);
 });
@@ -46,10 +53,13 @@ const getBookByFilter = catchAsync(async (req, res) => {
 });
 
 const updateBook = catchAsync(async (req, res) => {
-  // const { file } = req;
-  // if (file) {
-  //   req.body.thumbnail = await filterPath(file.location);
-  // }
+  if (req.files?.thumbnail) {
+    req.body.thumbnail = req.files.thumbnail[0].location;
+  }
+
+  if (req.files?.poster) {
+    req.body.poster = req.files.poster[0].location;
+  }
   const book = await bookService.updatBookById(req.params.bookId, req.body);
   res.send(book);
 });
