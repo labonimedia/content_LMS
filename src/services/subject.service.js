@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { Subject } = require('../models');
 const ApiError = require('../utils/ApiError');
-const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { s3Client } = require('../utils/cdn');
 
 /**
@@ -154,27 +154,26 @@ const deleteSubjectById = async (subjectId) => {
   if (!subjectData) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Subject not found');
   }
-   // Extract file names from URLs
-   const extractFileName = (url) => url ? url.split('/').pop() : null;
-   const thumbnailKey = extractFileName(subjectData.thumbnail);
-   const posterKey = extractFileName(subjectData.poster);
- 
-   const deleteFileFromCDN = async (key) => {
-     if (!key) return;
-     try {
-       const params = {
-         Bucket: 'lmscontent', // Your bucket name
-         Key: key, // File key (filename in the bucket)
-       };
-       await s3Client.send(new DeleteObjectCommand(params));
- 
-     } catch (error) {
+  // Extract file names from URLs
+  const extractFileName = (url) => (url ? url.split('/').pop() : null);
+  const thumbnailKey = extractFileName(subjectData.thumbnail);
+  const posterKey = extractFileName(subjectData.poster);
+
+  const deleteFileFromCDN = async (key) => {
+    if (!key) return;
+    try {
+      const params = {
+        Bucket: 'lmscontent', // Your bucket name
+        Key: key, // File key (filename in the bucket)
+      };
+      await s3Client.send(new DeleteObjectCommand(params));
+    } catch (error) {
       // console.error(`Error deleting ${key}:`, error);
-     }
-   };
- 
-   // Delete files from CDN
-   await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
+    }
+  };
+
+  // Delete files from CDN
+  await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
   await subjectData.remove();
   return subjectData;
 };

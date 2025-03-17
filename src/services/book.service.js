@@ -1,6 +1,8 @@
 const httpStatus = require('http-status');
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { Book, Chapter } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { s3Client } = require('../utils/cdn');
 
 /**
  * Create a book
@@ -112,6 +114,26 @@ const deleteBookById = async (bookId) => {
   if (!book) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Subject not found');
   }
+  // Extract file names from URLs
+  const extractFileName = (url) => (url ? url.split('/').pop() : null);
+  const thumbnailKey = extractFileName(book.thumbnail);
+  const posterKey = extractFileName(book.poster);
+
+  const deleteFileFromCDN = async (key) => {
+    if (!key) return;
+    try {
+      const params = {
+        Bucket: 'lmscontent', // Your bucket name
+        Key: key, // File key (filename in the bucket)
+      };
+      await s3Client.send(new DeleteObjectCommand(params));
+    } catch (error) {
+      // console.error(`Error deleting ${key}:`, error);
+    }
+  };
+
+  // Delete files from CDN
+  await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
   await book.remove();
   return book;
 };

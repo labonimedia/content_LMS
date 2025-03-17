@@ -3,14 +3,30 @@ const validate = require('../../middlewares/validate');
 const bookController = require('../../controllers/book.controller');
 const bookValidation = require('../../validations/book.validation');
 // const { createS3Middleware } = require('../../utils/s3middleware');
+const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
-router.route('/upload').post(bookController.createBook).get(validate(bookValidation.getBooks), bookController.queryBook);
+router
+  .route('/upload')
+  .post(
+    upload.fields([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'poster', maxCount: 1 },
+    ]),
+    bookController.createBook
+  )
+  .get(validate(bookValidation.getBooks), bookController.queryBook);
 
 router
   .route('/:bookId')
   .get(validate(bookValidation.getBook), bookController.getBookById)
-  .patch(bookController.updateBook)
+  .patch(
+    upload.fields([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'poster', maxCount: 1 },
+    ]),
+    bookController.updateBook
+  )
   .delete(validate(bookValidation.deleteBook), bookController.deleteBook);
 
 router

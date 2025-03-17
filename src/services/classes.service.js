@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { Classes } = require('../models');
 const ApiError = require('../utils/ApiError');
-const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { s3Client } = require('../utils/cdn');
 
 /**
@@ -81,7 +81,7 @@ const deleteClassById = async (classId) => {
   }
 
   // Extract file names from URLs
-  const extractFileName = (url) => url ? url.split('/').pop() : null;
+  const extractFileName = (url) => (url ? url.split('/').pop() : null);
   const thumbnailKey = extractFileName(classData.thumbnail);
   const posterKey = extractFileName(classData.poster);
 
@@ -93,9 +93,8 @@ const deleteClassById = async (classId) => {
         Key: key, // File key (filename in the bucket)
       };
       await s3Client.send(new DeleteObjectCommand(params));
-
     } catch (error) {
-     // console.error(`Error deleting ${key}:`, error);
+      // console.error(`Error deleting ${key}:`, error);
     }
   };
 

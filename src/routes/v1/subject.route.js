@@ -14,7 +14,8 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    subjectController.createSubject)
+    subjectController.createSubject
+  )
   .get(validate(subjectValidation.getAllSubject), subjectController.getAllSubject);
 
 router
@@ -24,7 +25,8 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    subjectController.updateSubject)
+    subjectController.updateSubject
+  )
   .delete(validate(subjectValidation.deleteSubject), subjectController.deleteSubject)
   .get(validate(subjectValidation.getSubject), subjectController.getSubjectById);
 
