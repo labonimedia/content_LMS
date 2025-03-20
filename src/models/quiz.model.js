@@ -86,6 +86,9 @@ const quizeSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    weightage:{
+      type:String,
+    }
   },
   {
     timestamps: true,
