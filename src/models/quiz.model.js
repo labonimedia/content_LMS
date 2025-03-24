@@ -87,10 +87,10 @@ const quizeSchema = mongoose.Schema(
       type: String,
     },
     weightage:{
-      type:String,
+      type:Number,
     },
     negativeWeightage:{
-      type:String,
+      type:Number,
     }
   },
   {
