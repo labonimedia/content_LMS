@@ -10,9 +10,11 @@ const multimediaSchema = mongoose.Schema(
     },
     icon1: {
       type: String,
+      //portrait
     },
     icon2: {
       type: String,
+      //landscape
     },
     path: {
       type: String,

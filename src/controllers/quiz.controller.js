@@ -212,13 +212,13 @@ const bulkUpload = catchAsync(async (req, res) => {
         quizName: row.Question,
         displayFormat: parseInt(row['Display Format'], 10) || 1,
         questionLevel: parseInt(row['Question Level'], 10) || 1,
-        questionType: parseInt(row['Question type'], 10) || 1,
-        files: row.files || '',
+        questionType: parseInt(row['Question Type'], 10) || 1,
+        files: row.Files || '',
         options: [options],
         correctOptions,
         explain: row.Explaination || '',
         hint: row.Hint || '',
-        types: row.types || 1,
+        types: row.Types || 1,
         boardId,
         mediumId,
         classId,
@@ -226,6 +226,9 @@ const bulkUpload = catchAsync(async (req, res) => {
         subjectId,
         chapterId,
         lectureVideoId,
+        description: row.Description || '',
+        weightage:  parseInt(row['Weightage'], 10) || 1,
+        negativeWeightage:  parseInt(row['Negative Weightage'], 10) || 1,
       };
     });
 
