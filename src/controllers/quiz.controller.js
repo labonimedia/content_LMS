@@ -407,14 +407,24 @@ const getQuizeByChapterId = catchAsync(async (req, res) => {
   res.send(quize);
 });
 
-const getQuizeByQuizName = catchAsync(async (req, res) => {
-  const quize = await quizeService.getQuizeByQestion(req.body.quizName);
-  if (!quize) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Quize not found');
-  }
-  res.send(quize);
-});
+// const getQuizeByQuizName = catchAsync(async (req, res) => {
 
+//   const quize = await quizeService.getQuizeByQestion(req.body.quizName);
+//   if (!quize) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Quize not found');
+//   }
+//   res.send(quize);
+// });
+const getQuizeByQuizName = catchAsync(async (req, res) => {
+ const { quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body
+  const quize = await quizeService.getQuizeByQestion(quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId);
+
+  if (!quize) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Quiz not found');
+  }
+
+  res.status(httpStatus.OK).send(quize);
+});
 const getQuizByClassIdAndDayWise = catchAsync(async (req, res) => {
   const quize = await quizeService.getQuizByclassIdAndDayWise(req.params.classId);
   if (!quize) {

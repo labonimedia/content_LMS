@@ -171,13 +171,30 @@ const getQuizeById = async (id) => {
   return Quize.findById(id);
 };
 
+// /**
+//  * Get quize by quizName
+//  * @param {ObjectId} quizName
+//  * @returns {Promise<Quize>}
+//  */
+// const getQuizeByQestion = async (quizName) => {
+//   return Quize.findOne({ quizName });
+// };
 /**
- * Get quize by quizName
- * @param {ObjectId} quizName
- * @returns {Promise<Quize>}
+ * Get quiz by quizName and other identifying fields
+ * @param {Object} quizData - Quiz data containing quizName and identifiers
+ * @returns {Promise<Quize|null>}
  */
-const getQuizeByQestion = async (quizName) => {
-  return Quize.findOne({ quizName });
+const getQuizeByQestion = async (quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId ) => {
+  return Quize.findOne({
+    quizName,
+    boardId,
+    mediumId,
+    classId,
+    bookId,
+    subjectId,
+    chapterId,
+    lectureVideoId,
+  });
 };
 
 /**
