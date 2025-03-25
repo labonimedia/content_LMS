@@ -253,9 +253,7 @@ const createQuize = catchAsync(async (req, res) => {
 
 
 
-const normalizeQuestion = (question) => {
-  return question.replace(/\s+/g, ' ').replace(/_+/g, '_').trim().toLowerCase();
-};
+
 
 
 const bulkUpload = catchAsync(async (req, res) => {
@@ -282,7 +280,7 @@ const bulkUpload = catchAsync(async (req, res) => {
     const duplicateInFile = [];
 
     for (const row of data) {
-      const normalizedQuestion = normalizeQuestion(row.Question);
+      const normalizedQuestion = row.Question;
 
       if (questionSet.has(normalizedQuestion)) {
         duplicateInFile.push(row.Question);
