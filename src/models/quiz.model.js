@@ -13,7 +13,7 @@ const quizeSchema = mongoose.Schema(
     },
     questionLevel: {
       type: Number,
-      enum: [1, 2, 3],
+      enum: [1, 2, 3, 4],
     },
     questionType: {
       type: Number,

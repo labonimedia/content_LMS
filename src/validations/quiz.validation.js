@@ -42,6 +42,13 @@ const uploadFiles = {
 const getQuizeByQuizName = {
   body: Joi.object().keys({
     quizName: Joi.string().required(),
+    boardId: Joi.string().required(),
+    mediumId: Joi.string().required(),
+    classId: Joi.string().required(),
+    bookId: Joi.string().required(),
+    subjectId: Joi.string().required(),
+    chapterId: Joi.string().required(),
+    lectureVideoId: Joi.string().required(),
   }),
 };
 const NotSelectQuize = {
