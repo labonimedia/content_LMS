@@ -4,6 +4,8 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { quizeService } = require('../services');
+const fs = require('fs');
+const path = require('path');
 
 const createQuize = catchAsync(async (req, res) => {
   const quize = await quizeService.createQuize(req.body);
@@ -179,6 +181,83 @@ const createQuize = catchAsync(async (req, res) => {
 //   res.status(201).json({ message: 'Quizzes uploaded successfully', data: savedQuizzes });
 // });
 
+// const bulkUpload = catchAsync(async (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ message: 'Excel file is required' });
+//   }
+
+//   const filePath = req.file.path;
+//   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body;
+
+//   try {
+//     // Read Excel file
+//     const workbook = XLSX.readFile(filePath);
+//     const sheetName = workbook.SheetNames[0];
+//     const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+//     if (!data || data.length === 0) {
+//       return res.status(400).json({ message: 'Uploaded file is empty' });
+//     }
+
+//     // Transform data to match the model
+//     const quizzes = data.map((row) => {
+//       const options = {
+//         A: row['Option A'],
+//         B: row['Option B'],
+//         C: row['Option C'],
+//         D: row['Option D'],
+//       };
+
+//       const correctOptions = row['Correct Answer'] ? row['Correct Answer'].split(',').map((answer) => answer.trim()) : [];
+
+//       return {
+//         quizName: row.Question,
+//         displayFormat: parseInt(row['Display Format'], 10) || 1,
+//         questionLevel: parseInt(row['Question Level'], 10) || 1,
+//         questionType: parseInt(row['Question Type'], 10) || 1,
+//         files: row.Files || '',
+//         options: [options],
+//         correctOptions,
+//         explain: row.Explaination || '',
+//         hint: row.Hint || '',
+//         types: row.Types || 1,
+//         boardId,
+//         mediumId,
+//         classId,
+//         bookId,
+//         subjectId,
+//         chapterId,
+//         lectureVideoId,
+//         description: row.Description || '',
+//         weightage:  parseInt(row['Weightage'], 10) || 1,
+//         negativeWeightage:  parseInt(row['Negative Weightage'], 10) || 1,
+//       };
+//     });
+
+//     // Ensure `uploadBulkQuizzes` returns a valid response
+//     const result = (await quizeService.uploadBulkQuizzes(quizzes)) || { savedQuizzes: [], duplicates: [] };
+
+//     return res.status(201).json({
+//       message: 'Bulk upload processed successfully',
+//       uploadedCount: result.savedQuizzes.length || 0,
+//       duplicatesCount: result.duplicates.length || 0,
+//       uploadedQuizzes: result.savedQuizzes.map((q) => q.quizName) || [],
+//       duplicateQuizzes: result.duplicates.map((q) => q.quizName) || [],
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error uploading quizzes', error: error.message });
+//   }
+// });
+
+// Normalize questions to handle minor differences
+
+
+
+const normalizeQuestion = (question) => {
+  return question.replace(/\s+/g, ' ').replace(/_+/g, '_').trim().toLowerCase();
+};
+
+
 const bulkUpload = catchAsync(async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'Excel file is required' });
@@ -197,53 +276,73 @@ const bulkUpload = catchAsync(async (req, res) => {
       return res.status(400).json({ message: 'Uploaded file is empty' });
     }
 
-    // Transform data to match the model
-    const quizzes = data.map((row) => {
-      const options = {
-        A: row['Option A'],
-        B: row['Option B'],
-        C: row['Option C'],
-        D: row['Option D'],
-      };
+    // Step 1: Check for duplicates within the uploaded file
+    const questionSet = new Set();
+    const formattedQuizzes = [];
+    const duplicateInFile = [];
 
-      const correctOptions = row['Correct Answer'] ? row['Correct Answer'].split(',').map((answer) => answer.trim()) : [];
+    for (const row of data) {
+      const normalizedQuestion = normalizeQuestion(row.Question);
 
-      return {
-        quizName: row.Question,
-        displayFormat: parseInt(row['Display Format'], 10) || 1,
-        questionLevel: parseInt(row['Question Level'], 10) || 1,
-        questionType: parseInt(row['Question Type'], 10) || 1,
-        files: row.Files || '',
-        options: [options],
-        correctOptions,
-        explain: row.Explaination || '',
-        hint: row.Hint || '',
-        types: row.Types || 1,
-        boardId,
-        mediumId,
-        classId,
-        bookId,
-        subjectId,
-        chapterId,
-        lectureVideoId,
-        description: row.Description || '',
-        weightage:  parseInt(row['Weightage'], 10) || 1,
-        negativeWeightage:  parseInt(row['Negative Weightage'], 10) || 1,
-      };
-    });
+      if (questionSet.has(normalizedQuestion)) {
+        duplicateInFile.push(row.Question);
+      } else {
+        questionSet.add(normalizedQuestion);
+        formattedQuizzes.push({
+          quizName: row.Question,
+          normalizedQuizName: normalizedQuestion, // Store for easy duplicate check
+          displayFormat: parseInt(row['Display Format'], 10) || 1,
+          questionLevel: parseInt(row['Question Level'], 10) || 1,
+          questionType: parseInt(row['Question Type'], 10) || 1,
+          files: row.Files || '',
+          options: [
+            {
+              A: row['Option A'],
+              B: row['Option B'],
+              C: row['Option C'],
+              D: row['Option D'],
+            },
+          ],
+          correctOptions: row['Correct Answer'] ? row['Correct Answer'].split(',').map((answer) => answer.trim()) : [],
+          explain: row.Explaination || '',
+          hint: row.Hint || '',
+          types: row.Types || 1,
+          boardId,
+          mediumId,
+          classId,
+          bookId,
+          subjectId,
+          chapterId,
+          lectureVideoId,
+          description: row.Description || '',
+          weightage: parseInt(row['Weightage'], 10) || 1,
+          negativeWeightage: parseInt(row['Negative Weightage'], 10) || 1,
+        });
+      }
+    }
 
-    // Ensure `uploadBulkQuizzes` returns a valid response
-    const result = (await quizeService.uploadBulkQuizzes(quizzes)) || { savedQuizzes: [], duplicates: [] };
+    if (duplicateInFile.length > 0) {
+      return res.status(400).json({
+        message: 'Duplicate questions found in the uploaded file.',
+        duplicateQuestions: duplicateInFile,
+      });
+    }
+
+    // Step 2: Send data to the service layer for DB validation
+    const result = await quizeService.uploadBulkQuizzes(formattedQuizzes);
 
     return res.status(201).json({
       message: 'Bulk upload processed successfully',
       uploadedCount: result.savedQuizzes.length || 0,
-      duplicatesCount: result.duplicates.length || 0,
+      duplicatesInDatabaseCount: result.duplicates.length || 0,
       uploadedQuizzes: result.savedQuizzes.map((q) => q.quizName) || [],
       duplicateQuizzes: result.duplicates.map((q) => q.quizName) || [],
     });
   } catch (error) {
     res.status(500).json({ message: 'Error uploading quizzes', error: error.message });
+  } finally {
+    // Delete the uploaded file after processing
+    fs.unlinkSync(filePath);
   }
 });
 

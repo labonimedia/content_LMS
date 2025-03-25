@@ -2,27 +2,127 @@ const httpStatus = require('http-status');
 const { Quize, Subject } = require('../models');
 const ApiError = require('../utils/ApiError');
 
+// /**
+//  * Bulk Upload Quizzes
+//  * @param {Array} quizzes - Array of quiz objects
+//  * @returns {Promise<Array>}
+//  */
+// const uploadBulkQuizzes = async (quizzes) => {
+//   if (!quizzes || quizzes.length === 0) {
+//     return { savedQuizzes: [], duplicates: [] }; // Ensure a valid return object
+//   }
+
+//   const quizNames = quizzes.map((quiz) => quiz.quizName);
+
+//   // Find existing quizzes with the same quizName
+//   const existingQuizzes = await Quize.find({ quizName: { $in: quizNames } });
+//   const existingQuizNames = new Set(existingQuizzes.map((quiz) => quiz.quizName));
+
+//   // Separate duplicates and new quizzes
+//   const newQuizzes = quizzes.filter((quiz) => !existingQuizNames.has(quiz.quizName));
+//   const duplicates = existingQuizzes;
+
+//   // Insert only non-duplicate quizzes
+//   let savedQuizzes = [];
+//   if (newQuizzes.length > 0) {
+//     savedQuizzes = await Quize.insertMany(newQuizzes);
+//   }
+
+//   return { savedQuizzes, duplicates };
+// };
+
+// /**
+//  * Bulk Upload Quizzes
+//  * @param {Array} quizzes - Array of quiz objects
+//  * @returns {Promise<Object>}
+//  */
+// const uploadBulkQuizzes = async (quizzes) => {
+//   if (!quizzes || quizzes.length === 0) {
+//     return { savedQuizzes: [], duplicates: [] };
+//   }
+//   console.log(quizzes);
+//   // Extract normalized question names
+//   const normalizedQuestions = quizzes.map((quiz) => quiz.quizName);
+// //console.log(normalizedQuestions);
+//   // Step 1: Check for duplicates in the database
+//   const existingQuizzes = await Quize.find({
+//     quizName: { $in: normalizedQuestions },
+//     boardId: quizzes[0].boardId, // Assuming all have same boardId
+//     mediumId: quizzes[0].mediumId,
+//     classId: quizzes[0].classId,
+//     bookId: quizzes[0].bookId,
+//     subjectId: quizzes[0].subjectId,
+//     chapterId: quizzes[0].chapterId,
+//     lectureVideoId: quizzes[0].lectureVideoId,
+//   });
+
+//   const existingQuizNames = new Set(existingQuizzes.map((quiz) => quiz.normalizedQuizName));
+
+//   // Step 2: Separate new and duplicate quizzes
+//   const newQuizzes = quizzes.filter((quiz) => !existingQuizNames.has(quiz.normalizedQuizName));
+//   const duplicates = existingQuizzes.map((quiz) => ({
+//     quizName: quiz.quizName,
+//     boardId: quiz.boardId,
+//     mediumId: quiz.mediumId,
+//     classId: quiz.classId,
+//     bookId: quiz.bookId,
+//     subjectId: quiz.subjectId,
+//     chapterId: quiz.chapterId,
+//     lectureVideoId: quiz.lectureVideoId,
+//   }));
+
+//   // Step 3: Insert only non-duplicate quizzes
+//   let savedQuizzes = [];
+//   if (newQuizzes.length > 0) {
+//     savedQuizzes = await Quize.insertMany(newQuizzes);
+//   }
+
+//   return { savedQuizzes, duplicates };
+// };
 /**
  * Bulk Upload Quizzes
  * @param {Array} quizzes - Array of quiz objects
- * @returns {Promise<Array>}
+ * @returns {Promise<Object>}
  */
 const uploadBulkQuizzes = async (quizzes) => {
   if (!quizzes || quizzes.length === 0) {
-    return { savedQuizzes: [], duplicates: [] }; // Ensure a valid return object
+    return { savedQuizzes: [], duplicates: [] };
   }
 
+  // Extract quiz names from input data
   const quizNames = quizzes.map((quiz) => quiz.quizName);
 
-  // Find existing quizzes with the same quizName
-  const existingQuizzes = await Quize.find({ quizName: { $in: quizNames } });
+  // Step 1: Check for duplicates in the database
+  const existingQuizzes = await Quize.find({
+    quizName: { $in: quizNames },
+    boardId: quizzes[0].boardId, // Assuming all quizzes have the same boardId
+    mediumId: quizzes[0].mediumId,
+    classId: quizzes[0].classId,
+    bookId: quizzes[0].bookId,
+    subjectId: quizzes[0].subjectId,
+    chapterId: quizzes[0].chapterId,
+    lectureVideoId: quizzes[0].lectureVideoId,
+  });
+
+  // Step 2: Store existing quiz names in a Set for fast lookup
   const existingQuizNames = new Set(existingQuizzes.map((quiz) => quiz.quizName));
 
-  // Separate duplicates and new quizzes
+  // Step 3: Filter out new quizzes that are not duplicates
   const newQuizzes = quizzes.filter((quiz) => !existingQuizNames.has(quiz.quizName));
-  const duplicates = existingQuizzes;
 
-  // Insert only non-duplicate quizzes
+  // Step 4: Prepare the list of duplicate quizzes
+  const duplicates = existingQuizzes.map((quiz) => ({
+    quizName: quiz.quizName,
+    boardId: quiz.boardId,
+    mediumId: quiz.mediumId,
+    classId: quiz.classId,
+    bookId: quiz.bookId,
+    subjectId: quiz.subjectId,
+    chapterId: quiz.chapterId,
+    lectureVideoId: quiz.lectureVideoId,
+  }));
+
+  // Step 5: Insert only the new quizzes
   let savedQuizzes = [];
   if (newQuizzes.length > 0) {
     savedQuizzes = await Quize.insertMany(newQuizzes);
