@@ -256,7 +256,23 @@ const createQuize = catchAsync(async (req, res) => {
 
 
 
+const normalizeQuestion = (question) => {
+  if (typeof question !== 'string') {
+    return ''; // Return an empty string if it's not a string
+  }
+  return question.replace(/\s+/g, ' ').replace(/_+/g, '_').trim().toLowerCase();
+};
+
+// const normalizeQuestion = (question) => {
+//   if (question === null || question === undefined) {
+//     return ''; // Handle null or undefined values
+//   }
+//   return String(question).trim().replace(/\s+/g, ' ').replace(/_+/g, '_').toLowerCase();
+// };
+
+
 const bulkUpload = catchAsync(async (req, res) => {
+  
   if (!req.file) {
     return res.status(400).json({ message: 'Excel file is required' });
   }
@@ -268,8 +284,8 @@ const bulkUpload = catchAsync(async (req, res) => {
     // Read Excel file
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
-    const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
+    // const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+    const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { raw: false });
     if (!data || data.length === 0) {
       return res.status(400).json({ message: 'Uploaded file is empty' });
     }
@@ -280,7 +296,8 @@ const bulkUpload = catchAsync(async (req, res) => {
     const duplicateInFile = [];
 
     for (const row of data) {
-      const normalizedQuestion = row.Question;
+      const normalizedQuestion = normalizeQuestion(row.Question);
+
 
       if (questionSet.has(normalizedQuestion)) {
         duplicateInFile.push(row.Question);
@@ -318,7 +335,7 @@ const bulkUpload = catchAsync(async (req, res) => {
         });
       }
     }
-
+    
     if (duplicateInFile.length > 0) {
       return res.status(400).json({
         message: 'Duplicate questions found in the uploaded file.',
@@ -343,6 +360,201 @@ const bulkUpload = catchAsync(async (req, res) => {
     fs.unlinkSync(filePath);
   }
 });
+
+// const normalizeQuestion = (question) => {
+//   if (typeof question !== 'string') {
+//     return ''; // Return empty string if not a valid string
+//   }
+//   return question.replace(/\s+/g, ' ').replace(/_+/g, '_').trim().toLowerCase();
+// };
+
+
+
+// const bulkUpload = catchAsync(async (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ message: 'Excel file is required' });
+//   }
+
+//   const filePath = req.file.path;
+//   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body;
+
+//   try {
+//     const workbook = XLSX.readFile(filePath);
+//     const sheetName = workbook.SheetNames[0];
+//     const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+//     if (!data || data.length === 0) {
+//       return res.status(400).json({ message: 'Uploaded file is empty' });
+//     }
+
+//     // Step 1: Check for duplicates within the uploaded file
+//     const questionSet = new Set();
+//     const formattedQuizzes = [];
+//     const duplicateInFile = [];
+
+//     for (const row of data) {
+//       if (!row.Question || typeof row.Question !== 'string') {
+//         continue; // Skip invalid rows
+//       }
+
+//       const normalizedQuestion = normalizeQuestion(row.Question);
+
+//       if (questionSet.has(normalizedQuestion)) {
+//         duplicateInFile.push(row.Question);
+//       } else {
+//         questionSet.add(normalizedQuestion);
+//         formattedQuizzes.push({
+//           quizName: row.Question,
+//           normalizedQuizName: normalizedQuestion, // Store normalized name
+//           displayFormat: parseInt(row['Display Format'], 10) || 1,
+//           questionLevel: parseInt(row['Question Level'], 10) || 1,
+//           questionType: parseInt(row['Question Type'], 10) || 1,
+//           files: row.Files || '',
+//           options: [
+//             {
+//               A: row['Option A'],
+//               B: row['Option B'],
+//               C: row['Option C'],
+//               D: row['Option D'],
+//             },
+//           ],
+//           correctOptions: row['Correct Answer']
+//             ? row['Correct Answer'].toString().split(',').map((answer) => answer.trim())
+//             : [],
+//           explain: row.Explaination || '',
+//           hint: row.Hint || '',
+//           types: row.Types || 1,
+//           boardId,
+//           mediumId,
+//           classId,
+//           bookId,
+//           subjectId,
+//           chapterId,
+//           lectureVideoId,
+//           description: row.Description || '',
+//           weightage: parseInt(row['Weightage'], 10) || 1,
+//           negativeWeightage: parseInt(row['Negative Weightage'], 10) || 1,
+//         });
+//       }
+//     }
+
+//     if (duplicateInFile.length > 0) {
+//       return res.status(400).json({
+//         message: 'Duplicate questions found in the uploaded file.',
+//         duplicateQuestions: duplicateInFile,
+//       });
+//     }
+
+//     // Step 2: Send data to the service layer for DB validation
+//     const result = await quizeService.uploadBulkQuizzes(formattedQuizzes);
+
+//     return res.status(201).json({
+//       message: 'Bulk upload processed successfully',
+//       uploadedCount: result.savedQuizzes.length || 0,
+//       duplicatesInDatabaseCount: result.duplicates.length || 0,
+//       uploadedQuizzes: result.savedQuizzes.map((q) => q.quizName) || [],
+//       duplicateQuizzes: result.duplicates.map((q) => q.quizName) || [],
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error uploading quizzes', error: error.message });
+//   } finally {
+//     fs.unlinkSync(filePath); // Delete file after processing
+//   }
+// });
+// const bulkUpload = catchAsync(async (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ message: 'Excel file is required' });
+//   }
+
+//   const filePath = req.file.path;
+//   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body;
+
+//   try {
+//     // Read Excel file
+//     const workbook = XLSX.readFile(filePath);
+//     const sheetName = workbook.SheetNames[0];
+//     const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+//     if (!data || data.length === 0) {
+//       return res.status(400).json({ message: 'Uploaded file is empty' });
+//     }
+
+//     // Step 1: Check for duplicates within the uploaded file
+//     const questionSet = new Set();
+//     const formattedQuizzes = [];
+//     const duplicateInFile = [];
+
+//     for (const row of data) {
+//       const normalizedQuestion = row.Question.trim();
+
+//       if (questionSet.has(normalizedQuestion)) {
+//         duplicateInFile.push(normalizedQuestion);
+//       } else {
+//         questionSet.add(normalizedQuestion);
+//         formattedQuizzes.push({
+//           quizName: normalizedQuestion,
+//           displayFormat: parseInt(row['Display Format'], 10) || 1,
+//           questionLevel: parseInt(row['Question Level'], 10) || 1,
+//           questionType: parseInt(row['Question Type'], 10) || 1,
+//           files: row.Files || '',
+//           options: [
+//             {
+//               A: row['Option A'],
+//               B: row['Option B'],
+//               C: row['Option C'],
+//               D: row['Option D'],
+//             },
+//           ],
+//           correctOptions: row['Correct Answer'] ? row['Correct Answer'].split(',').map((answer) => answer.trim()) : [],
+//           explain: row.Explaination || '',
+//           hint: row.Hint || '',
+//           types: row.Types || 1,
+//           boardId,
+//           mediumId,
+//           classId,
+//           bookId,
+//           subjectId,
+//           chapterId,
+//           lectureVideoId,
+//           description: row.Description || '',
+//           weightage: parseInt(row['Weightage'], 10) || 1,
+//           negativeWeightage: parseInt(row['Negative Weightage'], 10) || 1,
+//         });
+//       }
+//     }
+
+//     if (duplicateInFile.length > 0) {
+//       return res.status(400).json({
+//         message: 'Duplicate questions found in the uploaded file.',
+//         duplicateQuestions: duplicateInFile,
+//       });
+//     }
+
+//     // Step 2: Check for duplicates in the database and save unique quizzes
+//     const result = await quizeService.uploadBulkQuizzes(formattedQuizzes, {
+//       boardId,
+//       mediumId,
+//       classId,
+//       bookId,
+//       subjectId,
+//       chapterId,
+//       lectureVideoId,
+//     });
+
+//     return res.status(201).json({
+//       message: 'Bulk upload processed successfully',
+//       uploadedCount: result.savedQuizzes.length || 0,
+//       duplicatesInDatabaseCount: result.duplicates.length || 0,
+//       uploadedQuizzes: result.savedQuizzes.map((q) => q.quizName) || [],
+//       duplicateQuizzes: result.duplicates.map((q) => q.quizName) || [],
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error uploading quizzes', error: error.message });
+//   } finally {
+//     // Delete the uploaded file after processing
+//     fs.unlinkSync(filePath);
+//   }
+// });
 
 const uploadFiles = catchAsync(async (req, res) => {
   const quizData = await quizeService.uploadQuiz(req.body);
