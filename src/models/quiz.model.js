@@ -72,7 +72,7 @@ const quizeSchema = mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'subject',
       required: true,
-    },
+    }, 
     chapterId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'chapter',
@@ -86,12 +86,12 @@ const quizeSchema = mongoose.Schema(
     description: {
       type: String,
     },
-    weightage:{
-      type:Number,
+    weightage: {
+      type: Number,
     },
-    negativeWeightage:{
-      type:Number,
-    }
+    negativeWeightage: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

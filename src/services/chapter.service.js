@@ -1,8 +1,8 @@
 const httpStatus = require('http-status');
 const mongoose = require('mongoose');
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const { Chapter } = require('../models');
 const ApiError = require('../utils/ApiError');
-const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
 /**
  * Create a chapter

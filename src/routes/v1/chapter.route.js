@@ -14,7 +14,8 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    chaterController.createChapter)
+    chaterController.createChapter
+  )
   .get(validate(chapterValidation.getAllChapter), chaterController.getChapter);
 
 router
@@ -29,7 +30,8 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    chaterController.updateSingleClass)
+    chaterController.updateSingleClass
+  )
   .delete(validate(chapterValidation.deleteChapterById), chaterController.deleteSingleChapter);
 
 router

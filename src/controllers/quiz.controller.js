@@ -1,11 +1,10 @@
 const httpStatus = require('http-status');
 const XLSX = require('xlsx');
+const fs = require('fs');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { quizeService } = require('../services');
-const fs = require('fs');
-const path = require('path');
 
 const createQuize = catchAsync(async (req, res) => {
   const quize = await quizeService.createQuize(req.body);
@@ -251,11 +250,6 @@ const createQuize = catchAsync(async (req, res) => {
 
 // Normalize questions to handle minor differences
 
-
-
-
-
-
 const normalizeQuestion = (question) => {
   if (typeof question !== 'string') {
     return ''; // Return an empty string if it's not a string
@@ -263,16 +257,8 @@ const normalizeQuestion = (question) => {
   return question.replace(/\s+/g, ' ').replace(/_+/g, '_').trim().toLowerCase();
 };
 
-// const normalizeQuestion = (question) => {
-//   if (question === null || question === undefined) {
-//     return ''; // Handle null or undefined values
-//   }
-//   return String(question).trim().replace(/\s+/g, ' ').replace(/_+/g, '_').toLowerCase();
-// };
-
 
 const bulkUpload = catchAsync(async (req, res) => {
-  
   if (!req.file) {
     return res.status(400).json({ message: 'Excel file is required' });
   }
@@ -297,7 +283,6 @@ const bulkUpload = catchAsync(async (req, res) => {
 
     for (const row of data) {
       const normalizedQuestion = normalizeQuestion(row.Question);
-
 
       if (questionSet.has(normalizedQuestion)) {
         duplicateInFile.push(row.Question);
@@ -330,12 +315,12 @@ const bulkUpload = catchAsync(async (req, res) => {
           chapterId,
           lectureVideoId,
           description: row.Description || '',
-          weightage: parseInt(row['Weightage'], 10) || 1,
+          weightage: parseInt(row.Weightage, 10) || 1,
           negativeWeightage: parseInt(row['Negative Weightage'], 10) || 1,
         });
       }
     }
-    
+
     if (duplicateInFile.length > 0) {
       return res.status(400).json({
         message: 'Duplicate questions found in the uploaded file.',
@@ -367,8 +352,6 @@ const bulkUpload = catchAsync(async (req, res) => {
 //   }
 //   return question.replace(/\s+/g, ' ').replace(/_+/g, '_').trim().toLowerCase();
 // };
-
-
 
 // const bulkUpload = catchAsync(async (req, res) => {
 //   if (!req.file) {
@@ -628,8 +611,17 @@ const getQuizeByChapterId = catchAsync(async (req, res) => {
 //   res.send(quize);
 // });
 const getQuizeByQuizName = catchAsync(async (req, res) => {
- const { quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body
-  const quize = await quizeService.getQuizeByQestion(quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId);
+  const { quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body;
+  const quize = await quizeService.getQuizeByQestion(
+    quizName,
+    boardId,
+    mediumId,
+    classId,
+    bookId,
+    subjectId,
+    chapterId,
+    lectureVideoId
+  );
 
   if (!quize) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Quiz not found');
