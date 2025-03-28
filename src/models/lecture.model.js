@@ -10,14 +10,14 @@ const lectureSchema = mongoose.Schema(
     },
     icon1: {
       type: String,
-      //portrait
+      // portrait
     },
     description: {
       type: String,
     },
     icon2: {
       type: String,
-      //landscape
+      // landscape
     },
     path: {
       type: String,

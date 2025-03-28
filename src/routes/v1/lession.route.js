@@ -13,7 +13,8 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    lessionController.createLession)
+    lessionController.createLession
+  )
   .get(validate(lessionValidation.getLessions), lessionController.queryLessions);
 
 router
@@ -24,7 +25,8 @@ router
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
     ]),
-    lessionController.updateLession)
+    lessionController.updateLession
+  )
   .delete(validate(lessionValidation.deleteLession), lessionController.deleteLession);
 
 router
