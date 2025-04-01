@@ -36,6 +36,7 @@ router.route('/get-by/filter').post(validate(homeworkValidation.getHomeByFilter)
 router
   .route('/get-by/:chapterId')
   .get(validate(homeworkValidation.answerTypeWiseByChapterId), homeworkController.answerTypeWiseByChapterId);
+  router.post('/homework-summary', homeworkController.getHomeworkSummary);
 module.exports = router;
 
 /**

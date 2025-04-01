@@ -242,7 +242,14 @@ const checkQuestionByName = catchAsync(async (req, res) => {
 
   return res.status(httpStatus.NOT_FOUND).json({ message: 'Question No Exists' });
 });
-
+const getHomeworkSummary = async (req, res) => {
+  try {
+    const summary = await HomeworkSerices.getHomeworkSummaryService(req.body);
+    return  res.status(httpStatus.OK).json(summary);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 module.exports = {
   createHomework,
   getAllHomework,
@@ -253,4 +260,5 @@ module.exports = {
   deleteHomework,
   bulkUploadHomework,
   checkQuestionByName,
+  getHomeworkSummary,
 };
