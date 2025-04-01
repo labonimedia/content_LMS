@@ -12,7 +12,6 @@ const createQuickRecap = {
     chapterId: Joi.string().custom(objectId).required(),
     chapterName: Joi.string().required(),
     lessonId: Joi.string().custom(objectId).default(''),
-
   }),
 };
 

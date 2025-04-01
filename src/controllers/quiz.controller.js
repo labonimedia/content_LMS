@@ -257,7 +257,6 @@ const normalizeQuestion = (question) => {
   return question.replace(/\s+/g, ' ').replace(/_+/g, '_').trim().toLowerCase();
 };
 
-
 const bulkUpload = catchAsync(async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'Excel file is required' });

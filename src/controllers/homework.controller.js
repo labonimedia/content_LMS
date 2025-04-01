@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
-const pick = require('../utils/pick');
 const XLSX = require('xlsx');
 const fs = require('fs');
+const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { HomeworkSerices } = require('../services');
@@ -36,7 +36,7 @@ const bulkUploadHomework = catchAsync(async (req, res) => {
 
     for (const row of data) {
       if (!row.Question || !row.Answer) continue;
-      
+
       const normalizedQuestion = normalizeQuestion(row.Question);
 
       if (questionSet.has(normalizedQuestion)) {
@@ -119,7 +119,7 @@ const bulkUploadHomework = catchAsync(async (req, res) => {
 //       if (duplicateInFile.has(normalizedQuestion)) {
 //         continue;
 //       }
-      
+
 //       duplicateInFile.add(normalizedQuestion);
 
 //       formattedHomework.push({
@@ -179,7 +179,7 @@ const getHomeworkById = catchAsync(async (req, res) => {
 });
 
 const getHomeworkByFilterId = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId,  search } = req.body;
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId, search } = req.body;
   const options = {
     limit: parseInt(req.body.limit, 10) || 10,
     page: parseInt(req.body.page, 10) || 1,
@@ -245,7 +245,7 @@ const checkQuestionByName = catchAsync(async (req, res) => {
 const getHomeworkSummary = async (req, res) => {
   try {
     const summary = await HomeworkSerices.getHomeworkSummaryService(req.body);
-    return  res.status(httpStatus.OK).json(summary);
+    return res.status(httpStatus.OK).json(summary);
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
   }

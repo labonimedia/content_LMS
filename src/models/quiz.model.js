@@ -72,7 +72,7 @@ const quizeSchema = mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'subject',
       required: true,
-    }, 
+    },
     chapterId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'chapter',

@@ -36,7 +36,7 @@ const quickRecapSchema = mongoose.Schema(
     lessonId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'lession',
-      //required: true,
+      // required: true,
       trim: true,
     },
     description: {

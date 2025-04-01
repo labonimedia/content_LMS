@@ -64,7 +64,6 @@ const homeworkSchema = mongoose.Schema(
       type: Number,
       enum: [1, 2, 3, 4],
     },
- 
   },
   {
     timestamps: true,
