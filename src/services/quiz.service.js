@@ -487,99 +487,94 @@ const deleteQuizeById = async (quizeId) => {
 //   }
 // };
 
+// const getQuestionStats = async (filter) => {
+//   try {
+//     // Define all possible question types and question levels
+//     const questionTypes = ["1", "2", "3"]; // Adjust based on actual possible values
+//     const questionLevels = [1, 2, 3, 4]; // Adjust based on actual possible values
+
+//     // Step 1: Fetch all questions that match the filter
+//     const questions = await Quize.find(filter);
+
+//     // Step 2: Count total number of questions
+//     const totalQuestions = questions.length;
+
+//     // Step 3: Initialize the questionTypeStats object with all possible types and levels
+//     const questionTypeStats = {};
+//     questionTypes.forEach(type => {
+//       questionTypeStats[type] = {};
+//       questionLevels.forEach(level => {
+//         questionTypeStats[type][level] = 0;
+//       });
+//     });
+
+//     // Step 4: Populate the actual counts from the fetched questions
+//     questions.forEach(({ questionType, questionLevel }) => {
+//       if (questionTypeStats[questionType]) {
+//         questionTypeStats[questionType][questionLevel] += 1;
+//       }
+//     });
+
+//     // Return the result
+//     return {
+//       success: true,
+//       data: {
+//         totalQuestions,
+//         questionTypeStats,
+//       },
+//     };
+//   } catch (error) {
+//     throw new Error('An error occurred while fetching question stats.');
+//   }
+// };
+
+
 
 const getQuestionStats = async (filter) => {
   try {
+    // Define all possible question types and question levels
+    const questionTypes = ["1", "2", "3"]; // Adjust based on actual possible values
+    const questionLevels = [1, 2, 3, 4]; // Adjust based on actual possible values
+
     // Step 1: Fetch all questions that match the filter
     const questions = await Quize.find(filter);
 
     // Step 2: Count total number of questions
     const totalQuestions = questions.length;
 
-    // Step 3: Group by questionType and then count questionLevel occurrences for each questionType
-    const questionTypeStats = questions.reduce((acc, question) => {
-      const questionType = question.questionType;
-      const questionLevel = question.questionLevel;
+    // Step 3: Initialize the stats array with all possible types and levels
+    const questionTypeStats = questionTypes.map(type => ({
+      questionType: type,
+      levels: questionLevels.map(level => ({
+        level,
+        count: 0
+      }))
+    }));
 
-      // Initialize the questionType object if it doesn't exist
-      if (!acc[questionType]) {
-        acc[questionType] = {};
+    // Step 4: Populate the actual counts from the fetched questions
+    questions.forEach(({ questionType, questionLevel }) => {
+      const typeIndex = questionTypeStats.findIndex(stat => stat.questionType === questionType);
+      if (typeIndex !== -1) {
+        const levelIndex = questionTypeStats[typeIndex].levels.findIndex(lvl => lvl.level === questionLevel);
+        if (levelIndex !== -1) {
+          questionTypeStats[typeIndex].levels[levelIndex].count += 1;
+        }
       }
-
-      // Initialize the questionLevel count for the given questionType if it doesn't exist
-      if (!acc[questionType][questionLevel]) {
-        acc[questionType][questionLevel] = 0;
-      }
-
-      // Increment the count for the given questionLevel and questionType
-      acc[questionType][questionLevel] += 1;
-
-      return acc;
-    }, {});
+    });
 
     // Return the result
     return {
-      totalQuestions,
-      questionTypeStats,
+      success: true,
+      data: {
+        totalQuestions,
+        questionTypeStats,
+      },
     };
   } catch (error) {
-    console.error('Error in getQuestionStats service:', error);
     throw new Error('An error occurred while fetching question stats.');
   }
 };
 
-
-
-// const getQuestionStats = async (filter) => {
-//   try {
-//     // Step 1: Count total number of questions using aggregation
-//     const totalQuestions = await Quize.countDocuments(filter);
-
-//     // Step 2: Use aggregation to group by questionType and questionLevel and count occurrences
-//     const questionTypeStats = await Quize.aggregate([
-//       { $match: filter }, // Apply the filter
-//       {
-//         $group: {
-//           _id: { questionType: "$questionType", questionLevel: "$questionLevel" }, // Group by questionType and questionLevel
-//           count: { $sum: 1 }, // Count the number of occurrences
-//         },
-//       },
-//       {
-//         $group: {
-//           _id: "$_id.questionType", // Group by questionType only
-//           levels: {
-//             $push: { questionLevel: "$_id.questionLevel", count: "$count" }, // Push questionLevel and its count into levels array
-//           },
-//         },
-//       },
-//       {
-//         $project: {
-//           _id: 0, // Exclude the _id field
-//           questionType: "$_id", // Rename _id to questionType
-//           levels: 1, // Include levels array
-//         },
-//       },
-//     ]);
-
-//     // Transform the result into a more readable format
-//     const formattedStats = questionTypeStats.reduce((acc, { questionType, levels }) => {
-//       acc[questionType] = levels.reduce((levelAcc, { questionLevel, count }) => {
-//         levelAcc[questionLevel] = count;
-//         return levelAcc;
-//       }, {});
-//       return acc;
-//     }, {});
-
-//     // Return the result
-//     return {
-//       totalQuestions,
-//       questionTypeStats: formattedStats,
-//     };
-//   } catch (error) {
-//     console.error('Error in getQuestionStats service:', error);
-//     throw new Error('An error occurred while fetching question stats.');
-//   }
-// };
 
 
 module.exports = {
