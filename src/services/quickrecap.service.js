@@ -64,8 +64,8 @@ const getQuickRecapByFilter = async (boardId, mediumId, classId, subjectId, book
   if (subjectId) filter.subjectId = subjectId;
   if (bookId) filter.bookId = bookId;
   if (chapterId) filter.chapterId = chapterId;
-  if (lessonId) filter.chapterId = lessonId;
-  
+  if (lessonId) filter.lessonId = lessonId;
+
   // If search is provided, apply global search on `name`
   if (search) {
     filter.chapterName = { $regex: search, $options: 'i' };
