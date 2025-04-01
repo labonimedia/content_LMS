@@ -54,7 +54,7 @@ const getQuickRecapByChapterId = async (chapterId) => {
  * @returns {Promise<Quickrecap>}
  */
 
-const getQuickRecapByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, search, options) => {
+const getQuickRecapByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId , search, options) => {
   const filter = {};
 
   // If boardId, mediumId, and classId are provided, filter by them
@@ -64,6 +64,8 @@ const getQuickRecapByFilter = async (boardId, mediumId, classId, subjectId, book
   if (subjectId) filter.subjectId = subjectId;
   if (bookId) filter.bookId = bookId;
   if (chapterId) filter.chapterId = chapterId;
+  if (lessonId) filter.chapterId = lessonId;
+  
   // If search is provided, apply global search on `name`
   if (search) {
     filter.chapterName = { $regex: search, $options: 'i' };

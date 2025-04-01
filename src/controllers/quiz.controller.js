@@ -654,7 +654,10 @@ const deleteQuizeById = catchAsync(async (req, res) => {
   await quizeService.deleteQuizeById(req.params.quizeId);
   res.status(httpStatus.NO_CONTENT).send();
 });
-
+const getQuestionStats = catchAsync(async (req, res) => {
+  const stats = await quizeService.getQuestionStats(req.body);
+  res.status(httpStatus.OK).json({ success: true, data: stats });
+});
 module.exports = {
   createQuize,
   getAllQuize,
@@ -669,4 +672,5 @@ module.exports = {
   getQuizeByQuizName,
   getQuizeByChapterId,
   bulkUpload,
+  getQuestionStats,
 };

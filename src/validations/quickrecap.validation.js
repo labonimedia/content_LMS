@@ -11,6 +11,8 @@ const createQuickRecap = {
     bookId: Joi.string().custom(objectId).required(),
     chapterId: Joi.string().custom(objectId).required(),
     chapterName: Joi.string().required(),
+    lessonId: Joi.string().custom(objectId).default(''),
+
   }),
 };
 
@@ -43,6 +45,7 @@ const getQuickRecapByFilter = {
     subjectId: Joi.string().custom(objectId),
     bookId: Joi.string().custom(objectId),
     chapterId: Joi.string().custom(objectId),
+    lessonId: Joi.string().custom(objectId),
     search: Joi.string(),
     limit: Joi.number().integer().min(1).default(10),
     page: Joi.number().integer().min(1).default(1),

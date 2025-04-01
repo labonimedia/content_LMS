@@ -33,6 +33,12 @@ const quickRecapSchema = mongoose.Schema(
       ref: 'Chapter',
       required: true,
     },
+    lessonId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'lession',
+      //required: true,
+      trim: true,
+    },
     description: {
       type: String,
       required: true,
