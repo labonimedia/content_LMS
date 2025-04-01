@@ -65,6 +65,7 @@ const updateQuickRecap = {
       subjectId: Joi.string().custom(objectId),
       bookId: Joi.string().custom(objectId),
       chapterId: Joi.string().custom(objectId),
+      lessonId: Joi.string().custom(objectId),
       chapterName: Joi.string(),
     })
     .min(1),

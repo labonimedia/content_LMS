@@ -55,7 +55,8 @@ const updateHomework = {
       bookId: Joi.string(),
       subjectId: Joi.string(),
       chapterId: Joi.string(),
-      lessonId: Joi.string().custom(objectId).required(),
+      lessonId: Joi.string().custom(objectId),
+      questionLevel: Joi.number(),
     })
     .min(1),
 };
