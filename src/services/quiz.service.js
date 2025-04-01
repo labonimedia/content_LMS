@@ -490,7 +490,7 @@ const deleteQuizeById = async (quizeId) => {
 const getQuestionStats = async (filter) => {
   try {
     // Define all possible question types and question levels
-    const questionTypes = ["1", "2", "3"]; // Adjust based on actual possible values
+    const questionTypes = ["1", "2", "3", "4", "5"]; // Adjust based on actual possible values
     const questionLevels = [1, 2, 3, 4]; // Adjust based on actual possible values
 
     // Step 1: Fetch all questions that match the filter
