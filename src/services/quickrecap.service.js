@@ -54,7 +54,17 @@ const getQuickRecapByChapterId = async (chapterId) => {
  * @returns {Promise<Quickrecap>}
  */
 
-const getQuickRecapByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId , search, options) => {
+const getQuickRecapByFilter = async (
+  boardId,
+  mediumId,
+  classId,
+  subjectId,
+  bookId,
+  chapterId,
+  lessonId,
+  search,
+  options
+) => {
   const filter = {};
 
   // If boardId, mediumId, and classId are provided, filter by them

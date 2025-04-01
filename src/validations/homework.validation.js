@@ -46,7 +46,7 @@ const updateHomework = {
       // veryShortAnswer: Joi.string(),
       // shortAnswer: Joi.string(),
       // longAnswer: Joi.string(),
-      //description: Joi.string(),
+      // description: Joi.string(),
       answer: Joi.string(),
       answerType: Joi.string(),
       boardId: Joi.string(),

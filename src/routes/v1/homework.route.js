@@ -1,8 +1,6 @@
 const express = require('express');
-const validate = require('../../middlewares/validate');
 const multer = require('multer');
-const path = require('path');
-const { v4: uuidv4 } = require('node-uuid');
+const validate = require('../../middlewares/validate');
 const homeworkController = require('../../controllers/homework.controller');
 const homeworkValidation = require('../../validations/homework.validation');
 
@@ -36,7 +34,7 @@ router.route('/get-by/filter').post(validate(homeworkValidation.getHomeByFilter)
 router
   .route('/get-by/:chapterId')
   .get(validate(homeworkValidation.answerTypeWiseByChapterId), homeworkController.answerTypeWiseByChapterId);
-  router.post('/homework-summary', homeworkController.getHomeworkSummary);
+router.post('/homework-summary', homeworkController.getHomeworkSummary);
 module.exports = router;
 
 /**
