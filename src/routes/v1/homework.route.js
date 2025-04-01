@@ -1,10 +1,26 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
+const multer = require('multer');
+const path = require('path');
+const { v4: uuidv4 } = require('node-uuid');
 const homeworkController = require('../../controllers/homework.controller');
 const homeworkValidation = require('../../validations/homework.validation');
 
 const router = express.Router();
 
+// Configure multer for file upload
+const storage = multer.diskStorage({
+  destination: 'uploads/',
+  filename: (req, file, callback) => {
+    callback(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+// Bulk upload route
+router.post('/bulk-upload', upload.single('file'), homeworkController.bulkUploadHomework);
+router.route('/checkexist').post(homeworkController.checkQuestionByName);
 router
   .route('/')
   .post(validate(homeworkValidation.createHomework), homeworkController.createHomework)

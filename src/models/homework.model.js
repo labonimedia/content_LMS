@@ -7,20 +7,9 @@ const homeworkSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    veryShortAnswer: {
-      type: String,
-      required: true,
-    },
-    shortAnswer: {
-      type: String,
-      required: true,
-    },
-    longAnswer: {
-      type: String,
-      required: true,
-    },
     answer: {
       type: String,
+      required: true,
     },
     answerType: {
       type: String,
@@ -30,35 +19,52 @@ const homeworkSchema = mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'board',
       required: true,
+      trim: true,
     },
     mediumId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'medium',
       required: true,
+      trim: true,
     },
     classId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'class',
       required: true,
+      trim: true,
     },
     bookId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'book',
       required: true,
+      trim: true,
     },
     subjectId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'subject',
       required: true,
+      trim: true,
     },
     chapterId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'chapter',
       required: true,
+      trim: true,
     },
-    description: {
-      type: String,
+    lessonId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'lession',
+      required: true,
+      trim: true,
     },
+    // description: {
+    //   type: String,
+    // },
+    questionLevel: {
+      type: Number,
+      enum: [1, 2, 3, 4],
+    },
+ 
   },
   {
     timestamps: true,

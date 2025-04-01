@@ -355,6 +355,9 @@ const getQuizeByFilter = async (
   return quizzes;
 };
 
+
+
+
 /**
  * create quize by id
  * @param {ObjectId} quizeId
@@ -458,6 +461,127 @@ const deleteQuizeById = async (quizeId) => {
   return quize;
 };
 
+// const getQuestionStats = async (filter) => {
+//   try {
+//     // Step 1: Fetch all questions that match the filter
+//     const questions = await Quize.find(filter);
+
+//     // Step 2: Count total number of questions
+//     const totalQuestions = questions.length;
+
+//     // Step 3: Group questionType wise counts using reduce
+//     const questionTypeStats = questions.reduce((acc, question) => {
+//       const questionType = question.questionType;
+//       acc[questionType] = acc[questionType] ? acc[questionType] + 1 : 1;
+//       return acc;
+//     }, {});
+
+//     // Return the result
+//     return {
+//       totalQuestions,
+//       questionTypeStats,
+//     };
+//   } catch (error) {
+//     console.error('Error in getQuestionStats service:', error);
+//     throw new Error('An error occurred while fetching question stats.');
+//   }
+// };
+
+
+const getQuestionStats = async (filter) => {
+  try {
+    // Step 1: Fetch all questions that match the filter
+    const questions = await Quize.find(filter);
+
+    // Step 2: Count total number of questions
+    const totalQuestions = questions.length;
+
+    // Step 3: Group by questionType and then count questionLevel occurrences for each questionType
+    const questionTypeStats = questions.reduce((acc, question) => {
+      const questionType = question.questionType;
+      const questionLevel = question.questionLevel;
+
+      // Initialize the questionType object if it doesn't exist
+      if (!acc[questionType]) {
+        acc[questionType] = {};
+      }
+
+      // Initialize the questionLevel count for the given questionType if it doesn't exist
+      if (!acc[questionType][questionLevel]) {
+        acc[questionType][questionLevel] = 0;
+      }
+
+      // Increment the count for the given questionLevel and questionType
+      acc[questionType][questionLevel] += 1;
+
+      return acc;
+    }, {});
+
+    // Return the result
+    return {
+      totalQuestions,
+      questionTypeStats,
+    };
+  } catch (error) {
+    console.error('Error in getQuestionStats service:', error);
+    throw new Error('An error occurred while fetching question stats.');
+  }
+};
+
+
+
+// const getQuestionStats = async (filter) => {
+//   try {
+//     // Step 1: Count total number of questions using aggregation
+//     const totalQuestions = await Quize.countDocuments(filter);
+
+//     // Step 2: Use aggregation to group by questionType and questionLevel and count occurrences
+//     const questionTypeStats = await Quize.aggregate([
+//       { $match: filter }, // Apply the filter
+//       {
+//         $group: {
+//           _id: { questionType: "$questionType", questionLevel: "$questionLevel" }, // Group by questionType and questionLevel
+//           count: { $sum: 1 }, // Count the number of occurrences
+//         },
+//       },
+//       {
+//         $group: {
+//           _id: "$_id.questionType", // Group by questionType only
+//           levels: {
+//             $push: { questionLevel: "$_id.questionLevel", count: "$count" }, // Push questionLevel and its count into levels array
+//           },
+//         },
+//       },
+//       {
+//         $project: {
+//           _id: 0, // Exclude the _id field
+//           questionType: "$_id", // Rename _id to questionType
+//           levels: 1, // Include levels array
+//         },
+//       },
+//     ]);
+
+//     // Transform the result into a more readable format
+//     const formattedStats = questionTypeStats.reduce((acc, { questionType, levels }) => {
+//       acc[questionType] = levels.reduce((levelAcc, { questionLevel, count }) => {
+//         levelAcc[questionLevel] = count;
+//         return levelAcc;
+//       }, {});
+//       return acc;
+//     }, {});
+
+//     // Return the result
+//     return {
+//       totalQuestions,
+//       questionTypeStats: formattedStats,
+//     };
+//   } catch (error) {
+//     console.error('Error in getQuestionStats service:', error);
+//     throw new Error('An error occurred while fetching question stats.');
+//   }
+// };
+
+
 module.exports = {
   createQuize,
   uploadBulkQuizzes,
@@ -473,4 +597,5 @@ module.exports = {
   getQuizByclassIdAndDayWise,
   getQuizeByQestion,
   getQuizeBychapterId,
+  getQuestionStats,
 };

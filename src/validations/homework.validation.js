@@ -3,11 +3,11 @@ const { objectId } = require('./custom.validation');
 
 const createHomework = {
   body: Joi.object().keys({
-    Question: Joi.string(),
-    description: Joi.string(),
-    veryShortAnswer: Joi.string(),
-    shortAnswer: Joi.string(),
-    longAnswer: Joi.string(),
+    question: Joi.string(),
+    // description: Joi.string(),
+    // veryShortAnswer: Joi.string(),
+    // shortAnswer: Joi.string(),
+    // longAnswer: Joi.string(),
     answer: Joi.string(),
     answerType: Joi.string(),
     boardId: Joi.string(),
@@ -16,6 +16,8 @@ const createHomework = {
     bookId: Joi.string(),
     subjectId: Joi.string(),
     chapterId: Joi.string(),
+    lessonId: Joi.string().custom(objectId).required(),
+    questionLevel: Joi.number(),
   }),
 };
 
@@ -40,11 +42,11 @@ const updateHomework = {
   }),
   body: Joi.object()
     .keys({
-      Question: Joi.string(),
-      veryShortAnswer: Joi.string(),
-      shortAnswer: Joi.string(),
-      longAnswer: Joi.string(),
-      description: Joi.string(),
+      question: Joi.string(),
+      // veryShortAnswer: Joi.string(),
+      // shortAnswer: Joi.string(),
+      // longAnswer: Joi.string(),
+      //description: Joi.string(),
       answer: Joi.string(),
       answerType: Joi.string(),
       boardId: Joi.string(),
@@ -53,6 +55,7 @@ const updateHomework = {
       bookId: Joi.string(),
       subjectId: Joi.string(),
       chapterId: Joi.string(),
+      lessonId: Joi.string().custom(objectId).required(),
     })
     .min(1),
 };
@@ -87,6 +90,7 @@ const getHomeByFilter = {
     subjectId: Joi.string().custom(objectId),
     bookId: Joi.string().custom(objectId),
     chapterId: Joi.string().custom(objectId),
+    lessonId: Joi.string().custom(objectId),
     search: Joi.string(),
     limit: Joi.number().integer().min(1).default(10),
     page: Joi.number().integer().min(1).default(1),

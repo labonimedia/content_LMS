@@ -3,6 +3,56 @@ const mongoose = require('mongoose');
 const { Homework } = require('../models');
 const ApiError = require('../utils/ApiError');
 
+
+const uploadBulkHomework = async (homeworkData) => {
+
+  if (!homeworkData || homeworkData.length === 0) {
+    return { savedHomework: [], duplicates: [] };
+  }
+
+  // Extract question names for duplicate checking
+  const homeworkQuestions = homeworkData.map((hw) => hw.Question.toLowerCase());
+
+  // Step 1: Check for duplicates in the database
+  const existingHomework = await Homework.find({
+    Question: { $in: homeworkQuestions },
+    boardId: homeworkData[0]?.boardId,
+    mediumId: homeworkData[0]?.mediumId,
+    classId: homeworkData[0]?.classId,
+    bookId: homeworkData[0]?.bookId,
+    subjectId: homeworkData[0]?.subjectId,
+    chapterId: homeworkData[0]?.chapterId,
+    lessonId: homeworkData[0]?.lessonId,
+  });
+
+  const existingHomeworkQuestions = new Set(existingHomework.map((hw) => hw.Question.toLowerCase()));
+
+  // Step 2: Filter out new homework that are not duplicates
+  const newHomework = homeworkData.filter((hw) => !existingHomeworkQuestions.has(hw.Question.toLowerCase()));
+
+  // Step 3: Prepare the list of duplicate homework
+  const duplicates = existingHomework.map((hw) => ({
+    Question: hw.Question,
+    answer: hw.answer,
+    answerType: hw.answerType,
+    boardId: hw.boardId,
+    mediumId: hw.mediumId,
+    classId: hw.classId,
+    bookId: hw.bookId,
+    subjectId: hw.subjectId,
+    chapterId: hw.chapterId,
+    lessonId: hw.lessonId,
+  }));
+
+  // Step 4: Insert only the new homework
+  let savedHomework = [];
+  if (newHomework.length > 0) {
+    savedHomework = await Homework.insertMany(newHomework);
+  }
+
+  return { savedHomework, duplicates };
+};
+
 /**
  * Create a Homework
  * @param {Object} HomeworkBody
@@ -45,7 +95,7 @@ const getHomeworkById = async (id) => {
  * @param {ObjectId} classId
  * @returns {Promise<Homework>}
  */
-const getHomeworkByFilterId = async (boardId, mediumId, classId, subjectId, bookId, chapterId, search, options) => {
+const getHomeworkByFilterId = async (boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId, search, options) => {
   const filter = {};
 
   // If boardId, mediumId, and classId are provided, filter by them
@@ -55,6 +105,8 @@ const getHomeworkByFilterId = async (boardId, mediumId, classId, subjectId, book
   if (subjectId) filter.subjectId = subjectId;
   if (bookId) filter.bookId = bookId;
   if (chapterId) filter.chapterId = chapterId;
+  if (lessonId) filter.chapterId = chapterId;
+  
   // If search is provided, apply global search on `name`
   if (search) {
     filter.Question = { $regex: search, $options: 'i' };
@@ -115,6 +167,24 @@ const deleteHomeworkById = async (HomeworkId) => {
   await deleteHomework.remove();
   return deleteHomework;
 };
+/**
+ * Get quiz by quizName and other identifying fields
+ * @param {Object} quizData - Quiz data containing quizName and identifiers
+ * @returns {Promise<Quize|null>}
+ */
+const checkQuestion = async (Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
+  console.log(Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId)
+  return Homework.findOne({
+    Question,
+    boardId,
+    mediumId,
+    classId,
+    bookId,
+    subjectId,
+    chapterId,
+    lessonId,
+  });
+};
 
 module.exports = {
   createHomework,
@@ -124,4 +194,6 @@ module.exports = {
   answerTypeWiseByChapterId,
   updateHomeworkById,
   deleteHomeworkById,
+  uploadBulkHomework,
+  checkQuestion,
 };
