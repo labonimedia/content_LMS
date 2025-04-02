@@ -7,6 +7,10 @@ const quizeSchema = mongoose.Schema(
       type: String,
       index: true,
     },
+    // quizNameAudioPath: {
+    //   type: String,
+    //   index: true,
+    // },
     displayFormat: {
       type: Number,
       enum: [1, 2, 3],
@@ -30,13 +34,33 @@ const quizeSchema = mongoose.Schema(
         D: String,
       },
     ],
+    // optionsAudioPath: [
+    //   {
+    //     A: String,
+    //     B: String,
+    //     C: String,
+    //     D: String,
+    //   },
+    // ],
     correctOptions: [String],
+    // correctOptionsAudioPath: {
+    //   A: String,
+    //   B: String,
+    //   C: String,
+    //   D: String,
+    // },
     explain: {
       type: String,
     },
+    // explainAudioPath: {
+    //   type: String,
+    // },
     hint: {
       type: String,
     },
+    // hintAudioPath: {
+    //   type: String,
+    // },
     types: {
       type: String,
       enum: [1, 2, 3],
@@ -105,3 +129,4 @@ quizeSchema.plugin(paginate);
 const Quize = mongoose.model('quize', quizeSchema);
 
 module.exports = Quize;
+
