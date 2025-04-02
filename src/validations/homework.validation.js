@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createHomework = {
   body: Joi.object().keys({
-    question: Joi.string(),
+    Question: Joi.string(),
     // description: Joi.string(),
     // veryShortAnswer: Joi.string(),
     // shortAnswer: Joi.string(),
@@ -42,7 +42,7 @@ const updateHomework = {
   }),
   body: Joi.object()
     .keys({
-      question: Joi.string(),
+      Question: Joi.string(),
       // veryShortAnswer: Joi.string(),
       // shortAnswer: Joi.string(),
       // longAnswer: Joi.string(),

@@ -242,6 +242,7 @@ const checkQuestionByName = catchAsync(async (req, res) => {
 
   return res.status(httpStatus.NOT_FOUND).json({ message: 'Question No Exists' });
 });
+
 const getHomeworkSummary = async (req, res) => {
   try {
     const summary = await HomeworkSerices.getHomeworkSummaryService(req.body);
