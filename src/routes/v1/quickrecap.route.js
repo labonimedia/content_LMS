@@ -7,7 +7,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(quickRecapValidation.createQuickRecap), quickRecapController.createQuickRecap)
+  .post( quickRecapController.createQuickRecap)
   .get(validate(quickRecapValidation.getAllQuickRecap), quickRecapController.getAllQuickRecap);
 
 router

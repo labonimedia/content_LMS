@@ -528,61 +528,6 @@ const getQuestionStats = async (filter) => {
   }
 };
 
-
-
-
-// const getQuestionStats = async (filter) => {
-//   try {
-//     // Step 1: Count total number of questions using aggregation
-//     const totalQuestions = await Quize.countDocuments(filter);
-
-//     // Step 2: Use aggregation to group by questionType and questionLevel and count occurrences
-//     const questionTypeStats = await Quize.aggregate([
-//       { $match: filter }, // Apply the filter
-//       {
-//         $group: {
-//           _id: { questionType: "$questionType", questionLevel: "$questionLevel" }, // Group by questionType and questionLevel
-//           count: { $sum: 1 }, // Count the number of occurrences
-//         },
-//       },
-//       {
-//         $group: {
-//           _id: "$_id.questionType", // Group by questionType only
-//           levels: {
-//             $push: { questionLevel: "$_id.questionLevel", count: "$count" }, // Push questionLevel and its count into levels array
-//           },
-//         },
-//       },
-//       {
-//         $project: {
-//           _id: 0, // Exclude the _id field
-//           questionType: "$_id", // Rename _id to questionType
-//           levels: 1, // Include levels array
-//         },
-//       },
-//     ]);
-
-//     // Transform the result into a more readable format
-//     const formattedStats = questionTypeStats.reduce((acc, { questionType, levels }) => {
-//       acc[questionType] = levels.reduce((levelAcc, { questionLevel, count }) => {
-//         levelAcc[questionLevel] = count;
-//         return levelAcc;
-//       }, {});
-//       return acc;
-//     }, {});
-
-//     // Return the result
-//     return {
-//       totalQuestions,
-//       questionTypeStats: formattedStats,
-//     };
-//   } catch (error) {
-//     console.error('Error in getQuestionStats service:', error);
-//     throw new Error('An error occurred while fetching question stats.');
-//   }
-// };
-
-
 module.exports = {
   createQuize,
   uploadBulkQuizzes,
