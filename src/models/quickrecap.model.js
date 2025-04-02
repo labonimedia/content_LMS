@@ -94,7 +94,7 @@ const quickRecapSchema = mongoose.Schema(
       required: true,
     },
     lessonId: {
-      type:String,
+      type: String,
       default: '',
       // type: mongoose.SchemaTypes.ObjectId,
       // ref: 'Lesson',
