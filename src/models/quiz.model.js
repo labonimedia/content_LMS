@@ -129,4 +129,3 @@ quizeSchema.plugin(paginate);
 const Quize = mongoose.model('quize', quizeSchema);
 
 module.exports = Quize;
-

@@ -173,7 +173,7 @@ const deleteHomeworkById = async (HomeworkId) => {
  * @returns {Promise<Quize|null>}
  */
 const checkQuestion = async (Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
-  console.log(Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId)
+  //console.log(Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId)
   return Homework.findOne({
     Question,
     boardId,
