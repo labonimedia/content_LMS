@@ -46,7 +46,7 @@ const studentPromoteRoute = require('./student.promote.route');
 const leavingCertRoute = require('./leavingcert.route');
 const studentQuestion = require('./student.question.route');
 const lectureVideoRoute = require('./lecture.route');
-
+const caseStudyRoute = require('./case.studies.route');
 const router = express.Router();
 
 const defaultRoutes = [
@@ -231,6 +231,10 @@ const defaultRoutes = [
   {
     path: '/lecture-video',
     route: lectureVideoRoute,
+  },
+   {
+    path: '/case-study',
+    route: caseStudyRoute,
   },
 ];
 

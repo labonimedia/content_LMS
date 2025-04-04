@@ -52,4 +52,5 @@ module.exports.StudentPromote = require('./student.promote.model');
 module.exports.StudentQuestion = require('./student.question.model');
 module.exports.LectureVideo = require('./lecture.model');
 module.exports.Statement = require('./statement.model');
-// module.exports.Quize = require('./quiz.model');
+module.exports.CaseStudy = require('./case.studies.model');
+
