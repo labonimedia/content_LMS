@@ -163,10 +163,10 @@ const deleteCaseStudy = catchAsync(async (req, res) => {
 });
 
 const checkQuestionByName = catchAsync(async (req, res) => {
-  const { Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
+  const { caseStudy, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
 
   const question = await caseStudiesService.checkQuestion(
-    Question,
+    caseStudy,
     boardId,
     mediumId,
     classId,
@@ -177,11 +177,12 @@ const checkQuestionByName = catchAsync(async (req, res) => {
   );
 
   if (question) {
-    return res.status(httpStatus.OK).json({ message: 'Question Exists' });
+    return res.status(httpStatus.OK).json({ message: 'Case Study Exists' });
   }
 
-  return res.status(httpStatus.NOT_FOUND).json({ message: 'Question No Exists' });
+  return res.status(httpStatus.NOT_FOUND).json({ message: 'Case Study No Exists' });
 });
+
 
 const getCaseStudySummary = async (req, res) => {
   try {
