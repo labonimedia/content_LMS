@@ -42,3 +42,4 @@ module.exports.leavingCertController = require('./leavingcert.controller');
 module.exports.studentQuestionController = require('./student.question.controller');
 module.exports.lectureVideoController = require('./lecture.controller');
 module.exports.statementController = require('./statement.controller');
+module.exports.caseStudyController = require('./case.studies.controller');

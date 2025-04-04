@@ -48,3 +48,4 @@ module.exports.studentPromoteServices = require('./student.promote.service');
 module.exports.studentQuestionService = require('./student.question.service');
 module.exports.lectureVideoService = require('./lecture.service');
 module.exports.statementService = require('./statement.service');
+module.exports.caseStudiesService = require('./case.studies.service');

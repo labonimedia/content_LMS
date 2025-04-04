@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const quickRecapSchema = mongoose.Schema(
+const caseStudySchema = new mongoose.Schema(
   {
+    case: { type: String, required: true },
+    questions: [
+      {
+        question: { type: String, required: true },
+        answer: { type: String, required: true },
+      },
+    ],
     boardId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Board',
@@ -15,17 +22,17 @@ const quickRecapSchema = mongoose.Schema(
     },
     classId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Classes',
-      required: true,
-    },
-    subjectId: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Subject',
+      ref: 'Class',
       required: true,
     },
     bookId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Book',
+      required: true,
+    },
+    subjectId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Subject',
       required: true,
     },
     chapterId: {
@@ -34,25 +41,16 @@ const quickRecapSchema = mongoose.Schema(
       required: true,
     },
     lessonId: {
-      type: String,
-      default: '',
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    chapterName: {
-      type: String,
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Lesson',
       required: true,
     },
   },
   { timestamps: true }
 );
 
-// add plugin that converts mongoose to json
-quickRecapSchema.plugin(toJSON);
-quickRecapSchema.plugin(paginate);
+caseStudySchema.plugin(toJSON);
+caseStudySchema.plugin(paginate);
 
-const Quickrecap = mongoose.model('Quickrecap', quickRecapSchema);
-
-module.exports = Quickrecap;
+const CaseStudy = mongoose.model('CaseStudy', caseStudySchema);
+module.exports = CaseStudy;
