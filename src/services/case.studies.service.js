@@ -150,10 +150,10 @@ const deleteCaseStudyById = async (caseStudyId) => {
  * @param {Object} quizData - Quiz data containing quizName and identifiers
  * @returns {Promise<Quize|null>}
  */
-const checkQuestion = async (Case, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
+const checkQuestion = async (caseStudy, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
  
   return CaseStudy.findOne({
-    case:Case,
+    case:caseStudy,
     boardId,
     mediumId,
     classId,
