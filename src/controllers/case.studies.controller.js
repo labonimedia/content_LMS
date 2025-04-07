@@ -73,7 +73,7 @@ const normalizeText = (text) => {
       if (duplicateInFile.length > 0) {
         return res.status(400).json({
           message: 'Duplicate case studies found in the uploaded file.',
-          duplicateCaseStudies: duplicateInFile,
+          duplicateCaseStudiesInFile: duplicateInFile,
         });
       }
   
