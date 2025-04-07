@@ -33,6 +33,7 @@ router.route('/get-by/filter').post(caseStudyController.getCaseStudyByFilterId);
 //   .route('/get-by/:chapterId')
 //   .get(caseStudyController.answerTypeWiseByChapterId);
 // router.post('/homework-summary', caseStudyController.getHomeworkSummary);
+
 module.exports = router;
 
 /**
