@@ -5,14 +5,45 @@ const catchAsync = require('../utils/catchAsync');
 const { chapterService } = require('../services');
 // const { filterPath } = require('../utils/s3middleware');
 
+// const createChapter = catchAsync(async (req, res) => {
+//   if (req.files?.thumbnail) {
+//     req.body.thumbnail = req.files.thumbnail[0].location;
+//   }
+
+//   if (req.files?.poster) {
+//     req.body.poster = req.files.poster[0].location;
+//   }
+//   const newChapter = await chapterService.createChapter(req.body);
+//   res.status(httpStatus.CREATED).send(newChapter);
+// });
+
 const createChapter = catchAsync(async (req, res) => {
-  if (req.files?.thumbnail) {
-    req.body.thumbnail = req.files.thumbnail[0].location;
+ const files = req.files;
+
+  // Main chapter images
+  if (files?.thumbnail) {
+    req.body.thumbnail = files.thumbnail[0].location;
   }
 
-  if (req.files?.poster) {
-    req.body.poster = req.files.poster[0].location;
+  if (files?.poster) {
+    req.body.poster = files.poster[0].location;
   }
+
+  // Section fields
+  const sectionFields = [
+    'ebook',
+    'quickRecap',
+    'bookQuestionSolutionsNCERT', // <== corrected to match request
+    'chapterEvaluation',
+  ];
+  sectionFields.forEach((field) => {
+    req.body[field] = {
+      icon: files?.[`${field}Icon`]?.[0]?.location || '',
+      poster: files?.[`${field}Poster`]?.[0]?.location || '',
+      description: req.body[`${field}Description`] || '',
+    };
+  });
+
   const newChapter = await chapterService.createChapter(req.body);
   res.status(httpStatus.CREATED).send(newChapter);
 });
@@ -57,13 +88,29 @@ const getChaptersByBookId = catchAsync(async (req, res) => {
 });
 
 const updateSingleClass = catchAsync(async (req, res) => {
-  if (req.files?.thumbnail) {
-    req.body.thumbnail = req.files.thumbnail[0].location;
+  const files = req.files;
+  if (files?.thumbnail) {
+    req.body.thumbnail = files.thumbnail[0].location;
   }
 
-  if (req.files?.poster) {
-    req.body.poster = req.files.poster[0].location;
+  if (files?.poster) {
+    req.body.poster = files.poster[0].location;
   }
+
+  // Section fields
+  const sectionFields = [
+    'ebook',
+    'quickRecap',
+    'bookQuestionSolutionsNCERT', // <== corrected to match request
+    'chapterEvaluation',
+  ];
+  sectionFields.forEach((field) => {
+    req.body[field] = {
+      icon: files?.[`${field}Icon`]?.[0]?.location || '',
+      poster: files?.[`${field}Poster`]?.[0]?.location || '',
+      description: req.body[`${field}Description`] || '',
+    };
+  });
   const updateddClass = await chapterService.updateChapterById(req.params.chapterId, req.body);
   res.send(updateddClass);
 });

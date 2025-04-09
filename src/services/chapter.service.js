@@ -10,6 +10,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Chapter>}
  */
 const createChapter = async (chapter) => {
+ 
   return Chapter.create(chapter);
 };
 
@@ -140,6 +141,38 @@ const updateChapterById = async (chapterId, updateBody) => {
   return singleChapter;
 };
 
+// /**
+//  * Delete Chapter by id
+//  * @param {ObjectId} chapterId
+//  * @returns {Promise<Chapter>}
+//  */
+// const deleteChapterById = async (chapterId) => {
+//   const chapter = await getChapterById(chapterId);
+//   if (!chapter) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Chapter not found');
+//   }
+//   const extractFileName = (url) => (url ? url.split('/').pop() : null);
+//   const thumbnailKey = extractFileName(chapter.thumbnail);
+//   const posterKey = extractFileName(chapter.poster);
+
+//   const deleteFileFromCDN = async (key) => {
+//     if (!key) return;
+//     try {
+//       const params = {
+//         Bucket: 'lmscontent', // Your bucket name
+//         Key: key, // File key (filename in the bucket)
+//       };
+//       await s3Client.send(new DeleteObjectCommand(params));
+//     } catch (error) {
+//       // console.error(`Error deleting ${key}:`, error);
+//     }
+//   };
+
+//   // Delete files from CDN
+//   await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
+//   await chapter.remove();
+//   return chapter;
+// };
 /**
  * Delete Chapter by id
  * @param {ObjectId} chapterId
@@ -150,25 +183,51 @@ const deleteChapterById = async (chapterId) => {
   if (!chapter) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Chapter not found');
   }
-  const extractFileName = (url) => (url ? url.split('/').pop() : null);
-  const thumbnailKey = extractFileName(chapter.thumbnail);
-  const posterKey = extractFileName(chapter.poster);
 
+  // Extract file name from URL
+  const extractFileName = (url) => (url ? url.split('/').pop() : null);
+
+  // Collect all file keys to delete
+  const fileKeys = [];
+
+  // Main thumbnail and poster
+  fileKeys.push(extractFileName(chapter.thumbnail));
+  fileKeys.push(extractFileName(chapter.poster));
+
+  // Section fields to check
+  const sections = [
+    'ebook',
+    'quickRecap',
+    'bookQuestionSolutionsNCERT',
+    'chapterEvaluation',
+  ];
+
+  sections.forEach((section) => {
+    if (chapter[section]) {
+      fileKeys.push(extractFileName(chapter[section].poster));
+      fileKeys.push(extractFileName(chapter[section].icon));
+    }
+  });
+
+  // Function to delete from S3
   const deleteFileFromCDN = async (key) => {
     if (!key) return;
     try {
       const params = {
-        Bucket: 'lmscontent', // Your bucket name
-        Key: key, // File key (filename in the bucket)
+        Bucket: 'lmscontent',
+        Key: key,
       };
       await s3Client.send(new DeleteObjectCommand(params));
     } catch (error) {
+      // Optional: log error
       // console.error(`Error deleting ${key}:`, error);
     }
   };
 
-  // Delete files from CDN
-  await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
+  // Delete all files concurrently
+  await Promise.all(fileKeys.map(deleteFileFromCDN));
+
+  // Remove the chapter
   await chapter.remove();
   return chapter;
 };

@@ -11,6 +11,7 @@ const { s3Client } = require('../utils/cdn');
  */
 
 const createLession = async (lessionBody) => {
+
   return Lession.create(lessionBody);
 };
 
@@ -76,38 +77,100 @@ const updateLessionById = async (lessionId, updateBody) => {
   return lession;
 };
 
-/**
- * Delete lession by id
- * @param {ObjectId} lessionId
- * @returns {Promise<Lession>}
- */
-const deleteLessionById = async (lessionId) => {
-  const lession = await getLessionById(lessionId);
-  if (!lession) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'lession not found');
-  }
-  // Extract file names from URLs
-  const extractFileName = (url) => (url ? url.split('/').pop() : null);
-  const thumbnailKey = extractFileName(lession.thumbnail);
-  const posterKey = extractFileName(lession.poster);
+// /**
+//  * Delete lession by id
+//  * @param {ObjectId} lessionId
+//  * @returns {Promise<Lession>}
+//  */
+// const deleteLessionById = async (lessionId) => {
+//   const lession = await getLessionById(lessionId);
+//   if (!lession) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'lession not found');
+//   }
+//   // Extract file names from URLs
+//   const extractFileName = (url) => (url ? url.split('/').pop() : null);
+//   const thumbnailKey = extractFileName(lession.thumbnail);
+//   const posterKey = extractFileName(lession.poster);
 
+//   const deleteFileFromCDN = async (key) => {
+//     if (!key) return;
+//     try {
+//       const params = {
+//         Bucket: 'lmscontent', // Your bucket name
+//         Key: key, // File key (filename in the bucket)
+//       };
+//       await s3Client.send(new DeleteObjectCommand(params));
+//     } catch (error) {
+//       // console.error(`Error deleting ${key}:`, error);
+//     }
+//   };
+
+//   // Delete files from CDN
+//   await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
+//   await lession.remove();
+//   return lession;
+// };
+
+/**
+ * Delete lesson by id
+ * @param {ObjectId} lessonId
+ * @returns {Promise<Lesson>}
+ */
+const deleteLessionById = async (lessonId) => {
+  const lesson = await getLessionById(lessonId);
+  if (!lesson) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Lesson not found');
+  }
+
+  // Extract file name from URL
+  const extractFileName = (url) => (url ? url.split('/').pop() : null);
+
+  // Collect all file keys to delete
+  const fileKeys = [];
+
+  // Main thumbnail and poster
+  fileKeys.push(extractFileName(lesson.thumbnail));
+  fileKeys.push(extractFileName(lesson.poster));
+
+  // Section fields to check
+  const sections = [
+    'videoLectures',
+    'multimediaVideos',
+    'selfEvaluation',
+    'practiceTest',
+    'caseStudy',
+    'quickRecap',
+    'questionAndAnswers',
+  ];
+
+  sections.forEach((section) => {
+    if (lesson[section]) {
+      fileKeys.push(extractFileName(lesson[section].poster));
+      fileKeys.push(extractFileName(lesson[section].icon));
+    }
+  });
+
+  // Function to delete from S3
   const deleteFileFromCDN = async (key) => {
     if (!key) return;
     try {
       const params = {
-        Bucket: 'lmscontent', // Your bucket name
-        Key: key, // File key (filename in the bucket)
+        Bucket: 'lmscontent', // your S3 bucket name
+        Key: key,
       };
       await s3Client.send(new DeleteObjectCommand(params));
     } catch (error) {
+      // Optional: log error but don't stop execution
       // console.error(`Error deleting ${key}:`, error);
     }
   };
 
-  // Delete files from CDN
-  await Promise.all([deleteFileFromCDN(thumbnailKey), deleteFileFromCDN(posterKey)]);
-  await lession.remove();
-  return lession;
+  // Delete all files concurrently
+  await Promise.all(fileKeys.map(deleteFileFromCDN));
+
+  // Remove the lesson
+  await lesson.remove();
+  return lesson;
 };
 
 const getLessonListByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, search, options) => {
