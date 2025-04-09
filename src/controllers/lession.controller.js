@@ -84,22 +84,56 @@ const getLessionByFilter = catchAsync(async (req, res) => {
   res.send(lession);
 });
 
+// const updateLession = catchAsync(async (req, res) => {
+//   // if (req.files?.thumbnail) {
+//   //   req.body.thumbnail = req.files.thumbnail[0].location;
+//   // }
+
+//   // if (req.files?.poster) {
+//   //   req.body.poster = req.files.poster[0].location;
+//   // }
+//   if (req.files?.thumbnail) {
+//     req.body.thumbnail = req.files.thumbnail[0].location;
+//   }
+
+//   if (req.files?.poster) {
+//     req.body.poster = req.files.poster[0].location;
+//   }
+
+//   const sections = [
+//     'videoLectures',
+//     'multimediaVideos',
+//     'selfEvaluation',
+//     'practiceTest',
+//     'caseStudy',
+//     'quickRecap',
+//     'questionAndAnswers',
+//   ];
+
+//   for (const section of sections) {
+//     req.body[section] = {
+//       icon: req.files?.[`${section}Icon`]?.[0]?.location || '',
+//       poster: req.files?.[`${section}Poster`]?.[0]?.location || '',
+//       description: req.body?.[`${section}Description`] || '',
+//     };
+//   }
+//   const lession = await lessionService.updateLessionById(req.params.lessionId, req.body);
+//   res.send(lession);
+// });
 const updateLession = catchAsync(async (req, res) => {
-  // if (req.files?.thumbnail) {
-  //   req.body.thumbnail = req.files.thumbnail[0].location;
-  // }
+  const lessionId = req.params.lessionId;
 
-  // if (req.files?.poster) {
-  //   req.body.poster = req.files.poster[0].location;
-  // }
-  if (req.files?.thumbnail) {
-    req.body.thumbnail = req.files.thumbnail[0].location;
+  // Get existing lesson
+  const existingLesson = await lessionService.getLessionById(lessionId);
+  if (!existingLesson) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Lesson not found');
   }
 
-  if (req.files?.poster) {
-    req.body.poster = req.files.poster[0].location;
-  }
+  // Handle thumbnail and poster
+  req.body.thumbnail = req.files?.thumbnail?.[0]?.location || existingLesson.thumbnail;
+  req.body.poster = req.files?.poster?.[0]?.location || existingLesson.poster;
 
+  // Handle all sections
   const sections = [
     'videoLectures',
     'multimediaVideos',
@@ -111,16 +145,18 @@ const updateLession = catchAsync(async (req, res) => {
   ];
 
   for (const section of sections) {
+    const existingSection = existingLesson[section] || {};
+
     req.body[section] = {
-      icon: req.files?.[`${section}Icon`]?.[0]?.location || '',
-      poster: req.files?.[`${section}Poster`]?.[0]?.location || '',
-      description: req.body?.[`${section}Description`] || '',
+      icon: req.files?.[`${section}Icon`]?.[0]?.location || existingSection.icon || '',
+      poster: req.files?.[`${section}Poster`]?.[0]?.location || existingSection.poster || '',
+      description: req.body?.[`${section}Description`] || existingSection.description || '',
     };
   }
-  const lession = await lessionService.updateLessionById(req.params.lessionId, req.body);
-  res.send(lession);
-});
 
+  const updatedLession = await lessionService.updateLessionById(lessionId, req.body);
+  res.send(updatedLession);
+});
 const deleteLession = catchAsync(async (req, res) => {
   await lessionService.deleteLessionById(req.params.lessionId);
   res.status(httpStatus.NO_CONTENT).send();
