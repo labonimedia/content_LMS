@@ -36,6 +36,7 @@ const createChapter = catchAsync(async (req, res) => {
     'bookQuestionSolutionsNCERT', // <== corrected to match request
     'chapterEvaluation',
   ];
+  
   sectionFields.forEach((field) => {
     req.body[field] = {
       icon: files?.[`${field}Icon`]?.[0]?.location || '',
