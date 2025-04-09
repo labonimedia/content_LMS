@@ -4,7 +4,23 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { lessionService } = require('../services');
 
+// const createLession = catchAsync(async (req, res) => {
+//   if (req.files?.thumbnail) {
+//     req.body.thumbnail = req.files.thumbnail[0].location;
+//   }
+
+//   if (req.files?.poster) {
+//     req.body.poster = req.files.poster[0].location;
+//   }
+//   // req.body.thumbnail = await filterPath(req.files[0].location);
+//   // req.body.poster = await filterPath(req.files[0].location);
+
+//   const lesson = await lessionService.createLession(req.body);
+
+//   res.status(httpStatus.CREATED).send(lesson);
+// });
 const createLession = catchAsync(async (req, res) => {
+
   if (req.files?.thumbnail) {
     req.body.thumbnail = req.files.thumbnail[0].location;
   }
@@ -12,14 +28,29 @@ const createLession = catchAsync(async (req, res) => {
   if (req.files?.poster) {
     req.body.poster = req.files.poster[0].location;
   }
-  // req.body.thumbnail = await filterPath(req.files[0].location);
-  // req.body.poster = await filterPath(req.files[0].location);
+
+  const sections = [
+    'videoLectures',
+    'multimediaVideos',
+    'selfEvaluation',
+    'practiceTest',
+    'caseStudy',
+    'quickRecap',
+    'questionAndAnswers',
+  ];
+
+  for (const section of sections) {
+    req.body[section] = {
+      icon: req.files?.[`${section}Icon`]?.[0]?.location || '',
+      poster: req.files?.[`${section}Poster`]?.[0]?.location || '',
+      description: req.body?.[`${section}Description`] || '',
+    };
+  }
 
   const lesson = await lessionService.createLession(req.body);
 
   res.status(httpStatus.CREATED).send(lesson);
 });
-
 const queryLessions = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -54,12 +85,37 @@ const getLessionByFilter = catchAsync(async (req, res) => {
 });
 
 const updateLession = catchAsync(async (req, res) => {
+  // if (req.files?.thumbnail) {
+  //   req.body.thumbnail = req.files.thumbnail[0].location;
+  // }
+
+  // if (req.files?.poster) {
+  //   req.body.poster = req.files.poster[0].location;
+  // }
   if (req.files?.thumbnail) {
     req.body.thumbnail = req.files.thumbnail[0].location;
   }
 
   if (req.files?.poster) {
     req.body.poster = req.files.poster[0].location;
+  }
+
+  const sections = [
+    'videoLectures',
+    'multimediaVideos',
+    'selfEvaluation',
+    'practiceTest',
+    'caseStudy',
+    'quickRecap',
+    'questionAndAnswers',
+  ];
+
+  for (const section of sections) {
+    req.body[section] = {
+      icon: req.files?.[`${section}Icon`]?.[0]?.location || '',
+      poster: req.files?.[`${section}Poster`]?.[0]?.location || '',
+      description: req.body?.[`${section}Description`] || '',
+    };
   }
   const lession = await lessionService.updateLessionById(req.params.lessionId, req.body);
   res.send(lession);

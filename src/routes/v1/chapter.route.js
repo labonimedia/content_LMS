@@ -10,9 +10,21 @@ const router = express.Router();
 router
   .route('/')
   .post(
+    // upload.fields([
+    //   { name: 'thumbnail', maxCount: 1 },
+    //   { name: 'poster', maxCount: 1 },
+    // ]),
     upload.fields([
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
+      { name: 'ebookIcon', maxCount: 1 },
+      { name: 'ebookPoster', maxCount: 1 },
+      { name: 'quickRecapIcon', maxCount: 1 },
+      { name: 'quickRecapPoster', maxCount: 1 },
+      { name: 'bookQuestionSolutionsNCERTIcon', maxCount: 1 },
+      { name: 'bookQuestionSolutionsNCERTPoster', maxCount: 1 },
+      { name: 'chapterEvaluationIcon', maxCount: 1 },
+      { name: 'chapterEvaluationPoster', maxCount: 1 },
     ]),
     chaterController.createChapter
   )
@@ -29,6 +41,14 @@ router
     upload.fields([
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
+      { name: 'ebookIcon', maxCount: 1 },
+      { name: 'ebookPoster', maxCount: 1 },
+      { name: 'quickRecapIcon', maxCount: 1 },
+      { name: 'quickRecapPoster', maxCount: 1 },
+      { name: 'bookQuestionSolutionsNCERTIcon', maxCount: 1 },
+      { name: 'bookQuestionSolutionsNCERTPoster', maxCount: 1 },
+      { name: 'chapterEvaluationIcon', maxCount: 1 },
+      { name: 'chapterEvaluationPoster', maxCount: 1 },
     ]),
     chaterController.updateSingleClass
   )

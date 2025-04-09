@@ -6,12 +6,34 @@ const { upload } = require('../../utils/cdn');
 
 const router = express.Router();
 
-router
-  .route('/')
+// router
+//   .route('/')
+//   .post(
+//     upload.fields([
+//       { name: 'thumbnail', maxCount: 1 },
+//       { name: 'poster', maxCount: 1 },
+//     ]),
+//     lessionController.createLession
+//   )
+router.route('/')
   .post(
     upload.fields([
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
+      { name: 'videoLecturesIcon', maxCount: 1 },
+      { name: 'videoLecturesPoster', maxCount: 1 },
+      { name: 'multimediaVideosIcon', maxCount: 1 },
+      { name: 'multimediaVideosPoster', maxCount: 1 },
+      { name: 'selfEvaluationIcon', maxCount: 1 },
+      { name: 'selfEvaluationPoster', maxCount: 1 },
+      { name: 'practiceTestIcon', maxCount: 1 },
+      { name: 'practiceTestPoster', maxCount: 1 },
+      { name: 'caseStudyIcon', maxCount: 1 },
+      { name: 'caseStudyPoster', maxCount: 1 },
+      { name: 'quickRecapIcon', maxCount: 1 },
+      { name: 'quickRecapPoster', maxCount: 1 },
+      { name: 'questionAndAnswersIcon', maxCount: 1 },
+      { name: 'questionAndAnswersPoster', maxCount: 1 },
     ]),
     lessionController.createLession
   )
@@ -21,9 +43,27 @@ router
   .route('/:lessionId')
   .get(validate(lessionValidation.getLession), lessionController.getLession)
   .patch(
+    // upload.fields([
+    //   { name: 'thumbnail', maxCount: 1 },
+    //   { name: 'poster', maxCount: 1 },
+    // ]),
     upload.fields([
       { name: 'thumbnail', maxCount: 1 },
       { name: 'poster', maxCount: 1 },
+      { name: 'videoLecturesIcon', maxCount: 1 },
+      { name: 'videoLecturesPoster', maxCount: 1 },
+      { name: 'multimediaVideosIcon', maxCount: 1 },
+      { name: 'multimediaVideosPoster', maxCount: 1 },
+      { name: 'selfEvaluationIcon', maxCount: 1 },
+      { name: 'selfEvaluationPoster', maxCount: 1 },
+      { name: 'practiceTestIcon', maxCount: 1 },
+      { name: 'practiceTestPoster', maxCount: 1 },
+      { name: 'caseStudyIcon', maxCount: 1 },
+      { name: 'caseStudyPoster', maxCount: 1 },
+      { name: 'quickRecapIcon', maxCount: 1 },
+      { name: 'quickRecapPoster', maxCount: 1 },
+      { name: 'questionAndAnswersIcon', maxCount: 1 },
+      { name: 'questionAndAnswersPoster', maxCount: 1 },
     ]),
     lessionController.updateLession
   )
