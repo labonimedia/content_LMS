@@ -198,7 +198,7 @@ const deleteChapterById = async (chapterId) => {
   const sections = [
     'ebook',
     'quickRecap',
-    'bookQuestionSolutionsNCERT',
+    'bookQuestionSolutions',
     'chapterEvaluation',
   ];
 

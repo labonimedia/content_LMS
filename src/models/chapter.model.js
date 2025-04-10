@@ -138,7 +138,7 @@ const chapterSchema = mongoose.Schema(
     // Additional Sectional Fields (like lesson model)
     ebook: sectionSchema,
     quickRecap: sectionSchema,
-    bookQuestionSolutionsNCERT: sectionSchema, // NCERT Book Solutions
+    bookQuestionSolutions: sectionSchema, // NCERT Book Solutions
     chapterEvaluation: sectionSchema,
   },
   {

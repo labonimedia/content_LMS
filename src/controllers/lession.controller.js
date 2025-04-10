@@ -157,6 +157,7 @@ const updateLession = catchAsync(async (req, res) => {
   const updatedLession = await lessionService.updateLessionById(lessionId, req.body);
   res.send(updatedLession);
 });
+
 const deleteLession = catchAsync(async (req, res) => {
   await lessionService.deleteLessionById(req.params.lessionId);
   res.status(httpStatus.NO_CONTENT).send();
