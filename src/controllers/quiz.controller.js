@@ -263,7 +263,7 @@ const bulkUpload = catchAsync(async (req, res) => {
   }
 
   const filePath = req.file.path;
-  const { boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body;
+  const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
 
   try {
     // Read Excel file
@@ -312,7 +312,7 @@ const bulkUpload = catchAsync(async (req, res) => {
           bookId,
           subjectId,
           chapterId,
-          lectureVideoId,
+          lessonId,
           description: row.Description || '',
           weightage: parseInt(row.Weightage, 10) || 1,
           negativeWeightage: parseInt(row['Negative Weightage'], 10) || 1,
@@ -566,7 +566,7 @@ const getQuizeById = catchAsync(async (req, res) => {
 });
 
 const getQuizeByFilter = catchAsync(async (req, res) => {
-  const { boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId, search } = req.body;
+  const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId, search } = req.body;
   // const filter = { boardId, mediumId, classId, bookId, subjectId, chapterId };
   // const options = pick(req.body, ['sortBy', 'limit', 'page']);
   const options = {
@@ -582,7 +582,7 @@ const getQuizeByFilter = catchAsync(async (req, res) => {
     bookId,
     subjectId,
     chapterId,
-    lectureVideoId,
+    lessonId,
     search,
     options
   );
@@ -609,8 +609,13 @@ const getQuizeByChapterId = catchAsync(async (req, res) => {
 //   }
 //   res.send(quize);
 // });
+// function normalizeText(str) {
+//   return str.replace(/\s+/g, ' ').trim().toLowerCase();
+// }
 const getQuizeByQuizName = catchAsync(async (req, res) => {
-  const { quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId } = req.body;
+
+  //const normalizedQuizName = normalizeText(req.body.quizName);
+  const { quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
   const quize = await quizeService.getQuizeByQestion(
     quizName,
     boardId,
@@ -619,7 +624,7 @@ const getQuizeByQuizName = catchAsync(async (req, res) => {
     bookId,
     subjectId,
     chapterId,
-    lectureVideoId
+    lessonId
   );
 
   if (!quize) {

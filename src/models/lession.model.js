@@ -149,7 +149,7 @@ const lessonSchema = mongoose.Schema(
 
     // New Fields
     videoLectures: sectionSchema,
-    multimediaVideos: sectionSchema,
+    //multimediaVideos: sectionSchema,
     selfEvaluation: sectionSchema,
     practiceTest: sectionSchema,
     caseStudy: sectionSchema,
