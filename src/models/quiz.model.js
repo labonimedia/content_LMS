@@ -6,6 +6,7 @@ const quizeSchema = mongoose.Schema(
     quizName: {
       type: String,
       index: true,
+      trim:true,
     },
     // quizNameAudioPath: {
     //   type: String,
@@ -102,11 +103,17 @@ const quizeSchema = mongoose.Schema(
       ref: 'chapter',
       required: true,
     },
-    lectureVideoId: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'lecturevideo',
-      required: true,
-    },
+    // lectureVideoId: {
+    //   type: mongoose.SchemaTypes.ObjectId,
+    //   ref: 'lecturevideo',
+    //   required: true,
+    // },
+      lessonId: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'lession',
+        required: true,
+        trim: true,
+      },
     description: {
       type: String,
     },

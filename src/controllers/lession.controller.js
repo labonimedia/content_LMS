@@ -31,7 +31,7 @@ const createLession = catchAsync(async (req, res) => {
 
   const sections = [
     'videoLectures',
-    'multimediaVideos',
+    // 'multimediaVideos',
     'selfEvaluation',
     'practiceTest',
     'caseStudy',

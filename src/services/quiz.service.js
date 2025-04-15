@@ -162,7 +162,7 @@ const uploadBulkQuizzes = async (quizzes) => {
     bookId: quizzes[0]?.bookId,
     subjectId: quizzes[0]?.subjectId,
     chapterId: quizzes[0]?.chapterId,
-    lectureVideoId: quizzes[0]?.lectureVideoId,
+    lessonId: quizzes[0]?.lessonId,
   });
   // Step 2: Store normalized quiz names from DB for fast lookup
   const existingQuizNames = new Set(existingQuizzes.map((quiz) => quiz.quizName));
@@ -180,7 +180,7 @@ const uploadBulkQuizzes = async (quizzes) => {
     bookId: quiz.bookId,
     subjectId: quiz.subjectId,
     chapterId: quiz.chapterId,
-    lectureVideoId: quiz.lectureVideoId,
+    lessonId: quiz.lessonId,
   }));
 
   // Step 5: Insert only the new quizzes

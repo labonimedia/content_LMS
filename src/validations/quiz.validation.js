@@ -20,7 +20,7 @@ const createQuize = {
     bookId: Joi.string(),
     subjectId: Joi.string(),
     chapterId: Joi.string(),
-    lectureVideoId: Joi.string(),
+    lessonId: Joi.string(),
   }),
 };
 
@@ -48,7 +48,7 @@ const getQuizeByQuizName = {
     bookId: Joi.string().required(),
     subjectId: Joi.string().required(),
     chapterId: Joi.string().required(),
-    lectureVideoId: Joi.string().required(),
+    lessonId: Joi.string().required(),
   }),
 };
 const NotSelectQuize = {
@@ -85,7 +85,7 @@ const getQuizFilter = {
     bookId: Joi.string(),
     subjectId: Joi.string(),
     chapterId: Joi.string(),
-    lectureVideoId: Joi.string(),
+    lessonId: Joi.string(),
     search: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -125,7 +125,7 @@ const updateQuize = {
       subjectId: Joi.string(),
       chapterId: Joi.string(),
       // questionId: Joi.string(),
-      // lessonId: Joi.string(),
+      lessonId: Joi.string(),
     })
     .min(1),
 };
