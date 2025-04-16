@@ -286,7 +286,7 @@ const getQuizeById = async (id) => {
  * @param {Object} quizData - Quiz data containing quizName and identifiers
  * @returns {Promise<Quize|null>}
  */
-const getQuizeByQestion = async (quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lectureVideoId ) => {
+const getQuizeByQestion = async (quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
   return Quize.findOne({
     quizName,
     boardId,
@@ -295,7 +295,7 @@ const getQuizeByQestion = async (quizName, boardId, mediumId, classId, bookId, s
     bookId,
     subjectId,
     chapterId,
-    lectureVideoId,
+    lessonId,
   });
 };
 
@@ -334,7 +334,7 @@ const getQuizeByFilter = async (
   bookId,
   subjectId,
   chapterId,
-  lectureVideoId,
+  lessonId,
   search,
   options
 ) => {
@@ -346,7 +346,7 @@ const getQuizeByFilter = async (
   if (bookId) filters.bookId = bookId;
   if (subjectId) filters.subjectId = subjectId;
   if (chapterId) filters.chapterId = chapterId;
-  if (lectureVideoId) filters.lectureVideoId = lectureVideoId;
+  if (lessonId) filters.lessonId = lessonId;
   if (search) {
     filters.quizName = { $regex: search, $options: 'i' };
   }
