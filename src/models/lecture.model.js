@@ -64,12 +64,12 @@ const lectureSchema = mongoose.Schema(
       ref: 'chapter',
       required: true,
     },
-      lessonId: {
-            type: mongoose.SchemaTypes.ObjectId,
-            ref: 'lession',
-            required: true,
-            trim: true,
-          },
+    lessonId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'lession',
+      required: true,
+      trim: true,
+    },
   },
   {
     timestamps: true,
