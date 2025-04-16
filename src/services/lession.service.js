@@ -135,7 +135,7 @@ const deleteLessionById = async (lessonId) => {
   // Section fields to check
   const sections = [
     'videoLectures',
-    'multimediaVideos',
+    //'multimediaVideos',
     'selfEvaluation',
     'practiceTest',
     'caseStudy',
