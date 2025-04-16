@@ -136,7 +136,7 @@ const updateLession = catchAsync(async (req, res) => {
   // Handle all sections
   const sections = [
     'videoLectures',
-    'multimediaVideos',
+    // 'multimediaVideos',
     'selfEvaluation',
     'practiceTest',
     'caseStudy',
