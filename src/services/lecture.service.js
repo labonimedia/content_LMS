@@ -54,7 +54,7 @@ const getLectureVideobychapterId = async (chapterId) => {
  * @returns {Promise<lesssion>}
  */
 
-const getLectureVideoByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, search, options) => {
+const getLectureVideoByFilter = async (boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId, search, options) => {
   const filter = {};
 
   // If boardId, mediumId, and classId are provided, filter by them
@@ -64,6 +64,7 @@ const getLectureVideoByFilter = async (boardId, mediumId, classId, subjectId, bo
   if (subjectId) filter.subjectId = subjectId;
   if (bookId) filter.bookId = bookId;
   if (chapterId) filter.chapterId = chapterId;
+  if (lessonId) filter.lessonId = lessonId;
   // If search is provided, apply global search on `name`
   if (search) {
     filter.lessionName = { $regex: search, $options: 'i' };

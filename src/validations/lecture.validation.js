@@ -10,6 +10,7 @@ const createLecture = {
     subjectId: Joi.string().custom(objectId),
     bookId: Joi.string().custom(objectId),
     chapterId: Joi.string().custom(objectId),
+    lessonId: Joi.string().custom(objectId),
     lessionName: Joi.string().required(),
     icon1: Joi.string(),
     icon2: Joi.string(),
@@ -49,6 +50,7 @@ const getLessionByFilter = {
     subjectId: Joi.string().custom(objectId).required(),
     bookId: Joi.string().custom(objectId).required(),
     chapterId: Joi.string().custom(objectId).required(),
+    lessonId: Joi.string().custom(objectId),
   }),
 };
 
@@ -65,6 +67,7 @@ const updateLecture = {
       subjectId: Joi.string().custom(objectId),
       bookId: Joi.string().custom(objectId),
       chapterId: Joi.string().custom(objectId),
+      lessonId: Joi.string().custom(objectId),
       lessionName: Joi.string().required(),
       icon1: Joi.string(),
       icon2: Joi.string(),
@@ -91,6 +94,7 @@ const getLecByFilter = {
     subjectId: Joi.string().custom(objectId),
     bookId: Joi.string().custom(objectId),
     chapterId: Joi.string().custom(objectId),
+    lessonId: Joi.string().custom(objectId),
     search: Joi.string(),
     limit: Joi.number().integer().min(1).default(10),
     page: Joi.number().integer().min(1).default(1),

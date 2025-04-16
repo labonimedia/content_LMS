@@ -35,7 +35,7 @@ const getLectureVideobychapId = catchAsync(async (req, res) => {
 
 const getLectureVideoByFilter = catchAsync(async (req, res) => {
   // const { boardId, mediumId, classId, subjectId, bookId, chapterId } = req.params;
-  const { boardId, mediumId, classId, subjectId, bookId, chapterId, search } = req.body;
+  const { boardId, mediumId, classId, subjectId, bookId, chapterId, lessonId,  search } = req.body;
   const options = {
     limit: parseInt(req.body.limit, 10) || 10,
     page: parseInt(req.body.page, 10) || 1,
@@ -48,6 +48,7 @@ const getLectureVideoByFilter = catchAsync(async (req, res) => {
     subjectId,
     bookId,
     chapterId,
+    lessonId,
     search,
     options
   );
