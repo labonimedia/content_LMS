@@ -60,6 +60,7 @@ const todayPlanSchema = mongoose.Schema(
       // ref: 'Chapter',
       // required: true,
       // trim: true,
+      
     },
     lessonId: {
       type:String,
