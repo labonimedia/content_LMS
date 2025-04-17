@@ -612,8 +612,8 @@ const getQuizeByChapterId = catchAsync(async (req, res) => {
 // function normalizeText(str) {
 //   return str.replace(/\s+/g, ' ').trim().toLowerCase();
 // }
-const getQuizeByQuizName = catchAsync(async (req, res) => {
 
+const getQuizeByQuizName = catchAsync(async (req, res) => {
   //const normalizedQuizName = normalizeText(req.body.quizName);
   const { quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
   const quize = await quizeService.getQuizeByQestion(
@@ -626,11 +626,9 @@ const getQuizeByQuizName = catchAsync(async (req, res) => {
     chapterId,
     lessonId
   );
-
   if (!quize) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Quiz not found');
   }
-
   res.status(httpStatus.OK).send(quize);
 });
 const getQuizByClassIdAndDayWise = catchAsync(async (req, res) => {

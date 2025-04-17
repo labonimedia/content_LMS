@@ -12,7 +12,7 @@ const createNewPlan = {
     classId: Joi.string().required().trim(), // ObjectId
     subjectId: Joi.string().required().trim(), // ObjectId
     bookId: Joi.string().required().trim(), // ObjectId
-    chapterId: Joi.string().required().trim(), // ObjectId
+    chapterId: Joi.string().trim(), // ObjectId
     orderId: Joi.string().required().trim(),
     studioName: Joi.string().trim().allow('', null),
     liveStreamingPath: Joi.string().trim().allow('', null),
