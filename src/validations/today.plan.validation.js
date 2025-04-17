@@ -62,8 +62,8 @@ const updatePlanById = {
       classId: Joi.string().trim(), // ObjectId
       subjectId: Joi.string().trim(), // ObjectId
       bookId: Joi.string().trim(), // ObjectId
-      chapterId: Joi.string().trim(), // ObjectId
-      orderId: Joi.string().trim(),
+      chapterId: Joi.string().trim().allow('', null), // ObjectId
+      orderId: Joi.string().trim().allow('', null),
       lessonId: Joi.string(),
       studioName: Joi.string().trim().allow('', null),
       liveStreamingPath: Joi.string().trim().allow('', null),
