@@ -12,13 +12,13 @@ const createNewPlan = {
     classId: Joi.string().required().trim(), // ObjectId
     subjectId: Joi.string().required().trim(), // ObjectId
     bookId: Joi.string().required().trim(), // ObjectId
-    chapterId: Joi.string().trim(), // ObjectId
+    chapterId: Joi.string().trim().allow('', null), // ObjectId
     orderId: Joi.string().required().trim(),
     studioName: Joi.string().trim().allow('', null),
     liveStreamingPath: Joi.string().trim().allow('', null),
     presenterName: Joi.string().trim().allow('', null),
     questions: Joi.array().items(Joi.string()).allow('', null),
-    lessonId: Joi.string(),
+    lessonId: Joi.string().allow('', null),
     description: Joi.string().trim().allow('', null),
   }),
 };
