@@ -168,7 +168,7 @@ const getLessonListByFilter = catchAsync(async (req, res) => {
   const options = {
     limit: parseInt(req.body.limit, 10) || 10,
     page: parseInt(req.body.page, 10) || 1,
-    sortBy: 'name', // Sorting by subject name
+    sortBy: 'order', // Sorting by order name
   };
 
   // Call service function
