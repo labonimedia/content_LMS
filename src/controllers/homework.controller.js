@@ -223,10 +223,12 @@ const deleteHomework = catchAsync(async (req, res) => {
 });
 
 const checkQuestionByName = catchAsync(async (req, res) => {
-  const { Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
+  const { Question, answerType, questionLevel, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
 
   const question = await HomeworkSerices.checkQuestion(
     Question,
+    answerType,
+    questionLevel,
     boardId,
     mediumId,
     classId,
