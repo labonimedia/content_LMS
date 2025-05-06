@@ -17,6 +17,8 @@ const uploadBulkHomework = async (homeworkData) => {
   const existingHomework = await Homework.find({
     Question: { $in: homeworkQuestions },
     boardId: homeworkData[0]?.boardId,
+    questionLevel: homeworkData[0]?.questionLevel,
+    answerType: homeworkData[0]?.answerType,
     mediumId: homeworkData[0]?.mediumId,
     classId: homeworkData[0]?.classId,
     bookId: homeworkData[0]?.bookId,
@@ -172,10 +174,12 @@ const deleteHomeworkById = async (HomeworkId) => {
  * @param {Object} quizData - Quiz data containing quizName and identifiers
  * @returns {Promise<Quize|null>}
  */
-const checkQuestion = async (Question, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
+const checkQuestion = async (Question, answerType, questionLevel, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
   
   return Homework.findOne({
     Question,
+    answerType,
+    questionLevel,
     boardId,
     mediumId,
     classId,
