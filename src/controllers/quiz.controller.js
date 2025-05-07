@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const XLSX = require('xlsx');
 const fs = require('fs');
+const he = require('he');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
@@ -616,8 +617,9 @@ const getQuizeByChapterId = catchAsync(async (req, res) => {
 const getQuizeByQuizName = catchAsync(async (req, res) => {
   //const normalizedQuizName = normalizeText(req.body.quizName);
   const { quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
+   const decodedQuestion = he.decode(quizName);
   const quize = await quizeService.getQuizeByQestion(
-    quizName,
+    decodedQuestion,
     boardId,
     mediumId,
     classId,
@@ -626,6 +628,9 @@ const getQuizeByQuizName = catchAsync(async (req, res) => {
     chapterId,
     lessonId
   );
+   if (!decodedQuestion || !boardId || !mediumId || !classId || !bookId || !subjectId || !chapterId || !lessonId) {
+      return res.status(httpStatus.BAD_REQUEST).json({ message: 'All fields must be provided' });
+    }
   if (!quize) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Quiz not found');
   }
