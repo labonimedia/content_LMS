@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const XLSX = require('xlsx');
 const fs = require('fs');
+const he = require('he');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
@@ -164,9 +165,9 @@ const deleteCaseStudy = catchAsync(async (req, res) => {
 
 const checkQuestionByName = catchAsync(async (req, res) => {
   const { caseStudy, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
-
+const decodedQuestion = he.decode(caseStudy);
   const question = await caseStudiesService.checkQuestion(
-    caseStudy,
+    decodedQuestion,
     boardId,
     mediumId,
     classId,
@@ -175,7 +176,9 @@ const checkQuestionByName = catchAsync(async (req, res) => {
     chapterId,
     lessonId
   );
-
+  if (!decodedQuestion || !boardId || !mediumId || !classId || !bookId || !subjectId || !chapterId || !lessonId) {
+      return res.status(httpStatus.BAD_REQUEST).json({ message: 'All fields must be provided' });
+    }
   if (question) {
     return res.status(httpStatus.OK).json({ message: 'Case Study Exists' });
   }

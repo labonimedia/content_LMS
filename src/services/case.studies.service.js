@@ -154,13 +154,13 @@ const checkQuestion = async (caseStudy, boardId, mediumId, classId, bookId, subj
  
   return CaseStudy.findOne({
     case:caseStudy,
-    boardId,
-    mediumId,
-    classId,
-    bookId,
-    subjectId,
-    chapterId,
-    lessonId,
+    boardId: boardId, 
+    mediumId: mediumId, 
+    classId: classId, 
+    bookId: bookId, 
+    subjectId: subjectId, 
+    chapterId: chapterId, 
+    lessonId: lessonId
   });
 };
 
