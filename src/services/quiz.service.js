@@ -288,14 +288,14 @@ const getQuizeById = async (id) => {
  */
 const getQuizeByQestion = async (quizName, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
   return Quize.findOne({
-    quizName,
-    boardId,
-    mediumId,
-    classId,
-    bookId,
-    subjectId,
-    chapterId,
-    lessonId,
+    quizName:quizName,
+    boardId: boardId, 
+    mediumId: mediumId, 
+    classId: classId, 
+    bookId: bookId, 
+    subjectId: subjectId, 
+    chapterId: chapterId, 
+    lessonId: lessonId
   });
 };
 
