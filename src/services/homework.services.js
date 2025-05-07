@@ -174,19 +174,20 @@ const deleteHomeworkById = async (HomeworkId) => {
  * @param {Object} quizData - Quiz data containing quizName and identifiers
  * @returns {Promise<Quize|null>}
  */
+
 const checkQuestion = async (Question, answerType, questionLevel, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId ) => {
   
   return Homework.findOne({
-    Question,
-    answerType,
-    questionLevel,
-    boardId,
-    mediumId,
-    classId,
-    bookId,
-    subjectId,
-    chapterId,
-    lessonId,
+    Question: Question, // Now this will work with the decoded question
+    answerType: answerType, 
+    questionLevel: questionLevel, 
+    boardId: boardId, 
+    mediumId: mediumId, 
+    classId: classId, 
+    bookId: bookId, 
+    subjectId: subjectId, 
+    chapterId: chapterId, 
+    lessonId: lessonId
   });
 };
 const getHomeworkSummaryService = async (filterData) => {

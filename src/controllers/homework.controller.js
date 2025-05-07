@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const XLSX = require('xlsx');
 const fs = require('fs');
+const he = require('he');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
@@ -87,8 +88,6 @@ const normalizeQuestion = (question) => {
 //   }
 // });
 
-
- 
 const bulkUploadHomework = catchAsync(async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'CSV file is required' });
@@ -165,6 +164,7 @@ const bulkUploadHomework = catchAsync(async (req, res) => {
     fs.unlinkSync(filePath);
   }
 });
+
 // const bulkUploadHomework = catchAsync(async (req, res) => {
 //   if (!req.file) {
 //     return res.status(400).json({ message: 'CSV file is required' });
@@ -302,9 +302,9 @@ const deleteHomework = catchAsync(async (req, res) => {
 
 const checkQuestionByName = catchAsync(async (req, res) => {
   const { Question, answerType, questionLevel, boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
-
+  const decodedQuestion = he.decode(Question);
   const question = await HomeworkSerices.checkQuestion(
-    Question,
+    decodedQuestion,
     answerType,
     questionLevel,
     boardId,
@@ -315,7 +315,9 @@ const checkQuestionByName = catchAsync(async (req, res) => {
     chapterId,
     lessonId
   );
-
+  if (!decodedQuestion || !answerType || !questionLevel || !boardId || !mediumId || !classId || !bookId || !subjectId || !chapterId || !lessonId) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: 'All fields must be provided' });
+  }
   if (question) {
     return res.status(httpStatus.OK).json({ message: 'Question Exists' });
   }
