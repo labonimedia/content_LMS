@@ -12,7 +12,7 @@ const homeworkSchema = mongoose.Schema(
       required: true,
     },
     answerType: {
-      type: String,
+      type: Number,
       enum: [1, 2, 3],
     },
     boardId: {
