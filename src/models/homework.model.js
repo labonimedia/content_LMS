@@ -13,7 +13,7 @@ const homeworkSchema = mongoose.Schema(
     },
     answerType: {
       type: String,
-      enum: ['Very Short Answer', 'Long Answer', 'Short Answer'],
+      enum: [1, 2, 3],
     },
     boardId: {
       type: mongoose.SchemaTypes.ObjectId,
@@ -63,6 +63,9 @@ const homeworkSchema = mongoose.Schema(
     questionLevel: {
       type: Number,
       enum: [1, 2, 3, 4],
+    },
+    audioPath: {
+      type: String,
     },
   },
   {
