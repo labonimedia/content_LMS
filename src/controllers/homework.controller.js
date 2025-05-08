@@ -7,10 +7,11 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { HomeworkSerices } = require('../services');
 
-const normalizeQuestion = (question) => {
-  if (typeof question !== 'string') return '';
-  return question.replace(/\s+/g, ' ').trim().toLowerCase();
-};
+// const normalizeQuestion = (question) => {
+//   if (typeof question !== 'string') return '';
+//   return question.replace(/\s+/g, ' ').trim().toLowerCase();
+// };
+
 
 // const bulkUploadHomework = catchAsync(async (req, res) => {
 //   if (!req.file) {
@@ -21,7 +22,6 @@ const normalizeQuestion = (question) => {
 //   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
 
 //   try {
-//     // Read CSV file
 //     const workbook = XLSX.readFile(filePath);
 //     const sheetName = workbook.SheetNames[0];
 //     const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { raw: false });
@@ -30,8 +30,7 @@ const normalizeQuestion = (question) => {
 //       return res.status(400).json({ message: 'Uploaded file is empty' });
 //     }
 
-//     // Duplicate check within the uploaded file
-//     const questionSet = new Set();
+//     const compositeSet = new Set();
 //     const duplicateInFile = [];
 //     const formattedHomework = [];
 
@@ -39,16 +38,20 @@ const normalizeQuestion = (question) => {
 //       if (!row.Question || !row.Answer) continue;
 
 //       const normalizedQuestion = normalizeQuestion(row.Question);
+//       const normalizedAnswerType = (row['Question Type'] || 'Very Short Answer').trim().toLowerCase();
+//       const normalizedLevel = parseInt(row['Question Level'], 10) || 1;
 
-//       if (questionSet.has(normalizedQuestion)) {
+//       const compositeKey = `${normalizedQuestion}||${normalizedAnswerType}||${normalizedLevel}`;
+
+//       if (compositeSet.has(compositeKey)) {
 //         duplicateInFile.push(row.Question);
 //       } else {
-//         questionSet.add(normalizedQuestion);
+//         compositeSet.add(compositeKey);
 //         formattedHomework.push({
 //           Question: row.Question,
 //           answer: row.Answer,
 //           answerType: row['Question Type'] || 'Very Short Answer',
-//           questionLevel: parseInt(row['Question Level'], 10) || 1,
+//           questionLevel: normalizedLevel,
 //           boardId,
 //           mediumId,
 //           classId,
@@ -62,7 +65,7 @@ const normalizeQuestion = (question) => {
 
 //     if (duplicateInFile.length > 0) {
 //       return res.status(400).json({
-//         message: 'Duplicate questions found in the uploaded file.',
+//         message: 'Duplicate questions found in the uploaded file (by Question + answerType + questionLevel)',
 //         duplicateQuestions: duplicateInFile,
 //       });
 //     }
@@ -71,7 +74,6 @@ const normalizeQuestion = (question) => {
 //       return res.status(400).json({ message: 'No valid data found in the file' });
 //     }
 
-//     // Send data to the service layer for DB validation
 //     const result = await HomeworkSerices.uploadBulkHomework(formattedHomework);
 
 //     return res.status(201).json({
@@ -84,9 +86,26 @@ const normalizeQuestion = (question) => {
 //   } catch (error) {
 //     res.status(500).json({ message: 'Error uploading homework', error: error.message });
 //   } finally {
-//     fs.unlinkSync(filePath); // Delete uploaded file after processing
+//     fs.unlinkSync(filePath);
 //   }
 // });
+
+
+// Normalize the question text
+const normalizeQuestion = (question) => {
+  if (typeof question !== 'string') return '';
+  return question.replace(/\s+/g, ' ').trim().toLowerCase();
+};
+
+// Map question type string to enum value
+const getAnswerTypeEnum = (type) => {
+  const map = {
+    'very short answer': 1,
+    'short answer': 2,
+    'long answer': 3,
+  };
+  return map[type?.trim().toLowerCase()] || 1; // Default to 1
+};
 
 const bulkUploadHomework = catchAsync(async (req, res) => {
   if (!req.file) {
@@ -113,19 +132,19 @@ const bulkUploadHomework = catchAsync(async (req, res) => {
       if (!row.Question || !row.Answer) continue;
 
       const normalizedQuestion = normalizeQuestion(row.Question);
-      const normalizedAnswerType = (row['Question Type'] || 'Very Short Answer').trim().toLowerCase();
+      const answerTypeEnum = getAnswerTypeEnum(row['Question Type']);
       const normalizedLevel = parseInt(row['Question Level'], 10) || 1;
 
-      const compositeKey = `${normalizedQuestion}||${normalizedAnswerType}||${normalizedLevel}`;
+      const compositeKey = `${normalizedQuestion}||${answerTypeEnum}||${normalizedLevel}`;
 
       if (compositeSet.has(compositeKey)) {
         duplicateInFile.push(row.Question);
       } else {
         compositeSet.add(compositeKey);
         formattedHomework.push({
-          Question: row.Question,
-          answer: row.Answer,
-          answerType: row['Question Type'] || 'Very Short Answer',
+          Question: row.Question.trim(),
+          answer: row.Answer.trim(),
+          answerType: answerTypeEnum,
           questionLevel: normalizedLevel,
           boardId,
           mediumId,
@@ -134,6 +153,7 @@ const bulkUploadHomework = catchAsync(async (req, res) => {
           subjectId,
           chapterId,
           lessonId,
+          audioPath:row.Path.trim()
         });
       }
     }
@@ -155,86 +175,15 @@ const bulkUploadHomework = catchAsync(async (req, res) => {
       message: 'Bulk upload processed successfully',
       uploadedCount: result.savedHomework.length || 0,
       duplicatesInDatabaseCount: result.duplicates.length || 0,
-      uploadedHomework: result.savedHomework.map((q) => q.Question) || [],
-      duplicateHomework: result.duplicates.map((q) => q.Question) || [],
+      uploadedHomework: result.savedHomework.map((q) => q.Question),
+      duplicateHomework: result.duplicates.map((q) => q.Question),
     });
   } catch (error) {
     res.status(500).json({ message: 'Error uploading homework', error: error.message });
   } finally {
-    fs.unlinkSync(filePath);
+    fs.unlinkSync(filePath); // Clean up file
   }
 });
-
-// const bulkUploadHomework = catchAsync(async (req, res) => {
-//   if (!req.file) {
-//     return res.status(400).json({ message: 'CSV file is required' });
-//   }
-
-//   const filePath = req.file.path;
-//   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = req.body;
-
-//   try {
-//     // Read CSV file
-//     const workbook = XLSX.readFile(filePath);
-//     const sheetName = workbook.SheetNames[0];
-//     const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-//     if (!data || data.length === 0) {
-//       return res.status(400).json({ message: 'Uploaded file is empty' });
-//     }
-
-//     // Prepare data for insertion
-//     const formattedHomework = [];
-//     const duplicateInFile = new Set();
-
-//     for (const row of data) {
-//       if (!row.Question || !row.answer) {
-//         continue;
-//       }
-
-//       const normalizedQuestion = row.Question.trim().toLowerCase();
-
-//       if (duplicateInFile.has(normalizedQuestion)) {
-//         continue;
-//       }
-
-//       duplicateInFile.add(normalizedQuestion);
-
-//       formattedHomework.push({
-//         Question: row.Question,
-//         answer: row.Answer,
-//         answerType: row['Question Type'] || 'Very Short Answer',
-//         questionLevel: parseInt(row['Question Level'], 10) || 1,
-//         boardId,
-//         mediumId,
-//         classId,
-//         bookId,
-//         subjectId,
-//         chapterId,
-//         lessonId,
-//       });
-//     }
-
-//     if (formattedHomework.length === 0) {
-//       return res.status(400).json({ message: 'No valid data found in the file' });
-//     }
-
-//     // Send data to the service layer for DB validation
-//     const result = await HomeworkSerices.uploadBulkHomework(formattedHomework);
-
-//     return res.status(201).json({
-//       message: 'Bulk upload processed successfully',
-//       uploadedCount: result.savedHomework.length || 0,
-//       duplicatesInDatabaseCount: result.duplicates.length || 0,
-//       uploadedHomework: result.savedHomework.map((q) => q.Question) || [],
-//       duplicateHomework: result.duplicates.map((q) => q.Question) || [],
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error uploading homework', error: error.message });
-//   } finally {
-//     fs.unlinkSync(filePath); // Delete uploaded file after processing
-//   }
-// });
 
 const createHomework = catchAsync(async (req, res) => {
   const Homework = await HomeworkSerices.createHomework(req.body);
@@ -242,7 +191,7 @@ const createHomework = catchAsync(async (req, res) => {
 });
 
 const getAllHomework = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name']);
+  const filter = pick(req.query, ['Question']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await HomeworkSerices.queryHomework(filter, options);
   res.send(result);

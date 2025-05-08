@@ -192,15 +192,71 @@ const checkQuestion = async (Question, answerType, questionLevel, boardId, mediu
 };
 
 
+// const getHomeworkSummaryService = async (filterData) => {
+//   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = filterData;
+
+//   const filter = { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId };
+//   Object.keys(filter).forEach(key => filter[key] === undefined && delete filter[key]);
+
+//   // Define all possible answer types and question levels
+//   //const answerTypes = ['Very Short Answer', 'Short Answer', 'Long Answer'];
+//   const answerTypes = ['Very Short Answer', 'Short Answer', 'Long Answer'];
+//   const questionLevels = [1, 2, 3, 4];
+
+//   // Fetch all matching homework entries
+//   const homeworks = await Homework.find(filter);
+
+//   // Calculate total questions
+//   const totalQuestions = homeworks.length;
+
+//   // Group data by answerType and count per questionLevel
+//   const groupedData = {};
+//   answerTypes.forEach(answerType => {
+//     groupedData[answerType] = { total: 0, questionLevels: {} };
+//     questionLevels.forEach(level => {
+//       groupedData[answerType].questionLevels[level] = 0;
+//     });
+//   });
+
+//   homeworks.forEach(({ answerType, questionLevel }) => {
+//     if (groupedData[answerType]) {
+//       groupedData[answerType].questionLevels[questionLevel]++;
+//       groupedData[answerType].total++;
+//     }
+//   });
+
+//   // Convert groupedData object to array format
+//   const formattedGroupedData = answerTypes.map(answerType => ({
+//     _id: answerType,
+//     total: groupedData[answerType].total,
+//     questionLevels: questionLevels.map(level => ({
+//       level,
+//       count: groupedData[answerType].questionLevels[level]
+//     }))
+//   }));
+
+//   return {
+//     totalQuestions,
+//     groupedData: formattedGroupedData
+//   };
+// };
+
+
+
 const getHomeworkSummaryService = async (filterData) => {
   const { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId } = filterData;
 
   const filter = { boardId, mediumId, classId, bookId, subjectId, chapterId, lessonId };
   Object.keys(filter).forEach(key => filter[key] === undefined && delete filter[key]);
 
-  // Define all possible answer types and question levels
-  //const answerTypes = ['Very Short Answer', 'Short Answer', 'Long Answer'];
-  const answerTypes = ['Very Short Answer', 'Short Answer', 'Long Answer'];
+  // Define numeric answerType values and their labels
+  const answerTypeMap = {
+    1: 'Very Short Answer',
+    2: 'Short Answer',
+    3: 'Long Answer'
+  };
+
+  const answerTypes = [1, 2, 3];  // Numeric values
   const questionLevels = [1, 2, 3, 4];
 
   // Fetch all matching homework entries
@@ -209,29 +265,31 @@ const getHomeworkSummaryService = async (filterData) => {
   // Calculate total questions
   const totalQuestions = homeworks.length;
 
-  // Group data by answerType and count per questionLevel
+  // Initialize grouped data structure
   const groupedData = {};
-  answerTypes.forEach(answerType => {
-    groupedData[answerType] = { total: 0, questionLevels: {} };
+  answerTypes.forEach(type => {
+    groupedData[type] = { total: 0, questionLevels: {} };
     questionLevels.forEach(level => {
-      groupedData[answerType].questionLevels[level] = 0;
+      groupedData[type].questionLevels[level] = 0;
     });
   });
 
+  // Count occurrences
   homeworks.forEach(({ answerType, questionLevel }) => {
     if (groupedData[answerType]) {
-      groupedData[answerType].questionLevels[questionLevel]++;
+      groupedData[answerType].questionLevels[questionLevel] = 
+        (groupedData[answerType].questionLevels[questionLevel] || 0) + 1;
       groupedData[answerType].total++;
     }
   });
 
   // Convert groupedData object to array format
-  const formattedGroupedData = answerTypes.map(answerType => ({
-    _id: answerType,
-    total: groupedData[answerType].total,
+  const formattedGroupedData = answerTypes.map(type => ({
+    _id: answerTypeMap[type],
+    total: groupedData[type].total,
     questionLevels: questionLevels.map(level => ({
       level,
-      count: groupedData[answerType].questionLevels[level]
+      count: groupedData[type].questionLevels[level] || 0
     }))
   }));
 
@@ -240,8 +298,6 @@ const getHomeworkSummaryService = async (filterData) => {
     groupedData: formattedGroupedData
   };
 };
-
-
 
 module.exports = {
   createHomework,
