@@ -199,6 +199,7 @@ const getHomeworkSummaryService = async (filterData) => {
   Object.keys(filter).forEach(key => filter[key] === undefined && delete filter[key]);
 
   // Define all possible answer types and question levels
+  //const answerTypes = ['Very Short Answer', 'Short Answer', 'Long Answer'];
   const answerTypes = ['Very Short Answer', 'Short Answer', 'Long Answer'];
   const questionLevels = [1, 2, 3, 4];
 

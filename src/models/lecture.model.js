@@ -8,17 +8,17 @@ const lectureSchema = mongoose.Schema(
       trim: true,
       required: true,
     },
-    icon1: {
-      type: String,
-      // portrait
-    },
-    description: {
-      type: String,
-    },
-    icon2: {
-      type: String,
-      // landscape
-    },
+    // icon1: {
+    //   type: String,
+    //   // portrait
+    // },
+    // description: {
+    //   type: String,
+    // },
+    // icon2: {
+    //   type: String,
+    //   // landscape
+    // },
     path: {
       type: String,
     },
