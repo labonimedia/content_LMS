@@ -21,7 +21,10 @@ router.post('/bulk-upload', upload.single('file'), homeworkController.bulkUpload
 router.route('/checkexist').post(homeworkController.checkQuestionByName);
 router
   .route('/')
-  .post(validate(homeworkValidation.createHomework), homeworkController.createHomework)
+  .post(
+   // validate(homeworkValidation.createHomework),
+   
+     homeworkController.createHomework)
   .get(validate(homeworkValidation.getAllHomework), homeworkController.getAllHomework);
 
 router
