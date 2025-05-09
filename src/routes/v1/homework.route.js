@@ -26,9 +26,15 @@ router
 
 router
   .route('/:homeworkId')
-  .get(validate(homeworkValidation.getHomework), homeworkController.getHomeworkById)
-  .patch(validate(homeworkValidation.updateHomework), homeworkController.updateHomework)
-  .delete(validate(homeworkValidation.deleteHomework), homeworkController.deleteHomework);
+  .get(
+    //validate(homeworkValidation.getHomework),
+   homeworkController.getHomeworkById)
+  .patch(
+   // validate(homeworkValidation.updateHomework),
+   homeworkController.updateHomework)
+  .delete(
+   // validate(homeworkValidation.deleteHomework),
+   homeworkController.deleteHomework);
 
 router.route('/get-by/filter').post(validate(homeworkValidation.getHomeByFilter), homeworkController.getHomeworkByFilterId);
 router
