@@ -22,8 +22,7 @@ router.route('/checkexist').post(homeworkController.checkQuestionByName);
 router
   .route('/')
   .post(
-   // validate(homeworkValidation.createHomework),
-   
+    validate(homeworkValidation.createHomework),
      homeworkController.createHomework)
   .get(validate(homeworkValidation.getAllHomework), homeworkController.getAllHomework);
 
@@ -33,7 +32,7 @@ router
     //validate(homeworkValidation.getHomework),
    homeworkController.getHomeworkById)
   .patch(
-   // validate(homeworkValidation.updateHomework),
+   validate(homeworkValidation.updateHomework),
    homeworkController.updateHomework)
   .delete(
    // validate(homeworkValidation.deleteHomework),
