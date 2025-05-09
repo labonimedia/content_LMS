@@ -5,7 +5,6 @@ const homeworkController = require('../../controllers/homework.controller');
 const homeworkValidation = require('../../validations/homework.validation');
 
 const router = express.Router();
-
 // Configure multer for file upload
 const storage = multer.diskStorage({
   destination: 'uploads/',

@@ -1,24 +1,43 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
+// // const createHomework = {
+// //   body: Joi.object().keys({
+// //     Question: Joi.string(),
+// //     // description: Joi.string(),
+// //     // veryShortAnswer: Joi.string(),
+// //     // shortAnswer: Joi.string(),
+// //     // longAnswer: Joi.string(),
+// //     answer: Joi.string(),
+// //     audioPath: Joi.string(),
+// //     answerType: Joi.number(),
+// //     boardId: Joi.string(),
+// //     mediumId: Joi.string(),
+// //     classId: Joi.string(),
+// //     bookId: Joi.string(),
+// //     subjectId: Joi.string(),
+// //     chapterId: Joi.string(),
+// //     lessonId: Joi.string().custom(objectId).required(),
+// //     questionLevel: Joi.number(),
+// //   }),
+// // };
+// const Joi = require('joi');
+// const { objectId } = require('./custom.validation');
+
 const createHomework = {
   body: Joi.object().keys({
-    Question: Joi.string(),
-    // description: Joi.string(),
-    // veryShortAnswer: Joi.string(),
-    // shortAnswer: Joi.string(),
-    // longAnswer: Joi.string(),
-    answer: Joi.string(),
-    audioPath: Joi.string(),
-    answerType: Joi.number(),
-    boardId: Joi.string(),
-    mediumId: Joi.string(),
-    classId: Joi.string(),
-    bookId: Joi.string(),
-    subjectId: Joi.string(),
-    chapterId: Joi.string(),
+    Question: Joi.string().required(),
+    answer: Joi.string().required(),
+    answerType: Joi.number().valid(1, 2, 3).required(), // fix type
+    boardId: Joi.string().custom(objectId).required(),
+    mediumId: Joi.string().custom(objectId).required(),
+    classId: Joi.string().custom(objectId).required(),
+    bookId: Joi.string().custom(objectId).required(),
+    subjectId: Joi.string().custom(objectId).required(),
+    chapterId: Joi.string().custom(objectId).required(),
     lessonId: Joi.string().custom(objectId).required(),
-    questionLevel: Joi.number(),
+    questionLevel: Joi.number().valid(1, 2, 3, 4).required(),
+    audioPath: Joi.string().optional(), // ADD this field
   }),
 };
 
