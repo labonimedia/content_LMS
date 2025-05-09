@@ -9,6 +9,7 @@ const createHomework = {
     // shortAnswer: Joi.string(),
     // longAnswer: Joi.string(),
     answer: Joi.string(),
+    audioPath: Joi.string(),
     answerType: Joi.number(),
     boardId: Joi.string(),
     mediumId: Joi.string(),
@@ -57,6 +58,7 @@ const updateHomework = {
       chapterId: Joi.string(),
       lessonId: Joi.string().custom(objectId),
       questionLevel: Joi.number(),
+      audioPath: Joi.string(),
     })
     .min(1),
 };
